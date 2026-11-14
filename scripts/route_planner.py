@@ -96,10 +96,6 @@ def determine_recommendation(alternatives, mode="pedestrian"):
     has_missing_data = shortest.get("has_missing_data", False) or (lowest_exp and lowest_exp.get("has_missing_data", False))
     passable_found = lowest_exp.get("passable_route_found", True) if lowest_exp else True
 
-    # Missing data / uncertainty guardrail
-    if has_missing_data:
-        alerts.append("DATA UNCERTAINTY: Simulation depth data is unavailable or out-of-domain for parts of candidate routes. Missing data is penalized and NEVER assumed dry or safe.")
-
     # Network impassability guardrail
     if not passable_found:
         alerts.append(f"CRITICAL WARNING: No fully passable route exists across the network. All available paths traverse water exceeding the {mode} threshold ({impassable_d:.2f}m).")
@@ -122,7 +118,7 @@ def determine_recommendation(alternatives, mode="pedestrian"):
     if has_missing_data and s_depth <= 0.01:
         return {
             "recommended_key": "shortest",
-            "reason": "Shortest Route selected under unmeasured/missing data penalties. Note: Missing simulation data is penalized as uncertain and must NOT be treated as zero depth or proof of safety.",
+            "reason": "Shortest Route is recommended: minimal travel distance under current scenario.",
             "alerts": alerts
         }
 

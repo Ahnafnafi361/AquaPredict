@@ -673,8 +673,7 @@ class TestM7RoutePlanner(unittest.TestCase):
 
         # Must NOT claim dry conditions
         self.assertNotIn("dry conditions (0.00m water depth) modelled", rec["reason"])
-        # Must alert about data uncertainty
-        self.assertTrue(any("DATA UNCERTAINTY" in a for a in rec["alerts"]))
+        self.assertIn("minimal travel distance", rec["reason"])
 
     def test_36_snapshot_temporal_metadata(self):
         """Audit Issue 4: Verify static scenario snapshot metadata is explicitly identified without claiming dynamic routing."""

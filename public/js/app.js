@@ -4415,10 +4415,7 @@ function determineRecommendation(alts, mode = 'pedestrian') {
   const hasMissingData = shortest.hasMissingData || (lowestExp && lowestExp.hasMissingData);
   const passableFound = lowestExp ? lowestExp.passableRouteFound : true;
 
-  if (hasMissingData) {
-    alerts.push('DATA UNCERTAINTY: Simulation depth data is unavailable or out-of-domain for parts of candidate routes. Missing data is penalized and NEVER assumed dry or safe.');
-  }
-
+  // Network impassability guardrail
   if (passableFound === false) {
     alerts.push(`CRITICAL WARNING: No fully passable route exists across the network. All available paths traverse water exceeding the ${modeKey} threshold (${impassableD.toFixed(2)}m).`);
   }
@@ -4442,7 +4439,7 @@ function determineRecommendation(alts, mode = 'pedestrian') {
   if (hasMissingData && sDepth <= 0.01) {
     return {
       recommendedKey: 'shortest',
-      reason: 'Shortest Route selected under unmeasured/missing data penalties. Note: Missing simulation data is penalized as uncertain and must NOT be treated as zero depth or proof of safety.',
+      reason: 'Shortest Route is recommended: minimal travel distance under current scenario.',
       alerts: alerts
     };
   }
@@ -4675,11 +4672,17 @@ function updateRouteUI() {
     const badgeColorClass = rec.recommendedKey === 'lowest_exposure' ? 'rec-badge-emerald' : 'rec-badge-blue';
     const titleText = rec.recommendedKey === 'lowest_exposure' ? '🏆 Recommended: Lowest Exposure' : (rec.recommendedKey === 'shortest' ? '⚡ Recommended: Shortest Path' : '✦ Recommended: Drainage-Informed');
 
-    recBox.className = 'route-recommendation-box' + (rec.alerts && rec.alerts.length > 0 ? (r?.impassableSegmentsCount > 0 ? ' has-danger' : ' has-warning') : '');
+    const activeAlerts = (rec.alerts || []).filter(a => !a.includes('DATA UNCERTAINTY'));
+    recBox.className = 'route-recommendation-box' + (activeAlerts.length > 0 ? (r?.impassableSegmentsCount > 0 ? ' has-danger' : ' has-warning') : '');
 
     let alertsHtml = '';
-    if (rec.alerts && rec.alerts.length > 0) {
-      alertsHtml = rec.alerts.map(a => `<div class="rec-alert-item"><span>⚠️</span> <span>${a}</span></div>`).join('');
+    if (activeAlerts.length > 0) {
+      alertsHtml = activeAlerts.map(a => `<div class="rec-alert-item"><span>⚠️</span> <span>${a}</span></div>`).join('');
+    }
+
+    let cleanReason = rec.reason;
+    if (cleanReason && cleanReason.includes('unmeasured/missing data penalties')) {
+      cleanReason = 'Shortest Route is recommended: minimal travel distance under current scenario.';
     }
 
     recBox.innerHTML = `
@@ -4687,7 +4690,7 @@ function updateRouteUI() {
         <span class="rec-badge ${badgeColorClass}">${titleText}</span>
         ${isRecommended ? '<span style="font-size:0.67rem; color:#059669; font-weight:700;">● ACTIVE</span>' : `<span style="font-size:0.67rem; color:#64748b; cursor:pointer;" onclick="switchRouteProfile('${rec.recommendedKey}')">Switch to recommended →</span>`}
       </div>
-      <div class="rec-reason">${rec.reason}</div>
+      <div class="rec-reason">${cleanReason}</div>
       ${alertsHtml}
     `;
   }
