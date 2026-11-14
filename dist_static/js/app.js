@@ -2275,8 +2275,9 @@ function renderRescuePriorityList() {
 
     html += `
       <div class="rescue-cat-group">
-        <div class="rescue-cat-header">
+        <div class="rescue-cat-header" onclick="toggleRescueCategory(this)" title="Click to collapse/expand ${cat.key}">
           <div class="rescue-cat-header-title">
+            <span class="rescue-cat-chevron">▼</span>
             <span>${cat.icon}</span>
             <span>${cat.key}</span>
           </div>
@@ -2303,7 +2304,7 @@ function renderRescuePriorityList() {
       }
 
       html += `
-        <div class="rescue-loc-card ${isActive ? 'is-active' : ''}" onclick="zoomToRescueLocation('${loc.id}')" title="Click to inspect ${loc.name} on map">
+        <div class="rescue-loc-card ${loc.isCriticalRisk ? 'has-risk' : 'has-no-risk'} ${isActive ? 'is-active' : ''}" onclick="zoomToRescueLocation('${loc.id}')" title="Click to inspect ${loc.name} on map">
           <div class="rescue-loc-card-header">${loc.name}</div>
           <div class="rescue-loc-card-status">${statusHtml}</div>
         </div>
@@ -2318,6 +2319,15 @@ function renderRescuePriorityList() {
 
   container.innerHTML = html;
 }
+
+/**
+ * Toggle Collapse / Expand on Rescue Category
+ */
+function toggleRescueCategory(headerEl) {
+  if (!headerEl || !headerEl.parentElement) return;
+  headerEl.parentElement.classList.toggle('is-collapsed');
+}
+window.toggleRescueCategory = toggleRescueCategory;
 
 /**
  * Render Red Rescue Alert Markers on Map
