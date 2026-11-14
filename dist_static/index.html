@@ -166,8 +166,8 @@
     <div id="staticModeBanner" class="static-mode-banner" style="display: none;">
       <div class="static-banner-inner">
         <span class="static-badge" data-i18n="static_export.banner_title">STATIC EXPORT</span>
-        <span id="staticBannerText" data-i18n="static_export.banner_desc">Browsing precomputed scenarios (Offline Mode — Python backend not required).</span>
-        <span class="static-disclaimer" data-i18n="warnings_and_disclaimers.unvalidated">UNVALIDATED MODELLED ESTIMATES</span>
+        <span id="staticBannerText" data-i18n="static_export.banner_desc">Precomputed Mode</span>
+        <button id="btnCloseStaticBanner" class="btn-close-static-banner" title="Dismiss static mode notification" aria-label="Close notification">×</button>
       </div>
     </div>
 
@@ -1094,59 +1094,68 @@
 
     <!-- Floating Bottom HUD: Elevation Profiler / Cursor Elevation -->
     <div class="bottom-hud" id="bottomHud">
-      <div class="elevation-inspector-chip" id="elevationChip">
-        <div class="chip-icon">
-          <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
-            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-            <polyline points="2 17 12 22 22 17"></polyline>
-            <polyline points="2 12 12 17 22 12"></polyline>
-          </svg>
-        </div>
-        <div class="chip-content">
-          <span class="chip-label" data-i18n="hud_chips.elevation">Terrain Elevation (NOAA 1m):</span>
-          <span class="chip-value" id="cursorElevationText">Hover map over pilot area</span>
-        </div>
-      </div>
+      <button id="btnToggleHud" class="btn-toggle-hud" title="Minimize Map Telemetry HUD" aria-label="Toggle telemetry HUD">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+        <span class="btn-toggle-hud-label" data-i18n="hud.toggle_hud">Telemetry HUD</span>
+      </button>
 
-      <div class="susc-inspector-chip" id="suscChip">
-        <div class="chip-icon">
-          <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
-            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
-          </svg>
+      <div class="hud-chips-container" id="hudChipsContainer">
+        <div class="elevation-inspector-chip" id="elevationChip">
+          <div class="chip-icon">
+            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+          </div>
+          <div class="chip-content">
+            <span class="chip-label" data-i18n="hud_chips.elevation">Elevation:</span>
+            <span class="chip-value" id="cursorElevationText">Hover map</span>
+          </div>
         </div>
-        <div class="chip-content">
-          <span class="chip-label" data-i18n="hud_chips.susceptibility">Exploratory Susceptibility:</span>
-          <span class="chip-value" id="cursorSuscText"><span class="badge-tier tier-pending">Hover pilot map</span></span>
-        </div>
-      </div>
 
-      <div class="m4-inspector-chip" id="m4Chip">
-        <div class="chip-icon">
-          <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-          </svg>
+        <div class="susc-inspector-chip" id="suscChip">
+          <div class="chip-icon">
+            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
+              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+            </svg>
+          </div>
+          <div class="chip-content">
+            <span class="chip-label" data-i18n="hud_chips.susceptibility">Susceptibility:</span>
+            <span class="chip-value" id="cursorSuscText"><span class="badge-tier tier-pending">Hover map</span></span>
+          </div>
         </div>
-        <div class="chip-content">
-          <span class="chip-label" data-i18n="hud_chips.m4_synthesis">Dynamic Synthesis (M4):</span>
-          <span class="chip-value" id="cursorM4Text"><span class="badge-tier tier-unavailable">Synthesis Layer Off</span></span>
-        </div>
-      </div>
 
-      <div class="sim-inspector-chip" id="simChip">
-        <div class="chip-icon">
-          <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
-            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
-          </svg>
+        <div class="m4-inspector-chip" id="m4Chip">
+          <div class="chip-icon">
+            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+          </div>
+          <div class="chip-content">
+            <span class="chip-label" data-i18n="hud_chips.m4_synthesis">Synthesis:</span>
+            <span class="chip-value" id="cursorM4Text"><span class="badge-tier tier-unavailable">Off</span></span>
+          </div>
         </div>
-        <div class="chip-content">
-          <span class="chip-label" data-i18n="hud_chips.sim_depth">Modelled Depth (M5):</span>
-          <span class="chip-value" id="cursorSimDepthText"><span class="badge-tier tier-unavailable">Simulation Layer Off</span></span>
-        </div>
-      </div>
 
-      <div class="coords-chip">
-        <span class="chip-label" data-i18n="hud_chips.coordinates">Coordinates:</span>
-        <span class="chip-value" id="cursorCoordsText">29.7600° N, -95.3700° W</span>
+        <div class="sim-inspector-chip" id="simChip">
+          <div class="chip-icon">
+            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
+              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+            </svg>
+          </div>
+          <div class="chip-content">
+            <span class="chip-label" data-i18n="hud_chips.sim_depth">Modelled Depth:</span>
+            <span class="chip-value" id="cursorSimDepthText"><span class="badge-tier tier-unavailable">Off</span></span>
+          </div>
+        </div>
+
+        <div class="coords-chip">
+          <span class="chip-label" data-i18n="hud_chips.coordinates">Coords:</span>
+          <span class="chip-value" id="cursorCoordsText">29.7600° N, -95.3700° W</span>
+        </div>
       </div>
     </div>
 

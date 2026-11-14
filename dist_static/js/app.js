@@ -1110,6 +1110,24 @@ function setupEventListeners() {
     });
   }
 
+  // Bottom Map Telemetry HUD Minimize / Expand Toggle
+  const toggleHudBtn = document.getElementById('btnToggleHud');
+  if (toggleHudBtn) {
+    toggleHudBtn.addEventListener('click', () => {
+      const hud = document.getElementById('bottomHud');
+      if (hud) hud.classList.toggle('collapsed');
+    });
+  }
+
+  // Static Mode Banner Dismiss Button
+  const closeStaticBannerBtn = document.getElementById('btnCloseStaticBanner');
+  if (closeStaticBannerBtn) {
+    closeStaticBannerBtn.addEventListener('click', () => {
+      const banner = document.getElementById('staticModeBanner');
+      if (banner) banner.style.display = 'none';
+    });
+  }
+
   // DEM Terrain Visibility Toggle
   document.getElementById('toggleDemTerrain').addEventListener('change', (e) => {
     const checked = e.target.checked;

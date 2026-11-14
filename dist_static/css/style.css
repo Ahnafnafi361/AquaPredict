@@ -445,43 +445,58 @@ html, body {
 
 .static-mode-banner {
   position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 10px;
+  right: 16px;
   z-index: 900;
-  background: var(--bg-card);
-  border: 1px solid rgba(229, 162, 59, 0.45);
+  background: rgba(247, 247, 250, 0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(229, 162, 59, 0.35);
   border-radius: var(--radius-full);
-  padding: 5px 14px;
+  padding: 4px 10px;
   box-shadow: var(--neu-raised-sm);
   pointer-events: auto;
-  max-width: calc(100vw - 400px);
+  max-width: 260px;
+  transition: all 0.2s ease;
+}
+
+.static-mode-banner:hover {
+  background: var(--bg-card);
+  box-shadow: var(--neu-raised);
 }
 
 .static-banner-inner {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-size: 0.72rem;
   color: var(--text-primary);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .static-badge {
   background: rgba(229, 162, 59, 0.18);
   color: var(--amber-warning);
   font-weight: 700;
-  padding: 2px 7px;
+  padding: 2px 6px;
   border-radius: 999px;
-  font-size: 0.69rem;
+  font-size: 0.68rem;
 }
 
-.static-disclaimer {
-  color: var(--rose-danger);
-  font-weight: 700;
-  font-size: 0.69rem;
+.btn-close-static-banner {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0 2px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s ease;
+}
+
+.btn-close-static-banner:hover {
+  color: var(--text-primary);
 }
 
 /* ==========================================================================
@@ -847,6 +862,20 @@ body.demo-mode-active .leaflet-top.leaflet-left {
 
 .map-sidebar.collapsed {
   transform: translateX(calc(-100% - 24px));
+}
+
+body.sidebar-collapsed .map-sidebar {
+  transform: translateX(calc(-100% - 24px));
+}
+
+body.sidebar-collapsed .btn-open-sidebar {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+body.sidebar-collapsed .bottom-hud {
+  left: 14px;
 }
 
 .btn-open-sidebar {
@@ -2223,9 +2252,58 @@ body.demo-mode-active .leaflet-top.leaflet-left {
   z-index: 450;
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: 8px;
   pointer-events: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hud-chips-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bottom-hud.collapsed .hud-chips-container {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  display: none;
+}
+
+.btn-toggle-hud {
+  pointer-events: auto;
+  background: rgba(247, 247, 250, 0.94);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--neu-raised-sm);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-toggle-hud:hover {
+  background: var(--bg-card);
+  color: var(--accent-primary);
+  box-shadow: var(--neu-raised);
+}
+
+.btn-toggle-hud svg {
+  transition: transform 0.25s ease;
+}
+
+.bottom-hud.collapsed .btn-toggle-hud svg {
+  transform: rotate(-180deg);
 }
 
 .elevation-inspector-chip,
@@ -2234,16 +2312,27 @@ body.demo-mode-active .leaflet-top.leaflet-left {
 .sim-inspector-chip,
 .coords-chip {
   pointer-events: auto;
-  background: rgba(247, 247, 250, 0.94);
+  background: rgba(247, 247, 250, 0.92);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 6px 11px;
+  padding: 5px 10px;
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
   box-shadow: var(--neu-raised-sm);
   font-size: 0.72rem;
   min-width: 0;
+  transition: all 0.2s ease;
+}
+
+.elevation-inspector-chip:hover,
+.susc-inspector-chip:hover,
+.m4-inspector-chip:hover,
+.sim-inspector-chip:hover,
+.coords-chip:hover {
+  background: var(--bg-card);
+  box-shadow: var(--neu-raised);
 }
 
 .chip-icon {
