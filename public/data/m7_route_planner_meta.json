@@ -99,7 +99,7 @@
     "lowest_exposure": {
       "name": "Lowest Waterlogging Exposure",
       "objective": "Prefers routes with lowest estimated water depth and exposure, penalizes waterlogging, avoids segments exceeding mode thresholds when alternatives exist",
-      "cost_metric": "Length + non-linear flood depth penalty + mode threshold penalty (+20,000m if impassable) + affected length penalty + uncertainty penalty",
+      "cost_metric": "2-pass algorithm: Pass 1 strictly excludes impassable segments (hard exclusion); Pass 2 falls back to lexicographic minimal-impassable routing if no 100% passable path exists in network. Base length + non-linear depth penalty + affected length penalty + uncertainty penalty.",
       "reporting": "Recommends detour when shortest route encounters hazardous or impassable water."
     },
     "drainage_informed": {
@@ -120,6 +120,31 @@
       "impassable_depth_m": 0.30,
       "description": "Experimental screening thresholds for passenger sedans (~15cm exhaust splash caution, ~30cm air intake stall / float impassable). Uncalibrated prototype assumption."
     }
+  },
+  "scientific_data_classification": {
+    "measured_administrative_records": [
+      "City of Houston Enterprise GIS street centerlines geometry and segment lengths",
+      "Street name, road classification, and municipal speed limits (defaulting to 30mph when null)",
+      "One-way directionality tags (FT, TF, BI)",
+      "Storm sewer conduit diameters, materials, lengths, and spatial alignments"
+    ],
+    "uncalibrated_model_estimates": [
+      "M1 Exploratory Waterlogging Susceptibility Index (EWSI) derived from 1m LiDAR DEM topographic slope",
+      "M5 water depths derived from conceptual aggregate depression-filling drawdown model (uniform proportional filling of DEM sinks, 5% aggregate linear reservoir drawdown, SCS CN=88 runoff; unvalidated against high-water marks and NOT a 2D hydrodynamic Saint-Venant solver)",
+      "M6 stormwater conduit gravity capacities calculated via Manning's equation (n=0.013 assumed; conduit slope estimated from invert elevations when available, otherwise flagged incalculable)",
+      "M6 dynamic conduit surcharge ratios Q/Qcap based on contributing inlet fraction and lumped scenario inflow"
+    ],
+    "assumed_screening_defaults": [
+      "Pedestrian walking speed: 1.34 m/s (AASHTO / MUTCD standard)",
+      "Pedestrian caution threshold: 0.10 m (4 inches, ankle-depth wading nuisance; assumed screening threshold)",
+      "Pedestrian impassable threshold: 0.25 m (10 inches, shin-depth stability loss risk; assumed screening threshold)",
+      "Vehicle default speed: 30.0 mph (urban local street default)",
+      "Vehicle caution threshold: 0.15 m (6 inches, exhaust/splash risk; assumed screening threshold from NOAA/NWS 'Turn Around Don't Drown')",
+      "Vehicle impassable threshold: 0.30 m (12 inches, passenger sedan air intake stall/float limit; assumed screening threshold)",
+      "Polyline sampling interval: 10.0 m",
+      "Conduit screening buffer: 25.0 m corridor"
+    ],
+    "temporal_nature": "STATIC_SCENARIO_SNAPSHOT: Routing is evaluated as a static snapshot at a single chosen rainfall scenario timestep (default: Minute 60 storm peak). It is NOT dynamic time-dependent or time-expanded trajectory routing."
   },
   "scientific_guardrails": [
     "Prototype Disclaimer: This route planner is an experimental research and demonstration prototype, NOT a certified navigation system or emergency evacuation service.",

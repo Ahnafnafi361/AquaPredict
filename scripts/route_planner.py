@@ -93,6 +93,16 @@ def determine_recommendation(alternatives, mode="pedestrian"):
     l_dist = lowest_exp.get("total_distance_m", 0.0) if lowest_exp and lowest_exp.get("status") == "SUCCESS" else s_dist
 
     alerts = []
+    has_missing_data = shortest.get("has_missing_data", False) or (lowest_exp and lowest_exp.get("has_missing_data", False))
+    passable_found = lowest_exp.get("passable_route_found", True) if lowest_exp else True
+
+    # Missing data / uncertainty guardrail
+    if has_missing_data:
+        alerts.append("DATA UNCERTAINTY: Simulation depth data is unavailable or out-of-domain for parts of candidate routes. Missing data is penalized and NEVER assumed dry or safe.")
+
+    # Network impassability guardrail
+    if not passable_found:
+        alerts.append(f"CRITICAL WARNING: No fully passable route exists across the network. All available paths traverse water exceeding the {mode} threshold ({impassable_d:.2f}m).")
 
     # Check if shortest encounters deep or impassable water
     if s_depth >= impassable_d:
@@ -100,11 +110,19 @@ def determine_recommendation(alternatives, mode="pedestrian"):
     elif s_depth >= caution_d:
         alerts.append(f"Shortest route encounters cautionary waterlogging ({s_depth:.2f}m >= {caution_d:.2f}m {mode} threshold).")
 
-    # Case 1: Dry conditions everywhere (zero or negligible water)
-    if s_depth <= 0.01 and s_sub_m <= 1.0:
+    # Case 1: Dry conditions everywhere (zero or negligible water) AND all data available
+    if not has_missing_data and s_depth <= 0.01 and s_sub_m <= 1.0:
         return {
             "recommended_key": "shortest",
             "reason": "Shortest Route is recommended: dry conditions (0.00m water depth) modelled across all candidate paths.",
+            "alerts": alerts
+        }
+
+    # Case 1b: Zero depth recorded but missing/unmeasured data exists
+    if has_missing_data and s_depth <= 0.01:
+        return {
+            "recommended_key": "shortest",
+            "reason": "Shortest Route selected under unmeasured/missing data penalties. Note: Missing simulation data is penalized as uncertain and must NOT be treated as zero depth or proof of safety.",
             "alerts": alerts
         }
 
@@ -149,9 +167,9 @@ def determine_recommendation(alternatives, mode="pedestrian"):
             "alerts": alerts
         }
 
-    # Case 4: Impassable water across all options
+    # Case 4: Impassable water across evaluated candidate profiles
     if l_depth >= impassable_d:
-        alerts.append(f"WARNING: All alternative routes encounter water exceeding the {mode} impassable threshold ({impassable_d:.2f}m).")
+        alerts.append(f"WARNING: All evaluated candidate route profiles encounter water exceeding the {mode} impassable threshold ({impassable_d:.2f}m).")
         return {
             "recommended_key": "lowest_exposure",
             "reason": f"Lowest Exposure route has lowest relative water exposure ({l_depth:.2f}m vs {s_depth:.2f}m), but exceeds {mode} threshold ({impassable_d:.2f}m). Exercise extreme caution.",
@@ -860,55 +878,80 @@ class DrainageInformedRoutingGraph:
                 "snap_dest_m": snap_dest_m
             }
 
-        # Priority queue: (cost, current_node, path_edge_ids, path_node_ids)
-        pq = [(0.0, start_node, [], [start_node])]
-        min_costs = {start_node: 0.0}
-        visited = set()
+        # Dijkstra search with configurable impassable exclusion
+        def _dijkstra_search(strict_impassable_exclusion=False):
+            pq = [(0.0, start_node, [], [start_node])]
+            min_costs = {start_node: 0.0}
+            visited = set()
 
-        while pq:
-            curr_cost, u, edge_path, node_path = heapq.heappop(pq)
+            while pq:
+                curr_cost, u, edge_path, node_path = heapq.heappop(pq)
 
-            if u in visited:
-                continue
-            visited.add(u)
+                if u in visited:
+                    continue
+                visited.add(u)
 
-            if u == dest_node:
-                # Reconstruct route details
-                return self._assemble_route_summary(
-                    start_coords, dest_coords, start_node, dest_node,
-                    snap_start_m, snap_dest_m, edge_path, node_path,
-                    preset_mm, timestep_idx, cost_profile, mode
-                )
+                if u == dest_node:
+                    return edge_path, node_path
 
-            for v, edge_id, direction in self.adj.get(u, []):
-                edge = self.edges[edge_id]
+                for v, edge_id, direction in self.adj.get(u, []):
+                    edge = self.edges[edge_id]
 
-                # Vehicle one-way constraint
-                if mode == "vehicle":
-                    ow = edge["one_way"]
-                    if direction == "forward" and ow == "TF":
-                        continue
-                    if direction == "backward" and ow == "FT":
-                        continue
+                    # Vehicle one-way constraint
+                    if mode == "vehicle":
+                        ow = edge["one_way"]
+                        if direction == "forward" and ow == "TF":
+                            continue
+                        if direction == "backward" and ow == "FT":
+                            continue
 
-                # Determine edge cost using unified cost function
-                cost_data = self.calculate_edge_cost(edge_id, preset_mm, timestep_idx, mode, cost_profile=cost_profile)
-                e_cost = cost_data["total_cost"]
+                    assessment = self.assess_edge_waterlogging(edge["coords"], preset_mm, timestep_idx, mode)
+                    if strict_impassable_exclusion and assessment["is_impassable"]:
+                        continue  # Hard exclusion: strictly avoid impassable segments
 
-                new_cost = curr_cost + e_cost
-                if new_cost < min_costs.get(v, float("inf")):
-                    min_costs[v] = new_cost
-                    heapq.heappush(pq, (new_cost, v, edge_path + [edge_id], node_path + [v]))
+                    cost_data = self.calculate_edge_cost(edge_id, preset_mm, timestep_idx, mode, cost_profile=cost_profile)
+                    e_cost = cost_data["total_cost"]
 
-        # No route found
-        return {
-            "status": "NO_ROUTE_FOUND",
-            "message": f"No connected street path exists between intersection #{start_node} and #{dest_node}.",
-            "start_node": start_node,
-            "dest_node": dest_node,
-            "snap_start_m": snap_start_m,
-            "snap_dest_m": snap_dest_m
-        }
+                    # If not strict (fallback pass for lowest_exposure), apply overwhelming lexicographic penalty
+                    if not strict_impassable_exclusion and cost_profile in ("lowest_exposure", "low_exposure"):
+                        if assessment["is_impassable"]:
+                            e_cost += 10000000.0
+
+                    new_cost = curr_cost + e_cost
+                    if new_cost < min_costs.get(v, float("inf")):
+                        min_costs[v] = new_cost
+                        heapq.heappush(pq, (new_cost, v, edge_path + [edge_id], node_path + [v]))
+
+            return None, None
+
+        passable_route_found = True
+        if cost_profile in ("lowest_exposure", "low_exposure"):
+            # Pass 1: Strict hard exclusion of impassable segments
+            edge_path, node_path = _dijkstra_search(strict_impassable_exclusion=True)
+            if edge_path is None:
+                # Pass 2: No 100% passable path exists in network. Run lexicographic minimal-impassable fallback.
+                passable_route_found = False
+                edge_path, node_path = _dijkstra_search(strict_impassable_exclusion=False)
+        else:
+            edge_path, node_path = _dijkstra_search(strict_impassable_exclusion=False)
+
+        if edge_path is None:
+            return {
+                "status": "NO_ROUTE_FOUND",
+                "message": f"No connected street path exists between intersection #{start_node} and #{dest_node}.",
+                "start_node": start_node,
+                "dest_node": dest_node,
+                "snap_start_m": snap_start_m,
+                "snap_dest_m": snap_dest_m
+            }
+
+        res = self._assemble_route_summary(
+            start_coords, dest_coords, start_node, dest_node,
+            snap_start_m, snap_dest_m, edge_path, node_path,
+            preset_mm, timestep_idx, cost_profile, mode
+        )
+        res["passable_route_found"] = passable_route_found
+        return res
 
     def _assemble_route_summary(self, start_coords, dest_coords, start_node, dest_node,
                                 snap_start_m, snap_dest_m, edge_ids, node_ids,
@@ -929,6 +972,8 @@ class DrainageInformedRoutingGraph:
         flood_exposed_segments = []
         impassable_segments_count = 0
         caution_segments_count = 0
+        has_missing_data = False
+        all_data_available = True
 
         for e_idx in edge_ids:
             edge = self.edges[e_idx]
@@ -940,6 +985,10 @@ class DrainageInformedRoutingGraph:
 
             total_cost += cost_data["total_cost"]
             total_uncertainty_cost += cost_data["p_uncert"]
+
+            if not assessment.get("data_available", True) or assessment.get("status") != "VALID_PILOT":
+                has_missing_data = True
+                all_data_available = False
 
             d = assessment["max_depth_m"]
             if d > max_depth_m:
@@ -1041,6 +1090,11 @@ class DrainageInformedRoutingGraph:
             "status": "SUCCESS",
             "cost_profile": cost_profile,
             "mode": mode,
+            "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+            "simulation_time_min": timestep_idx * 5,
+            "snapshot_description": f"Static scenario snapshot at Minute {timestep_idx * 5} of {int(preset_mm)}mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+            "data_available": all_data_available,
+            "has_missing_data": has_missing_data,
             "total_distance_m": round(total_dist_m, 1),
             "total_distance_ft": round(total_dist_m * 3.28084, 1),
             "walk_time_min": walk_time_min,
@@ -1105,6 +1159,9 @@ class DrainageInformedRoutingGraph:
             "dest_coords": dest_coords,
             "preset_mm": preset_mm,
             "timestep_idx": timestep_idx,
+            "simulation_time_min": timestep_idx * 5,
+            "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+            "snapshot_description": f"Static scenario snapshot at Minute {timestep_idx * 5} of {int(preset_mm)}mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
             "mode": mode,
             "recommended_profile": rec["recommended_key"],
             "recommendation_reason": rec["reason"],

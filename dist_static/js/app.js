@@ -4154,66 +4154,99 @@ function runDijkstra(startNodeId, destNodeId, profile, mode = 'pedestrian') {
     adj[e.to_node].push({ to: e.from_node, edgeIdx: idx, dir: 'backward' });
   });
 
-  const dist = {};
-  const prev = {};
-  const prevEdge = {};
-  for (let i = 0; i < nodes.length; i++) dist[i] = Infinity;
-  dist[startNodeId] = 0;
+  // Dijkstra search with configurable strict impassable exclusion
+  function dijkstraSearch(strictImpassableExclusion = false) {
+    const dist = {};
+    const prev = {};
+    const prevEdge = {};
+    for (let i = 0; i < nodes.length; i++) dist[i] = Infinity;
+    dist[startNodeId] = 0;
 
-  const q = new Set();
-  for (let i = 0; i < nodes.length; i++) q.add(i);
+    const q = new Set();
+    for (let i = 0; i < nodes.length; i++) q.add(i);
 
-  while (q.size > 0) {
-    let u = null;
-    let minDist = Infinity;
-    q.forEach(node => {
-      if (dist[node] < minDist) {
-        minDist = dist[node];
-        u = node;
-      }
-    });
+    while (q.size > 0) {
+      let u = null;
+      let minDist = Infinity;
+      q.forEach(node => {
+        if (dist[node] < minDist) {
+          minDist = dist[node];
+          u = node;
+        }
+      });
 
-    if (u === null || dist[u] === Infinity) break;
-    if (u === destNodeId) break;
+      if (u === null || dist[u] === Infinity) break;
+      if (u === destNodeId) break;
 
-    q.delete(u);
+      q.delete(u);
 
-    (adj[u] || []).forEach(edgeObj => {
-      const v = edgeObj.to;
-      if (!q.has(v)) return;
+      (adj[u] || []).forEach(edgeObj => {
+        const v = edgeObj.to;
+        if (!q.has(v)) return;
 
-      const edge = edges[edgeObj.edgeIdx];
+        const edge = edges[edgeObj.edgeIdx];
 
-      // Vehicle one-way constraint
-      if (mode === 'vehicle') {
-        if (edgeObj.dir === 'forward' && edge.one_way === 'TF') return;
-        if (edgeObj.dir === 'backward' && edge.one_way === 'FT') return;
-      }
+        // Vehicle one-way constraint
+        if (mode === 'vehicle') {
+          if (edgeObj.dir === 'forward' && edge.one_way === 'TF') return;
+          if (edgeObj.dir === 'backward' && edge.one_way === 'FT') return;
+        }
 
-      const costData = calculateEdgeCost(edge, preset, stepIdx, mode, profile);
-      const eWeight = costData.totalCost;
+        const assessment = assessEdgeWaterlogging(edge, preset, stepIdx, mode);
+        if (strictImpassableExclusion && assessment.isImpassable) {
+          return; // Strict hard exclusion
+        }
 
-      const alt = dist[u] + eWeight;
-      if (alt < dist[v]) {
-        dist[v] = alt;
-        prev[v] = u;
-        prevEdge[v] = edgeObj.edgeIdx;
-      }
-    });
+        const costData = calculateEdgeCost(edge, preset, stepIdx, mode, profile);
+        let eWeight = costData.totalCost;
+
+        // Lexicographic fallback tier when not strict
+        if (!strictImpassableExclusion && (profile === 'lowest_exposure' || profile === 'low_exposure')) {
+          if (assessment.isImpassable) {
+            eWeight += 10000000.0;
+          }
+        }
+
+        const alt = dist[u] + eWeight;
+        if (alt < dist[v]) {
+          dist[v] = alt;
+          prev[v] = u;
+          prevEdge[v] = edgeObj.edgeIdx;
+        }
+      });
+    }
+
+    if (dist[destNodeId] === Infinity) return null;
+
+    const pathEdges = [];
+    let curr = destNodeId;
+    while (curr !== startNodeId && prev[curr] !== undefined) {
+      pathEdges.unshift(prevEdge[curr]);
+      curr = prev[curr];
+    }
+    return pathEdges;
   }
 
-  if (dist[destNodeId] === Infinity) {
+  let passableFound = true;
+  let pathEdges = null;
+
+  if (profile === 'lowest_exposure' || profile === 'low_exposure') {
+    // Pass 1: Strict hard exclusion of impassable segments
+    pathEdges = dijkstraSearch(true);
+    if (!pathEdges) {
+      // Pass 2: No 100% passable path exists in network. Run lexicographic minimal-impassable fallback.
+      passableFound = false;
+      pathEdges = dijkstraSearch(false);
+    }
+  } else {
+    pathEdges = dijkstraSearch(false);
+  }
+
+  if (!pathEdges) {
     return {
       status: 'NO_ROUTE_FOUND',
       message: `No connected street path exists between intersection #${startNodeId} and #${destNodeId}.`
     };
-  }
-
-  const pathEdges = [];
-  let curr = destNodeId;
-  while (curr !== startNodeId && prev[curr] !== undefined) {
-    pathEdges.unshift(prevEdge[curr]);
-    curr = prev[curr];
   }
 
   let totalDistM = 0;
@@ -4224,6 +4257,8 @@ function runDijkstra(startNodeId, destNodeId, profile, mode = 'pedestrian') {
   let exceededDrains = 0;
   let impassableCount = 0;
   let cautionCount = 0;
+  let hasMissingData = false;
+  let allDataAvailable = true;
   const streetNames = new Set();
   const routeCoords = [];
   const floodExposedSegments = [];
@@ -4236,6 +4271,11 @@ function runDijkstra(startNodeId, destNodeId, profile, mode = 'pedestrian') {
 
     totalCost += costData.totalCost;
     if (assessment.maxDepthM > maxDepthM) maxDepthM = assessment.maxDepthM;
+
+    if (!assessment.dataAvailable || assessment.status !== 'VALID_PILOT') {
+      hasMissingData = true;
+      allDataAvailable = false;
+    }
 
     if (assessment.affectedLengthM > 0) {
       submergedLengthM += assessment.affectedLengthM;
@@ -4308,6 +4348,12 @@ function runDijkstra(startNodeId, destNodeId, profile, mode = 'pedestrian') {
     status: 'SUCCESS',
     profile: profile,
     mode: mode,
+    passableRouteFound: passableFound,
+    routingType: 'STATIC_SCENARIO_SNAPSHOT',
+    simulationTimeMin: stepIdx * 5,
+    snapshotDescription: `Static scenario snapshot at Minute ${stepIdx * 5} of ${preset}mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)`,
+    dataAvailable: allDataAvailable,
+    hasMissingData: hasMissingData,
     distanceM: Math.round(totalDistM),
     distanceFt: Math.round(totalDistM * 3.28084),
     walkTimeMin: Math.round((totalDistM / (1.34 * 60)) * 10) / 10,
@@ -4366,17 +4412,37 @@ function determineRecommendation(alts, mode = 'pedestrian') {
   const lDist = (lowestExp && lowestExp.status === 'SUCCESS') ? lowestExp.distanceM : sDist;
 
   const alerts = [];
+  const hasMissingData = shortest.hasMissingData || (lowestExp && lowestExp.hasMissingData);
+  const passableFound = lowestExp ? lowestExp.passableRouteFound : true;
+
+  if (hasMissingData) {
+    alerts.push('DATA UNCERTAINTY: Simulation depth data is unavailable or out-of-domain for parts of candidate routes. Missing data is penalized and NEVER assumed dry or safe.');
+  }
+
+  if (passableFound === false) {
+    alerts.push(`CRITICAL WARNING: No fully passable route exists across the network. All available paths traverse water exceeding the ${modeKey} threshold (${impassableD.toFixed(2)}m).`);
+  }
+
   if (sDepth >= impassableD) {
     alerts.push(`Shortest route encounters potentially impassable water (${sDepth.toFixed(2)}m >= ${impassableD.toFixed(2)}m ${modeKey} threshold).`);
   } else if (sDepth >= cautionD) {
     alerts.push(`Shortest route encounters cautionary waterlogging (${sDepth.toFixed(2)}m >= ${cautionD.toFixed(2)}m ${modeKey} threshold).`);
   }
 
-  // Dry conditions
-  if (sDepth <= 0.01 && sSubM <= 1.0) {
+  // Dry conditions everywhere AND all data available
+  if (!hasMissingData && sDepth <= 0.01 && sSubM <= 1.0) {
     return {
       recommendedKey: 'shortest',
       reason: 'Shortest Route is recommended: dry conditions (0.00m water depth) modelled across all candidate paths.',
+      alerts: alerts
+    };
+  }
+
+  // Zero depth recorded but missing data present
+  if (hasMissingData && sDepth <= 0.01) {
+    return {
+      recommendedKey: 'shortest',
+      reason: 'Shortest Route selected under unmeasured/missing data penalties. Note: Missing simulation data is penalized as uncertain and must NOT be treated as zero depth or proof of safety.',
       alerts: alerts
     };
   }
@@ -4418,7 +4484,7 @@ function determineRecommendation(alts, mode = 'pedestrian') {
   }
 
   if (lDepth >= impassableD) {
-    alerts.push(`WARNING: All alternative routes encounter water exceeding the ${modeKey} impassable threshold (${impassableD.toFixed(2)}m).`);
+    alerts.push(`WARNING: All evaluated candidate route profiles encounter water exceeding the ${modeKey} impassable threshold (${impassableD.toFixed(2)}m).`);
     return {
       recommendedKey: 'lowest_exposure',
       reason: `Lowest Exposure route has lowest relative water exposure (${lDepth.toFixed(2)}m vs ${sDepth.toFixed(2)}m), but exceeds ${modeKey} threshold (${impassableD.toFixed(2)}m). Exercise extreme caution.`,
@@ -4432,10 +4498,6 @@ function determineRecommendation(alts, mode = 'pedestrian') {
     alerts: alerts
   };
 }
-
-/**
- * Compute All 3 Alternative Routes and Update UI
- */
 function computeRouteAlternatives() {
   if (!state.routingGraph) return;
 

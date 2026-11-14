@@ -1,7 +1,7 @@
 {
   "export_mode": "static_precomputed",
   "export_version": "1.0.0",
-  "generated_timestamp_utc": "2026-11-14 07:44:05 UTC",
+  "generated_timestamp_utc": "2026-11-14 08:02:45 UTC",
   "pilot_area": {
     "name": "Downtown Houston / Buffalo Bayou",
     "bounding_box_wgs84": [
@@ -83,10 +83,15 @@
       ],
       "preset_mm": 10,
       "timestep_idx": 12,
+      "simulation_time_min": 60,
+      "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+      "snapshot_description": "Static scenario snapshot at Minute 60 of 10mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
       "mode": "pedestrian",
       "recommended_profile": "shortest",
-      "recommendation_reason": "Shortest Route is recommended: dry conditions (0.00m water depth) modelled across all candidate paths.",
-      "alerts": [],
+      "recommendation_reason": "Shortest Route selected under unmeasured/missing data penalties. Note: Missing simulation data is penalized as uncertain and must NOT be treated as zero depth or proof of safety.",
+      "alerts": [
+        "DATA UNCERTAINTY: Simulation depth data is unavailable or out-of-domain for parts of candidate routes. Missing data is penalized and NEVER assumed dry or safe."
+      ],
       "experimental_thresholds": {
         "pedestrian": {
           "caution_depth_m": 0.1,
@@ -106,6 +111,11 @@
           "status": "SUCCESS",
           "cost_profile": "shortest",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 10mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -668,12 +678,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "lowest_exposure": {
           "status": "SUCCESS",
           "cost_profile": "lowest_exposure",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 10mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -1524,12 +1540,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "drainage_informed": {
           "status": "SUCCESS",
           "cost_profile": "drainage_informed",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 10mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1034.5,
           "total_distance_ft": 3394.0,
           "walk_time_min": 12.9,
@@ -2381,12 +2403,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "baseline_shortest": {
           "status": "SUCCESS",
           "cost_profile": "shortest",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 10mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -2949,12 +2977,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "low_susceptibility": {
           "status": "SUCCESS",
           "cost_profile": "lowest_exposure",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 10mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -3805,7 +3839,8 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         }
       },
       "disclaimer": "Relative prototype metrics for research demonstration. Missing or uncalibrated hydraulic information is penalized and never assumed safe."
@@ -3821,10 +3856,15 @@
       ],
       "preset_mm": 25,
       "timestep_idx": 12,
+      "simulation_time_min": 60,
+      "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+      "snapshot_description": "Static scenario snapshot at Minute 60 of 25mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
       "mode": "pedestrian",
       "recommended_profile": "shortest",
-      "recommendation_reason": "Shortest Route is recommended: dry conditions (0.00m water depth) modelled across all candidate paths.",
-      "alerts": [],
+      "recommendation_reason": "Shortest Route selected under unmeasured/missing data penalties. Note: Missing simulation data is penalized as uncertain and must NOT be treated as zero depth or proof of safety.",
+      "alerts": [
+        "DATA UNCERTAINTY: Simulation depth data is unavailable or out-of-domain for parts of candidate routes. Missing data is penalized and NEVER assumed dry or safe."
+      ],
       "experimental_thresholds": {
         "pedestrian": {
           "caution_depth_m": 0.1,
@@ -3844,6 +3884,11 @@
           "status": "SUCCESS",
           "cost_profile": "shortest",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 25mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -4406,12 +4451,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "lowest_exposure": {
           "status": "SUCCESS",
           "cost_profile": "lowest_exposure",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 25mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -5262,12 +5313,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "drainage_informed": {
           "status": "SUCCESS",
           "cost_profile": "drainage_informed",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 25mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1034.5,
           "total_distance_ft": 3394.0,
           "walk_time_min": 12.9,
@@ -6119,12 +6176,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "baseline_shortest": {
           "status": "SUCCESS",
           "cost_profile": "shortest",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 25mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -6687,12 +6750,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "low_susceptibility": {
           "status": "SUCCESS",
           "cost_profile": "lowest_exposure",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 25mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -7543,7 +7612,8 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         }
       },
       "disclaimer": "Relative prototype metrics for research demonstration. Missing or uncalibrated hydraulic information is penalized and never assumed safe."
@@ -7559,10 +7629,15 @@
       ],
       "preset_mm": 50,
       "timestep_idx": 12,
+      "simulation_time_min": 60,
+      "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+      "snapshot_description": "Static scenario snapshot at Minute 60 of 50mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
       "mode": "pedestrian",
       "recommended_profile": "shortest",
-      "recommendation_reason": "Shortest Route is recommended: dry conditions (0.00m water depth) modelled across all candidate paths.",
-      "alerts": [],
+      "recommendation_reason": "Shortest Route selected under unmeasured/missing data penalties. Note: Missing simulation data is penalized as uncertain and must NOT be treated as zero depth or proof of safety.",
+      "alerts": [
+        "DATA UNCERTAINTY: Simulation depth data is unavailable or out-of-domain for parts of candidate routes. Missing data is penalized and NEVER assumed dry or safe."
+      ],
       "experimental_thresholds": {
         "pedestrian": {
           "caution_depth_m": 0.1,
@@ -7582,6 +7657,11 @@
           "status": "SUCCESS",
           "cost_profile": "shortest",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 50mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -8144,12 +8224,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "lowest_exposure": {
           "status": "SUCCESS",
           "cost_profile": "lowest_exposure",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 50mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -9000,12 +9086,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "drainage_informed": {
           "status": "SUCCESS",
           "cost_profile": "drainage_informed",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 50mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -9856,12 +9948,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "baseline_shortest": {
           "status": "SUCCESS",
           "cost_profile": "shortest",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 50mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -10424,12 +10522,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "low_susceptibility": {
           "status": "SUCCESS",
           "cost_profile": "lowest_exposure",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 50mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -11280,7 +11384,8 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         }
       },
       "disclaimer": "Relative prototype metrics for research demonstration. Missing or uncalibrated hydraulic information is penalized and never assumed safe."
@@ -11296,10 +11401,15 @@
       ],
       "preset_mm": 75,
       "timestep_idx": 12,
+      "simulation_time_min": 60,
+      "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+      "snapshot_description": "Static scenario snapshot at Minute 60 of 75mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
       "mode": "pedestrian",
       "recommended_profile": "shortest",
-      "recommendation_reason": "Shortest Route is recommended: dry conditions (0.00m water depth) modelled across all candidate paths.",
-      "alerts": [],
+      "recommendation_reason": "Shortest Route selected under unmeasured/missing data penalties. Note: Missing simulation data is penalized as uncertain and must NOT be treated as zero depth or proof of safety.",
+      "alerts": [
+        "DATA UNCERTAINTY: Simulation depth data is unavailable or out-of-domain for parts of candidate routes. Missing data is penalized and NEVER assumed dry or safe."
+      ],
       "experimental_thresholds": {
         "pedestrian": {
           "caution_depth_m": 0.1,
@@ -11319,6 +11429,11 @@
           "status": "SUCCESS",
           "cost_profile": "shortest",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 75mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -11881,12 +11996,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "lowest_exposure": {
           "status": "SUCCESS",
           "cost_profile": "lowest_exposure",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 75mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -12737,12 +12858,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "drainage_informed": {
           "status": "SUCCESS",
           "cost_profile": "drainage_informed",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 75mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -13593,12 +13720,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "baseline_shortest": {
           "status": "SUCCESS",
           "cost_profile": "shortest",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 75mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -14161,12 +14294,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "low_susceptibility": {
           "status": "SUCCESS",
           "cost_profile": "lowest_exposure",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 75mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -15017,7 +15156,8 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         }
       },
       "disclaimer": "Relative prototype metrics for research demonstration. Missing or uncalibrated hydraulic information is penalized and never assumed safe."
@@ -15033,10 +15173,15 @@
       ],
       "preset_mm": 100,
       "timestep_idx": 12,
+      "simulation_time_min": 60,
+      "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+      "snapshot_description": "Static scenario snapshot at Minute 60 of 100mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
       "mode": "pedestrian",
       "recommended_profile": "shortest",
-      "recommendation_reason": "Shortest Route is recommended: dry conditions (0.00m water depth) modelled across all candidate paths.",
-      "alerts": [],
+      "recommendation_reason": "Shortest Route selected under unmeasured/missing data penalties. Note: Missing simulation data is penalized as uncertain and must NOT be treated as zero depth or proof of safety.",
+      "alerts": [
+        "DATA UNCERTAINTY: Simulation depth data is unavailable or out-of-domain for parts of candidate routes. Missing data is penalized and NEVER assumed dry or safe."
+      ],
       "experimental_thresholds": {
         "pedestrian": {
           "caution_depth_m": 0.1,
@@ -15056,6 +15201,11 @@
           "status": "SUCCESS",
           "cost_profile": "shortest",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 100mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -15618,12 +15768,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "lowest_exposure": {
           "status": "SUCCESS",
           "cost_profile": "lowest_exposure",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 100mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -16474,12 +16630,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "drainage_informed": {
           "status": "SUCCESS",
           "cost_profile": "drainage_informed",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 100mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -17330,12 +17492,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "baseline_shortest": {
           "status": "SUCCESS",
           "cost_profile": "shortest",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 100mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -17898,12 +18066,18 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         },
         "low_susceptibility": {
           "status": "SUCCESS",
           "cost_profile": "lowest_exposure",
           "mode": "pedestrian",
+          "routing_type": "STATIC_SCENARIO_SNAPSHOT",
+          "simulation_time_min": 60,
+          "snapshot_description": "Static scenario snapshot at Minute 60 of 100mm rainfall event (uncalibrated M5 aggregate depression drawdown model; not dynamic time-dependent routing)",
+          "data_available": false,
+          "has_missing_data": true,
           "total_distance_m": 1033.4,
           "total_distance_ft": 3390.5,
           "walk_time_min": 12.9,
@@ -18754,7 +18928,8 @@
               }
             }
           ],
-          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world."
+          "scientific_disclaimer": "EXPERIMENTAL PROTOTYPE METRIC ONLY \u2014 NOT A CERTIFIED NAVIGATION ROUTE OR FLOOD ADVISORY. Calculated scores compare relative physical screening indicators and uncalibrated model outputs. A lower modelled score does NOT guarantee safety or open road conditions in the real world.",
+          "passable_route_found": true
         }
       },
       "disclaimer": "Relative prototype metrics for research demonstration. Missing or uncalibrated hydraulic information is penalized and never assumed safe."

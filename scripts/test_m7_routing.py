@@ -635,6 +635,58 @@ class TestM7RoutePlanner(unittest.TestCase):
         self.assertIn("No connected street path exists", res["message"])
         self.assertNotIn("coordinates", res)
 
+    def test_34_hard_exclusion_passable_guarantee(self):
+        """Audit Issue 2: Verify hard exclusion ensures zero impassable segments are traversed when an alternative exists."""
+        n4 = self.graph.nodes[4]["coords"]
+        n10 = self.graph.nodes[10]["coords"]
+        res = self.graph.find_route(n4, n10, preset_mm=50, timestep_idx=12, cost_profile="lowest_exposure", mode="pedestrian")
+
+        self.assertEqual(res["status"], "SUCCESS")
+        self.assertTrue(res["passable_route_found"])
+        self.assertEqual(res["impassable_segments_count"], 0)
+        ped_thresh = 0.25
+        self.assertLess(res["max_modelled_depth_m"], ped_thresh)
+
+    def test_35_missing_data_recommendation_prevents_dry_claim(self):
+        """Audit Issue 3: Missing data must never be reported as dry conditions in recommendation selection."""
+        dummy_alts = {
+            "shortest": {
+                "status": "SUCCESS",
+                "max_modelled_depth_m": 0.0,
+                "submerged_length_m": 0.0,
+                "total_distance_m": 500.0,
+                "has_missing_data": True,
+                "data_available": False
+            },
+            "lowest_exposure": {
+                "status": "SUCCESS",
+                "max_modelled_depth_m": 0.0,
+                "submerged_length_m": 0.0,
+                "total_distance_m": 500.0,
+                "has_missing_data": True,
+                "data_available": False,
+                "passable_route_found": True
+            }
+        }
+        from route_planner import determine_recommendation
+        rec = determine_recommendation(dummy_alts, mode="pedestrian")
+
+        # Must NOT claim dry conditions
+        self.assertNotIn("dry conditions (0.00m water depth) modelled", rec["reason"])
+        # Must alert about data uncertainty
+        self.assertTrue(any("DATA UNCERTAINTY" in a for a in rec["alerts"]))
+
+    def test_36_snapshot_temporal_metadata(self):
+        """Audit Issue 4: Verify static scenario snapshot metadata is explicitly identified without claiming dynamic routing."""
+        n4 = self.graph.nodes[4]["coords"]
+        n10 = self.graph.nodes[10]["coords"]
+        res = self.graph.find_route(n4, n10, preset_mm=50, timestep_idx=12, cost_profile="shortest")
+
+        self.assertEqual(res["routing_type"], "STATIC_SCENARIO_SNAPSHOT")
+        self.assertEqual(res["simulation_time_min"], 60)
+        self.assertIn("Static scenario snapshot", res["snapshot_description"])
+        self.assertIn("not dynamic time-dependent routing", res["snapshot_description"])
+
 
 if __name__ == "__main__":
     unittest.main()
