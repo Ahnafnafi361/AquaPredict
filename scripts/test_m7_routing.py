@@ -538,6 +538,103 @@ class TestM7RoutePlanner(unittest.TestCase):
         self.assertAlmostEqual(p_depth(0.50), 2000.0, places=4)
         self.assertAlmostEqual(p_depth(0.501), 2005.0, places=3)
 
+    # --------------------------------------------------------------------------
+    # Flood-Aware Route Decision Support Tests (Requirements 1-8)
+    # --------------------------------------------------------------------------
+
+    def test_28_flood_aware_route_diversion_when_shortest_submerged(self):
+        """Test 1: Shortest road has high simulated depth; longer alternative has lower exposure -> recommended route changes."""
+        n4 = self.graph.nodes[4]["coords"]
+        n10 = self.graph.nodes[10]["coords"]
+        comp = self.graph.compare_alternatives(n4, n10, preset_mm=50, timestep_idx=12, mode="pedestrian")
+
+        shortest = comp["alternatives"]["shortest"]
+        lowest_exp = comp["alternatives"]["lowest_exposure"]
+
+        self.assertEqual(shortest["status"], "SUCCESS")
+        self.assertEqual(lowest_exp["status"], "SUCCESS")
+
+        # Shortest encounters high water depth (>0.40m)
+        self.assertGreater(shortest["max_modelled_depth_m"], 0.40)
+        # Lowest exposure route avoids severe waterlogging (<0.10m)
+        self.assertLess(lowest_exp["max_modelled_depth_m"], 0.10)
+        # Recommendation switches from shortest to lowest_exposure
+        self.assertEqual(comp["recommended_profile"], "lowest_exposure")
+        self.assertIn("Lowest Waterlogging Exposure route is recommended", comp["recommendation_reason"])
+        self.assertTrue(len(comp["alerts"]) > 0)
+
+    def test_29_dry_conditions_shortest_route_preferred(self):
+        """Test 2: All roads have zero modeled water depth -> shortest route remains competitive/recommended."""
+        n4 = self.graph.nodes[4]["coords"]
+        n10 = self.graph.nodes[10]["coords"]
+        comp = self.graph.compare_alternatives(n4, n10, preset_mm=10, timestep_idx=0, mode="pedestrian")
+
+        shortest = comp["alternatives"]["shortest"]
+        self.assertEqual(shortest["status"], "SUCCESS")
+        self.assertAlmostEqual(shortest["max_modelled_depth_m"], 0.0, places=2)
+        self.assertEqual(comp["recommended_profile"], "shortest")
+        self.assertIn("dry conditions", comp["recommendation_reason"].lower())
+
+    def test_30_road_exceeds_vehicle_restriction_threshold_avoided(self):
+        """Test 3: A road exceeds configured vehicle restriction threshold -> vehicle routing avoids it when alternative exists."""
+        n2 = self.graph.nodes[2]["coords"]
+        n119 = self.graph.nodes[119]["coords"]
+
+        r_short = self.graph.find_route(n2, n119, preset_mm=100, timestep_idx=12, cost_profile="shortest", mode="vehicle")
+        r_low = self.graph.find_route(n2, n119, preset_mm=100, timestep_idx=12, cost_profile="lowest_exposure", mode="vehicle")
+
+        self.assertEqual(r_short["status"], "SUCCESS")
+        self.assertEqual(r_low["status"], "SUCCESS")
+
+        # Shortest route exceeds vehicle impassable threshold (0.30m)
+        from route_planner import EXPERIMENTAL_THRESHOLDS
+        veh_thresh = EXPERIMENTAL_THRESHOLDS["vehicle"]["impassable_depth_m"]
+        self.assertGreaterEqual(r_short["max_modelled_depth_m"], veh_thresh)
+        self.assertGreater(r_short["impassable_segments_count"], 0)
+
+        # Lowest exposure vehicle route completely avoids impassable segments
+        self.assertLess(r_low["max_modelled_depth_m"], veh_thresh)
+        self.assertEqual(r_low["impassable_segments_count"], 0)
+
+    def test_31_pedestrian_and_vehicle_modes_diverge(self):
+        """Test 4: Pedestrian and vehicle modes produce different results when their configured restrictions differ."""
+        start = [-95.3705, 29.7580]
+        dest = [-95.3670, 29.7635]
+
+        r_ped = self.graph.find_route(start, dest, preset_mm=50, timestep_idx=12, cost_profile="lowest_exposure", mode="pedestrian")
+        r_veh = self.graph.find_route(start, dest, preset_mm=50, timestep_idx=12, cost_profile="lowest_exposure", mode="vehicle")
+
+        self.assertEqual(r_ped["status"], "SUCCESS")
+        self.assertEqual(r_veh["status"], "SUCCESS")
+        # One-way network constraints and threshold differences create distinct routes
+        self.assertNotEqual(r_ped["coordinates"], r_veh["coordinates"])
+        self.assertNotEqual(r_ped["total_distance_m"], r_veh["total_distance_m"])
+
+    def test_32_missing_simulation_data_penalized_not_zero(self):
+        """Test 5: Missing simulation data must not be interpreted as zero water depth."""
+        g_missing = DrainageInformedRoutingGraph()
+        g_missing.build_graph()
+        g_missing.sim_scenarios = None
+
+        assessment = g_missing.assess_edge_waterlogging(self.graph.edges[0]["coords"], preset_mm=50, timestep_idx=12)
+        self.assertFalse(assessment["data_available"])
+        self.assertEqual(assessment["status"], "UNAVAILABLE")
+        self.assertGreaterEqual(assessment["uncertainty_penalty"], 80.0)
+
+        cost_data = g_missing.calculate_edge_cost(0, preset_mm=50, timestep_idx=12, cost_profile="lowest_exposure")
+        self.assertGreaterEqual(cost_data["p_uncert"], 80.0)
+        self.assertGreater(cost_data["total_cost"], cost_data["c_base"])
+
+    def test_33_no_valid_alternative_route_handling(self):
+        """Test 6: No valid alternative route exists -> returns NO_ROUTE_FOUND with explanation without inventing route."""
+        restricted_dest = [-95.3680, 29.7645]
+        start = [-95.3705, 29.7580]
+        res = self.graph.find_route(start, restricted_dest, preset_mm=50, timestep_idx=12, cost_profile="lowest_exposure", mode="vehicle")
+
+        self.assertEqual(res["status"], "NO_ROUTE_FOUND")
+        self.assertIn("No connected street path exists", res["message"])
+        self.assertNotIn("coordinates", res)
+
 
 if __name__ == "__main__":
     unittest.main()

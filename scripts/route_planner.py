@@ -29,6 +29,22 @@ PILOT_BBOX = {
 WALKING_SPEED_MPS = 1.34    # AASHTO / MUTCD default pedestrian walking speed (4.8 km/h, 3.0 mph)
 DEFAULT_VEHICLE_SPEED_MPH = 30.0 # Default local street speed limit (mph)
 
+# Documented Experimental Screening Thresholds (Prototypes, NOT empirical certifications)
+EXPERIMENTAL_THRESHOLDS = {
+    "pedestrian": {
+        "caution_depth_m": 0.10,      # 10 cm (~ankle depth; difficult/unpleasant to wade)
+        "impassable_depth_m": 0.25,   # 25 cm (~shin/knee depth; hazardous footing/sweeping risk)
+        "speed_mps": WALKING_SPEED_MPS,
+        "description": "Experimental screening thresholds for pedestrian footing stability and curb-height splash."
+    },
+    "vehicle": {
+        "caution_depth_m": 0.15,      # 15 cm (~6 inches; curb level / exhaust splash)
+        "impassable_depth_m": 0.30,   # 30 cm (~12 inches; typical passenger sedan air intake stall / float limit)
+        "speed_mph": DEFAULT_VEHICLE_SPEED_MPH,
+        "description": "Experimental screening thresholds for standard passenger vehicles. High-clearance vehicles differ."
+    }
+}
+
 # Documented Default Cost Function Weights
 DEFAULT_WEIGHTS = {
     "w_susc": 1.0,      # Terrain susceptibility weight (EWSI [0.0 - 1.0])
@@ -36,6 +52,117 @@ DEFAULT_WEIGHTS = {
     "w_drain": 1.0,     # M6 conduit capacity screening penalty weight
     "w_uncert": 1.0     # Data uncertainty penalty weight
 }
+
+
+def determine_recommendation(alternatives, mode="pedestrian"):
+    """
+    Evaluate candidate routes and determine recommended route with clear scientific rationale.
+    
+    Returns:
+    - recommended_key: 'lowest_exposure', 'shortest', or 'drainage_informed'
+    - reason: plain English explanation of WHY this route is recommended
+    - alerts: list of specific waterlogging warnings along candidate routes
+    """
+    thresh = EXPERIMENTAL_THRESHOLDS.get(mode, EXPERIMENTAL_THRESHOLDS["pedestrian"])
+    caution_d = thresh["caution_depth_m"]
+    impassable_d = thresh["impassable_depth_m"]
+
+    shortest = alternatives.get("shortest") or alternatives.get("baseline_shortest")
+    lowest_exp = alternatives.get("lowest_exposure")
+    drainage = alternatives.get("drainage_informed")
+
+    if not shortest or shortest.get("status") != "SUCCESS":
+        if lowest_exp and lowest_exp.get("status") == "SUCCESS":
+            return {
+                "recommended_key": "lowest_exposure",
+                "reason": "Lowest Waterlogging Exposure route is the only viable path found.",
+                "alerts": ["Shortest path unavailable or blocked by network restrictions."]
+            }
+        return {
+            "recommended_key": None,
+            "reason": "No continuous street route found between origin and destination.",
+            "alerts": ["No route available."]
+        }
+
+    s_depth = shortest.get("max_modelled_depth_m", 0.0)
+    s_sub_m = shortest.get("submerged_length_m", 0.0)
+    s_dist = shortest.get("total_distance_m", 0.0)
+
+    l_depth = lowest_exp.get("max_modelled_depth_m", 0.0) if lowest_exp and lowest_exp.get("status") == "SUCCESS" else s_depth
+    l_sub_m = lowest_exp.get("submerged_length_m", 0.0) if lowest_exp and lowest_exp.get("status") == "SUCCESS" else s_sub_m
+    l_dist = lowest_exp.get("total_distance_m", 0.0) if lowest_exp and lowest_exp.get("status") == "SUCCESS" else s_dist
+
+    alerts = []
+
+    # Check if shortest encounters deep or impassable water
+    if s_depth >= impassable_d:
+        alerts.append(f"Shortest route encounters potentially impassable water ({s_depth:.2f}m >= {impassable_d:.2f}m {mode} threshold).")
+    elif s_depth >= caution_d:
+        alerts.append(f"Shortest route encounters cautionary waterlogging ({s_depth:.2f}m >= {caution_d:.2f}m {mode} threshold).")
+
+    # Case 1: Dry conditions everywhere (zero or negligible water)
+    if s_depth <= 0.01 and s_sub_m <= 1.0:
+        return {
+            "recommended_key": "shortest",
+            "reason": "Shortest Route is recommended: dry conditions (0.00m water depth) modelled across all candidate paths.",
+            "alerts": alerts
+        }
+
+    # Case 2: Lowest exposure significantly avoids or reduces flood depth
+    if lowest_exp and lowest_exp.get("status") == "SUCCESS":
+        extra_dist = l_dist - s_dist
+
+        if s_depth >= caution_d and l_depth < s_depth:
+            if l_depth < impassable_d and s_depth >= impassable_d:
+                reason = (
+                    f"Lowest Waterlogging Exposure route is recommended: diverts around impassable inundation "
+                    f"({s_depth:.2f}m on shortest path), reducing maximum depth to {l_depth:.2f}m "
+                    f"({round(extra_dist):+d}m detour)."
+                )
+            else:
+                reason = (
+                    f"Lowest Waterlogging Exposure route is recommended: reduces maximum water depth from "
+                    f"{s_depth:.2f}m to {l_depth:.2f}m ({round(extra_dist):+d}m detour, {l_sub_m:.0f}m submerged vs {s_sub_m:.0f}m)."
+                )
+            return {
+                "recommended_key": "lowest_exposure",
+                "reason": reason,
+                "alerts": alerts
+            }
+
+        if s_sub_m > 50.0 and l_sub_m < s_sub_m * 0.5:
+            reason = (
+                f"Lowest Waterlogging Exposure route is recommended: cuts submerged road length from "
+                f"{s_sub_m:.0f}m to {l_sub_m:.0f}m ({round(extra_dist):+d}m detour)."
+            )
+            return {
+                "recommended_key": "lowest_exposure",
+                "reason": reason,
+                "alerts": alerts
+            }
+
+    # Case 3: Water is present but below caution threshold
+    if s_depth < caution_d:
+        return {
+            "recommended_key": "shortest",
+            "reason": f"Shortest Route is recommended: modelled water depth ({s_depth:.2f}m) remains below {mode} caution threshold ({caution_d:.2f}m).",
+            "alerts": alerts
+        }
+
+    # Case 4: Impassable water across all options
+    if l_depth >= impassable_d:
+        alerts.append(f"WARNING: All alternative routes encounter water exceeding the {mode} impassable threshold ({impassable_d:.2f}m).")
+        return {
+            "recommended_key": "lowest_exposure",
+            "reason": f"Lowest Exposure route has lowest relative water exposure ({l_depth:.2f}m vs {s_depth:.2f}m), but exceeds {mode} threshold ({impassable_d:.2f}m). Exercise extreme caution.",
+            "alerts": alerts
+        }
+
+    return {
+        "recommended_key": "lowest_exposure" if (l_depth < s_depth) else "shortest",
+        "reason": f"Lowest Waterlogging Exposure route provides lower modelled water exposure ({l_depth:.2f}m vs {s_depth:.2f}m).",
+        "alerts": alerts
+    }
 
 def haversine_distance(lon1, lat1, lon2, lat2):
     """Calculate great-circle distance between two points in meters."""
@@ -288,10 +415,159 @@ class DrainageInformedRoutingGraph:
                     break
         return nearby
 
-    def calculate_edge_cost(self, edge_id, preset_mm=50, timestep_idx=12, mode="pedestrian", weights=None):
+    def assess_edge_waterlogging(self, coords, preset_mm=50, timestep_idx=12, mode="pedestrian"):
         """
-        Calculate deterministic, non-negative edge cost:
-        Cost(e) = C_base * (1 + w_susc * EWSI) + P_depth + P_drain + P_uncert
+        Conduct detailed road segment waterlogging assessment.
+        
+        Samples M5 simulation depths along edge polyline at ~10m intervals.
+        Computes max depth, mean depth, flooded/affected length, flooded percentage,
+        exposure risk tier, and mode-specific caution/impassability flags.
+        
+        Guarantees:
+        - Explicitly tracks data availability status (VALID_PILOT vs UNAVAILABLE vs BOUNDARY_CROSSING).
+        - Never silently converts missing or out-of-domain simulation data into dry (0.0m) conditions.
+        """
+        thresh = EXPERIMENTAL_THRESHOLDS.get(mode, EXPERIMENTAL_THRESHOLDS["pedestrian"])
+        caution_th = thresh["caution_depth_m"]
+        impassable_th = thresh["impassable_depth_m"]
+
+        diag = {
+            "status": "VALID_PILOT",
+            "data_available": True,
+            "outside_count": 0,
+            "sampled_count": 0,
+            "max_depth_m": 0.0,
+            "mean_depth_m": 0.0,
+            "affected_length_m": 0.0,
+            "affected_pct": 0.0,
+            "risk_tier": "Dry",
+            "is_caution": False,
+            "is_impassable": False,
+            "uncertainty_penalty": 0.0
+        }
+
+        if not self.sim_scenarios:
+            diag["status"] = "UNAVAILABLE"
+            diag["data_available"] = False
+            diag["reason"] = "Simulation scenarios data missing"
+            diag["uncertainty_penalty"] = 80.0
+            return diag
+
+        preset_key = f"preset_{int(preset_mm)}mm"
+        preset = self.sim_scenarios.get("presets", {}).get(preset_key)
+        if not preset:
+            diag["status"] = "UNAVAILABLE"
+            diag["data_available"] = False
+            diag["reason"] = f"Preset {preset_key} not found"
+            diag["uncertainty_penalty"] = 80.0
+            return diag
+
+        timesteps = preset.get("timesteps", [])
+        if timestep_idx < 0 or timestep_idx >= len(timesteps):
+            diag["status"] = "UNAVAILABLE"
+            diag["data_available"] = False
+            diag["reason"] = f"Timestep {timestep_idx} out of range"
+            diag["uncertainty_penalty"] = 80.0
+            return diag
+
+        ts = timesteps[timestep_idx]
+        if "sparse_depths" not in ts or ts["sparse_depths"] is None:
+            diag["status"] = "UNAVAILABLE"
+            diag["data_available"] = False
+            diag["reason"] = f"sparse_depths key missing or null in timestep {timestep_idx}"
+            diag["uncertainty_penalty"] = 80.0
+            return diag
+
+        raw_sparse = ts["sparse_depths"]
+        if isinstance(raw_sparse, list):
+            try:
+                sparse_depths = dict(raw_sparse)
+            except (ValueError, TypeError):
+                diag["status"] = "UNAVAILABLE"
+                diag["data_available"] = False
+                diag["reason"] = f"sparse_depths malformed in timestep {timestep_idx}"
+                diag["uncertainty_penalty"] = 80.0
+                return diag
+        elif isinstance(raw_sparse, dict):
+            sparse_depths = raw_sparse
+        else:
+            diag["status"] = "UNAVAILABLE"
+            diag["data_available"] = False
+            diag["reason"] = f"sparse_depths invalid type in timestep {timestep_idx}"
+            diag["uncertainty_penalty"] = 80.0
+            return diag
+
+        b = PILOT_BBOX
+        sample_pts = densify_polyline(coords, 10.0)
+        n_samples = len(sample_pts)
+        diag["sampled_count"] = n_samples
+
+        if n_samples == 0:
+            return diag
+
+        depths = []
+        outside_count = 0
+
+        for pt in sample_pts:
+            lon, lat = pt[0], pt[1]
+            if b["west"] <= lon <= b["east"] and b["south"] <= lat <= b["north"]:
+                col = min(max(int((lon - b["west"]) / (b["east"] - b["west"]) * 100), 0), 99)
+                row = min(max(int((b["north"] - lat) / (b["north"] - b["south"]) * 100), 0), 99)
+                flat_idx = row * 100 + col
+                d = sparse_depths.get(flat_idx, 0.0)
+                depths.append(d)
+            else:
+                outside_count += 1
+                depths.append(0.0)
+
+        diag["outside_count"] = outside_count
+        if outside_count > 0:
+            diag["status"] = "BOUNDARY_CROSSING"
+            diag["data_available"] = False
+            diag["uncertainty_penalty"] = 80.0
+
+        max_d = max(depths) if depths else 0.0
+        mean_d = sum(depths) / len(depths) if depths else 0.0
+        diag["max_depth_m"] = round(max_d, 3)
+        diag["mean_depth_m"] = round(mean_d, 3)
+
+        # Count samples exceeding ponding detection threshold (> 2cm)
+        flooded_samples = sum(1 for d in depths if d > 0.02)
+        flooded_ratio = flooded_samples / n_samples if n_samples > 0 else 0.0
+
+        # Calculate approximate segment length
+        seg_len_m = 0.0
+        for i in range(len(coords) - 1):
+            seg_len_m += haversine_distance(coords[i][0], coords[i][1], coords[i+1][0], coords[i+1][1])
+
+        diag["affected_length_m"] = round(seg_len_m * flooded_ratio, 1)
+        diag["affected_pct"] = round(flooded_ratio * 100.0, 1)
+
+        # Risk tier classification
+        if max_d < 0.01:
+            diag["risk_tier"] = "Dry"
+        elif max_d < 0.05:
+            diag["risk_tier"] = "Low"
+        elif max_d < 0.15:
+            diag["risk_tier"] = "Moderate"
+        elif max_d < 0.30:
+            diag["risk_tier"] = "Elevated"
+        else:
+            diag["risk_tier"] = "High"
+
+        # Caution & Impassability based on mode thresholds
+        diag["is_caution"] = (max_d >= caution_th)
+        diag["is_impassable"] = (max_d >= impassable_th)
+
+        return diag
+
+    def calculate_edge_cost(self, edge_id, preset_mm=50, timestep_idx=12, mode="pedestrian", weights=None, cost_profile="drainage_informed"):
+        """
+        Calculate deterministic, non-negative edge cost across routing profiles:
+        - 'baseline' / 'shortest': pure distance C_base (shortest geometric path)
+        - 'lowest_exposure': base distance penalized by flood depth, affected length, and mode impassability
+        - 'drainage_informed': full cost function combining surface depth, EWSI, and M6 conduit loading
+        - 'low_susceptibility': distance weighted by terrain EWSI only
 
         Guaranteed: Cost(e) >= C_base > 0
         """
@@ -300,17 +576,91 @@ class DrainageInformedRoutingGraph:
             w.update(weights)
 
         edge = self.edges[edge_id]
-        length_m = edge["length_m"]
+        c_base = edge["length_m"]
 
-        # 1. Base Cost (C_base)
-        c_base = length_m
+        # 1. Baseline / Shortest profile
+        if cost_profile in ("baseline", "shortest"):
+            return {
+                "total_cost": round(c_base, 2),
+                "c_base": round(c_base, 2),
+                "m_susc": 1.0,
+                "p_depth": 0.0,
+                "p_drain": 0.0,
+                "p_uncert": 0.0,
+                "max_depth_m": 0.0,
+                "ewsi": round(edge["susc_mean"], 3),
+                "drain_warnings": {"exceeded_count": 0, "high_count": 0, "insufficient_data_count": 0, "disconnected_count": 0},
+                "depth_diag": {"status": "VALID_PILOT", "max_depth_m": 0.0}
+            }
 
-        # 2. Terrain Susceptibility Multiplier (M_susc)
+        # 2. Low-Susceptibility profile
+        if cost_profile == "low_susceptibility":
+            total_cost = c_base * (1.0 + edge["susc_mean"])
+            return {
+                "total_cost": round(total_cost, 2),
+                "c_base": round(c_base, 2),
+                "m_susc": round(1.0 + edge["susc_mean"], 3),
+                "p_depth": 0.0,
+                "p_drain": 0.0,
+                "p_uncert": 0.0,
+                "max_depth_m": 0.0,
+                "ewsi": round(edge["susc_mean"], 3),
+                "drain_warnings": {"exceeded_count": 0, "high_count": 0, "insufficient_data_count": 0, "disconnected_count": 0},
+                "depth_diag": {"status": "VALID_PILOT", "max_depth_m": 0.0}
+            }
+
+        # Run road segment water assessment for Lowest Exposure and Drainage-Informed profiles
+        assessment = self.assess_edge_waterlogging(edge["coords"], preset_mm, timestep_idx, mode)
+        max_depth_m = assessment["max_depth_m"]
+        depth_diag = assessment
+
+        # 3. Lowest Waterlogging Exposure profile
+        if cost_profile in ("lowest_exposure", "low_exposure"):
+            p_depth = 0.0
+            if max_depth_m > 0.0:
+                if max_depth_m <= 0.01:
+                    p_depth = 0.0
+                elif max_depth_m <= 0.05:
+                    p_depth = (max_depth_m / 0.05) * 50.0
+                elif max_depth_m <= 0.15:
+                    p_depth = 150.0 + ((max_depth_m - 0.05) / 0.10) * 800.0
+                elif max_depth_m <= 0.25:
+                    p_depth = 1000.0 + ((max_depth_m - 0.15) / 0.10) * 3000.0
+                else:
+                    p_depth = 4000.0 + (max_depth_m - 0.25) * 10000.0
+
+            # Penalize segments exceeding mode thresholds
+            p_threshold = 0.0
+            if assessment["is_impassable"]:
+                p_threshold += 20000.0
+            elif assessment["is_caution"]:
+                p_threshold += 500.0
+
+            # Segment affected length penalty
+            p_length = assessment["affected_length_m"] * 2.0
+
+            # Data uncertainty penalty (never assume missing data is dry)
+            p_uncert = assessment["uncertainty_penalty"]
+
+            total_cost = c_base + p_depth + p_threshold + p_length + p_uncert
+            return {
+                "total_cost": round(total_cost, 2),
+                "c_base": round(c_base, 2),
+                "m_susc": 1.0,
+                "p_depth": round(p_depth + p_threshold + p_length, 2),
+                "p_drain": 0.0,
+                "p_uncert": round(p_uncert, 2),
+                "max_depth_m": round(max_depth_m, 3),
+                "ewsi": round(edge["susc_mean"], 3),
+                "drain_warnings": {"exceeded_count": 0, "high_count": 0, "insufficient_data_count": 0, "disconnected_count": 0},
+                "depth_diag": depth_diag,
+                "assessment": assessment
+            }
+
+        # 4. Drainage-Informed profile
         ewsi = edge["susc_mean"]
         m_susc = 1.0 + (w["w_susc"] * ewsi)
 
-        # 3. Modelled Ponding Depth Penalty (P_depth)
-        max_depth_m, depth_diag = self._get_modelled_depth(edge["coords"], preset_mm, timestep_idx, return_diag=True)
         p_depth = 0.0
         if max_depth_m > 0.0:
             if max_depth_m <= 0.05:
@@ -326,23 +676,13 @@ class DrainageInformedRoutingGraph:
                 # Very Deep (> 50cm): severe inundation
                 p_depth = w["w_depth"] * (2000.0 + (max_depth_m - 0.50) * 5000.0)
 
-        # 4. Drainage Screening Penalty (P_drain)
+        # Drainage Screening Penalty (P_drain)
         p_drain = 0.0
         drain_warnings = self._screen_drainage_loading(edge["nearby_conduit_ids"], preset_mm, timestep_idx)
         p_drain = (w["w_drain"] * 100.0 * drain_warnings["exceeded_count"]) + (w["w_drain"] * 30.0 * drain_warnings["high_count"])
 
-        # 5. Data Uncertainty Penalty (P_uncert)
-        # Never convert missing or unmeasured data into zero flood risk
-        p_uncert = 0.0
-        mid_pt = edge["coords"][len(edge["coords"]) // 2]
-        is_outside = not (PILOT_BBOX["west"] <= mid_pt[0] <= PILOT_BBOX["east"] and
-                         PILOT_BBOX["south"] <= mid_pt[1] <= PILOT_BBOX["north"]) or (depth_diag.get("outside_count", 0) > 0)
-        if is_outside:
-            p_uncert += w["w_uncert"] * 80.0
-
-        if depth_diag.get("status") == "UNAVAILABLE":
-            p_uncert += w["w_uncert"] * 80.0
-
+        # Data Uncertainty Penalty (P_uncert)
+        p_uncert = assessment["uncertainty_penalty"]
         if drain_warnings["insufficient_data_count"] > 0:
             p_uncert += w["w_uncert"] * 25.0
 
@@ -358,7 +698,8 @@ class DrainageInformedRoutingGraph:
             "max_depth_m": round(max_depth_m, 3),
             "ewsi": round(ewsi, 3),
             "drain_warnings": drain_warnings,
-            "depth_diag": depth_diag
+            "depth_diag": depth_diag,
+            "assessment": assessment
         }
 
     def _get_modelled_depth(self, coords, preset_mm, timestep_idx, return_diag=False):
@@ -496,8 +837,9 @@ class DrainageInformedRoutingGraph:
         Compute optimal route using Dijkstra's algorithm.
 
         cost_profile options:
-        - 'baseline': pure distance C_base (shortest geometric path)
-        - 'drainage_informed': full cost function with M1, M5, M6, and uncertainty
+        - 'baseline' / 'shortest': pure distance C_base (shortest geometric path)
+        - 'lowest_exposure': path minimizing flood water depth and exposed length, avoiding impassable roads
+        - 'drainage_informed': multi-criteria cost with M1 terrain EWSI, M5 flood depth, and M6 conduit capacity
         - 'low_susceptibility': distance weighted by terrain EWSI only
         """
         if not self.loaded:
@@ -535,7 +877,7 @@ class DrainageInformedRoutingGraph:
                 return self._assemble_route_summary(
                     start_coords, dest_coords, start_node, dest_node,
                     snap_start_m, snap_dest_m, edge_path, node_path,
-                    preset_mm, timestep_idx, cost_profile
+                    preset_mm, timestep_idx, cost_profile, mode
                 )
 
             for v, edge_id, direction in self.adj.get(u, []):
@@ -549,14 +891,9 @@ class DrainageInformedRoutingGraph:
                     if direction == "backward" and ow == "FT":
                         continue
 
-                # Determine edge cost
-                if cost_profile == "baseline":
-                    e_cost = edge["length_m"]
-                elif cost_profile == "low_susceptibility":
-                    e_cost = edge["length_m"] * (1.0 + edge["susc_mean"])
-                else: # 'drainage_informed'
-                    cost_data = self.calculate_edge_cost(edge_id, preset_mm, timestep_idx, mode)
-                    e_cost = cost_data["total_cost"]
+                # Determine edge cost using unified cost function
+                cost_data = self.calculate_edge_cost(edge_id, preset_mm, timestep_idx, mode, cost_profile=cost_profile)
+                e_cost = cost_data["total_cost"]
 
                 new_cost = curr_cost + e_cost
                 if new_cost < min_costs.get(v, float("inf")):
@@ -575,7 +912,7 @@ class DrainageInformedRoutingGraph:
 
     def _assemble_route_summary(self, start_coords, dest_coords, start_node, dest_node,
                                 snap_start_m, snap_dest_m, edge_ids, node_ids,
-                                preset_mm, timestep_idx, cost_profile):
+                                preset_mm, timestep_idx, cost_profile, mode="pedestrian"):
         """Assemble comprehensive, auditable route comparison breakdown."""
         total_dist_m = 0.0
         total_cost = 0.0
@@ -589,22 +926,50 @@ class DrainageInformedRoutingGraph:
         total_high_drains = 0
         total_uncertainty_cost = 0.0
         detailed_edges = []
+        flood_exposed_segments = []
+        impassable_segments_count = 0
+        caution_segments_count = 0
 
         for e_idx in edge_ids:
             edge = self.edges[e_idx]
             l_m = edge["length_m"]
             total_dist_m += l_m
 
-            cost_data = self.calculate_edge_cost(e_idx, preset_mm, timestep_idx)
+            cost_data = self.calculate_edge_cost(e_idx, preset_mm, timestep_idx, mode, cost_profile=cost_profile)
+            assessment = cost_data.get("assessment") or self.assess_edge_waterlogging(edge["coords"], preset_mm, timestep_idx, mode)
+
             total_cost += cost_data["total_cost"]
             total_uncertainty_cost += cost_data["p_uncert"]
 
-            d = cost_data["max_depth_m"]
+            d = assessment["max_depth_m"]
             if d > max_depth_m:
                 max_depth_m = d
-            depth_weighted_sum += d * l_m
-            if d > 0.05:
+            depth_weighted_sum += assessment["mean_depth_m"] * l_m
+
+            if assessment["affected_length_m"] > 0:
+                submerged_length_m += assessment["affected_length_m"]
+            elif d > 0.02:
                 submerged_length_m += l_m
+
+            if assessment["is_impassable"]:
+                impassable_segments_count += 1
+            elif assessment["is_caution"]:
+                caution_segments_count += 1
+
+            if d > 0.02:
+                flood_exposed_segments.append({
+                    "edge_id": e_idx,
+                    "name": edge["name"],
+                    "length_m": l_m,
+                    "max_depth_m": d,
+                    "mean_depth_m": assessment["mean_depth_m"],
+                    "affected_length_m": assessment["affected_length_m"],
+                    "affected_pct": assessment["affected_pct"],
+                    "risk_tier": assessment["risk_tier"],
+                    "is_caution": assessment["is_caution"],
+                    "is_impassable": assessment["is_impassable"],
+                    "coords": edge["coords"]
+                })
 
             susc_weighted_sum += edge["susc_mean"] * l_m
             total_exceeded_drains += cost_data["drain_warnings"]["exceeded_count"]
@@ -617,7 +982,8 @@ class DrainageInformedRoutingGraph:
                 "edge_id": e_idx,
                 "name": edge["name"],
                 "length_m": l_m,
-                "cost_data": cost_data
+                "cost_data": cost_data,
+                "assessment": assessment
             })
 
         # Merge coordinates smoothly with strict traversal orientation anchored on start_node
@@ -641,7 +1007,6 @@ class DrainageInformedRoutingGraph:
             else:
                 route_coords.extend(pts[1:])
 
-
         mean_depth_m = round(depth_weighted_sum / total_dist_m, 3) if total_dist_m > 0 else 0.0
         mean_ewsi = round(susc_weighted_sum / total_dist_m, 3) if total_dist_m > 0 else 0.25
 
@@ -655,6 +1020,18 @@ class DrainageInformedRoutingGraph:
         else:
             susc_tier = "High"
 
+        # Overall waterlogging exposure category
+        if max_depth_m < 0.01:
+            exposure_category = "Minimal (Dry)"
+        elif max_depth_m < 0.05:
+            exposure_category = "Low"
+        elif max_depth_m < 0.15:
+            exposure_category = "Moderate"
+        elif max_depth_m < 0.30:
+            exposure_category = "Elevated"
+        else:
+            exposure_category = "High / Severe"
+
         # Estimated travel times
         walk_time_min = round(total_dist_m / (WALKING_SPEED_MPS * 60.0), 1)
         vehicle_speed_mps = (DEFAULT_VEHICLE_SPEED_MPH * 1609.34) / 3600.0
@@ -663,6 +1040,7 @@ class DrainageInformedRoutingGraph:
         return {
             "status": "SUCCESS",
             "cost_profile": cost_profile,
+            "mode": mode,
             "total_distance_m": round(total_dist_m, 1),
             "total_distance_ft": round(total_dist_m * 3.28084, 1),
             "walk_time_min": walk_time_min,
@@ -674,6 +1052,11 @@ class DrainageInformedRoutingGraph:
             "mean_modelled_depth_m": mean_depth_m,
             "submerged_length_m": round(submerged_length_m, 1),
             "submerged_pct": round(submerged_length_m / total_dist_m * 100.0, 1) if total_dist_m > 0 else 0.0,
+            "exposure_category": exposure_category,
+            "flood_exposed_segments": flood_exposed_segments,
+            "flood_exposed_count": len(flood_exposed_segments),
+            "impassable_segments_count": impassable_segments_count,
+            "caution_segments_count": caution_segments_count,
             "drainage_exceeded_conduits": total_exceeded_drains,
             "drainage_high_conduits": total_high_drains,
             "uncertainty_cost_penalty": round(total_uncertainty_cost, 1),
@@ -698,24 +1081,36 @@ class DrainageInformedRoutingGraph:
     def compare_alternatives(self, start_coords, dest_coords, preset_mm=50, timestep_idx=12, mode="pedestrian"):
         """
         Compute and compare three distinct alternative routing profiles:
-        1. Baseline / Shortest Distance
-        2. Drainage & Hazard-Informed
-        3. Low-Susceptibility
+        1. Shortest Route: Shortest available geometric path
+        2. Lowest Waterlogging Exposure: Penalizes depth & flooded length, avoids impassable roads
+        3. Drainage-Informed Route: Screened against M6 storm conduit capacity & terrain EWSI
         """
-        res_baseline = self.find_route(start_coords, dest_coords, preset_mm, timestep_idx, "baseline", mode)
+        res_shortest = self.find_route(start_coords, dest_coords, preset_mm, timestep_idx, "shortest", mode)
+        res_lowest_exp = self.find_route(start_coords, dest_coords, preset_mm, timestep_idx, "lowest_exposure", mode)
         res_drainage = self.find_route(start_coords, dest_coords, preset_mm, timestep_idx, "drainage_informed", mode)
-        res_susc = self.find_route(start_coords, dest_coords, preset_mm, timestep_idx, "low_susceptibility", mode)
+
+        alternatives = {
+            "shortest": res_shortest,
+            "lowest_exposure": res_lowest_exp,
+            "drainage_informed": res_drainage,
+            # Backwards compatibility aliases for existing test suite
+            "baseline_shortest": res_shortest,
+            "low_susceptibility": res_lowest_exp
+        }
+
+        rec = determine_recommendation(alternatives, mode)
 
         return {
             "start_coords": start_coords,
             "dest_coords": dest_coords,
             "preset_mm": preset_mm,
             "timestep_idx": timestep_idx,
-            "alternatives": {
-                "baseline_shortest": res_baseline,
-                "drainage_informed": res_drainage,
-                "low_susceptibility": res_susc
-            },
+            "mode": mode,
+            "recommended_profile": rec["recommended_key"],
+            "recommendation_reason": rec["reason"],
+            "alerts": rec["alerts"],
+            "experimental_thresholds": EXPERIMENTAL_THRESHOLDS,
+            "alternatives": alternatives,
             "disclaimer": (
                 "Relative prototype metrics for research demonstration. "
                 "Missing or uncalibrated hydraulic information is penalized and never assumed safe."
@@ -738,9 +1133,14 @@ class DrainageInformedRoutingGraph:
             "nodes": self.nodes,
             "edges": self.edges,
             "default_weights": DEFAULT_WEIGHTS,
+            "experimental_thresholds": EXPERIMENTAL_THRESHOLDS,
             "assumptions": {
                 "walking_speed_mps": WALKING_SPEED_MPS,
                 "vehicle_speed_mph": DEFAULT_VEHICLE_SPEED_MPH,
+                "pedestrian_caution_depth_m": EXPERIMENTAL_THRESHOLDS["pedestrian"]["caution_depth_m"],
+                "pedestrian_impassable_depth_m": EXPERIMENTAL_THRESHOLDS["pedestrian"]["impassable_depth_m"],
+                "vehicle_caution_depth_m": EXPERIMENTAL_THRESHOLDS["vehicle"]["caution_depth_m"],
+                "vehicle_impassable_depth_m": EXPERIMENTAL_THRESHOLDS["vehicle"]["impassable_depth_m"],
                 "corridor_buffer_m": 25.0,
                 "polyline_sampling_interval_m": 10.0,
                 "non_negative_guarantee": "Cost(e) >= C_base > 0 for all edges under all scenarios."

@@ -89,6 +89,38 @@
     "vehicular_speed_default_mph": 30.0,
     "vehicular_speed_source": "Municipal City of Houston SPEED attribute when present, defaulting to 30.0 mph for local streets"
   },
+  "route_profiles": {
+    "shortest": {
+      "name": "Shortest Route",
+      "objective": "Shortest available geometric distance path",
+      "cost_metric": "Base road length (metres)",
+      "reporting": "Calculates and reports waterlogging exposure along the shortest route for comparison."
+    },
+    "lowest_exposure": {
+      "name": "Lowest Waterlogging Exposure",
+      "objective": "Prefers routes with lowest estimated water depth and exposure, penalizes waterlogging, avoids segments exceeding mode thresholds when alternatives exist",
+      "cost_metric": "Length + non-linear flood depth penalty + mode threshold penalty (+20,000m if impassable) + affected length penalty + uncertainty penalty",
+      "reporting": "Recommends detour when shortest route encounters hazardous or impassable water."
+    },
+    "drainage_informed": {
+      "name": "Drainage-Informed Route",
+      "objective": "Integrates M1 terrain susceptibility (EWSI), M5 flood depth, and M6 subsurface storm conduit capacity screening",
+      "cost_metric": "Multi-criteria physical and hydraulic cost",
+      "reporting": "Screened against subsurface drainage loading while clearly distinguishing conduit capacity from surface ponding."
+    }
+  },
+  "experimental_thresholds": {
+    "pedestrian": {
+      "caution_depth_m": 0.10,
+      "impassable_depth_m": 0.25,
+      "description": "Experimental screening thresholds for pedestrian footing stability (~10cm ankle depth caution, ~25cm shin depth impassable). Uncalibrated prototype assumption."
+    },
+    "vehicle": {
+      "caution_depth_m": 0.15,
+      "impassable_depth_m": 0.30,
+      "description": "Experimental screening thresholds for passenger sedans (~15cm exhaust splash caution, ~30cm air intake stall / float impassable). Uncalibrated prototype assumption."
+    }
+  },
   "scientific_guardrails": [
     "Prototype Disclaimer: This route planner is an experimental research and demonstration prototype, NOT a certified navigation system or emergency evacuation service.",
     "Relative Prototype Metric: The calculated hazard score is a relative multi-criteria screening metric, not a calibrated probability of flooding, property damage, or injury.",

@@ -915,6 +915,7 @@
                   </button>
                 </div>
                 <select class="custom-select route-select" id="selectStartLandmark">
+                  <option value="-95.373924,29.763797">Franklin & Houston Ave (Memorial NW)</option>
                   <option value="-95.3740,29.7610">Walker & Sabine (West Ridge)</option>
                   <option value="-95.3705,29.7580" selected>Bagby & McKinney (SW City Hall)</option>
                   <option value="-95.3730,29.7570">Allen Pkwy & Clay (Southwest)</option>
@@ -939,6 +940,7 @@
                   </button>
                 </div>
                 <select class="custom-select route-select" id="selectDestLandmark">
+                  <option value="-95.366081,29.758745">Travis & Lamar (East Core)</option>
                   <option value="-95.3680,29.7645" selected>Milam & Franklin (Bayou NE Channel)</option>
                   <option value="-95.3660,29.7610">Main & Capitol (East Core)</option>
                   <option value="-95.3670,29.7570">Travis & Bell (South Core)</option>
@@ -960,19 +962,24 @@
                 </button>
               </div>
 
+              <!-- Dynamic Flood-Aware Route Recommendation Banner -->
+              <div class="route-recommendation-box" id="routeRecommendationBox" style="display: none; margin-bottom: 8px;">
+                <!-- Populated dynamically via app.js -->
+              </div>
+
               <!-- Active Alternative Profiles Tabs -->
               <div class="route-profile-tabs" id="routeProfileTabs" style="display: none; margin-bottom: 8px;">
-                <button class="profile-tab-btn active" id="tabProfileDrainage" data-profile="drainage_informed">
+                <button class="profile-tab-btn active" id="tabProfileLowestExp" data-profile="lowest_exposure" title="Path avoiding modeled flood depths and impassable roads">
                   <span class="profile-dot" style="background:#10b981;"></span>
-                  <span data-i18n="m7_routing.profile_drainage">Drainage-Informed</span>
+                  <span>Lowest Exposure</span>
                 </button>
-                <button class="profile-tab-btn" id="tabProfileBaseline" data-profile="baseline">
+                <button class="profile-tab-btn" id="tabProfileBaseline" data-profile="shortest" title="Shortest geometric distance path">
                   <span class="profile-dot" style="background:#0284c7;"></span>
-                  <span data-i18n="m7_routing.profile_shortest">Shortest</span>
+                  <span>Shortest</span>
                 </button>
-                <button class="profile-tab-btn" id="tabProfileSusc" data-profile="low_susceptibility">
-                  <span class="profile-dot" style="background:#d97706;"></span>
-                  <span data-i18n="m7_routing.profile_susc">Low-EWSI</span>
+                <button class="profile-tab-btn" id="tabProfileDrainage" data-profile="drainage_informed" title="Path screened against M6 stormwater conduit loading">
+                  <span class="profile-dot" style="background:#06b6d4;"></span>
+                  <span>Drainage-Informed</span>
                 </button>
               </div>
 

@@ -3873,56 +3873,224 @@ function snapToNearestGraphNode(lon, lat, maxDistM = 250) {
 /**
  * Calculate Edge Cost for Given Scenario & Timestep
  */
-function calculateEdgeCost(edge, presetMm, timestepIdx, mode) {
+// Documented Experimental Screening Thresholds (Prototypes, NOT empirical certifications)
+const EXPERIMENTAL_THRESHOLDS = {
+  pedestrian: {
+    caution_depth_m: 0.10,      // 10 cm (~ankle depth; difficult/unpleasant to wade)
+    impassable_depth_m: 0.25,   // 25 cm (~shin/knee depth; hazardous footing/sweeping risk)
+    speed_mps: 1.34,            // AASHTO / MUTCD default (4.8 km/h, 3.0 mph)
+    label: 'Pedestrian Mode'
+  },
+  vehicle: {
+    caution_depth_m: 0.15,      // 15 cm (~6 inches; curb level / exhaust splash)
+    impassable_depth_m: 0.30,   // 30 cm (~12 inches; passenger sedan air intake stall / float limit)
+    speed_mph: 30.0,
+    label: 'Vehicle Mode'
+  }
+};
+
+/**
+ * Fast M5 Timestep Depth Map Lookup Cache
+ */
+function getTimestepDepthMap(presetMm, timestepIdx) {
+  if (!state.simScenarios) return null;
+  const pKey = 'preset_' + presetMm + 'mm';
+  const ts = state.simScenarios.presets?.[pKey]?.timesteps?.[timestepIdx];
+  if (!ts || !ts.sparse_depths) return null;
+
+  if (!ts._depthMap) {
+    ts._depthMap = new Map();
+    for (let i = 0; i < ts.sparse_depths.length; i++) {
+      const pair = ts.sparse_depths[i];
+      ts._depthMap.set(pair[0], pair[1]);
+    }
+  }
+  return ts._depthMap;
+}
+
+/**
+ * Assess Road Segment Waterlogging Exposure against M5 Simulation Output
+ */
+function assessEdgeWaterlogging(edge, presetMm, timestepIdx, mode = 'pedestrian') {
+  const modeKey = mode === 'vehicle' ? 'vehicle' : 'pedestrian';
+  const thresh = EXPERIMENTAL_THRESHOLDS[modeKey];
+  const cautionTh = thresh.caution_depth_m;
+  const impassableTh = thresh.impassable_depth_m;
+
+  const diag = {
+    status: 'VALID_PILOT',
+    dataAvailable: true,
+    outsideCount: 0,
+    sampledCount: 0,
+    maxDepthM: 0.0,
+    meanDepthM: 0.0,
+    affectedLengthM: 0.0,
+    affectedPct: 0.0,
+    riskTier: 'Dry',
+    isCaution: false,
+    isImpassable: false,
+    uncertaintyPenalty: 0.0
+  };
+
+  const depthMap = getTimestepDepthMap(presetMm, timestepIdx);
+  if (!depthMap) {
+    diag.status = 'UNAVAILABLE';
+    diag.dataAvailable = false;
+    diag.uncertaintyPenalty = 80.0;
+    return diag;
+  }
+
+  const b = { west: -95.3750, south: 29.7560, east: -95.3650, north: 29.7650 };
+  const samplePts = densifyPolyline(edge.coords, 10.0);
+  const nSamples = samplePts.length;
+  diag.sampledCount = nSamples;
+
+  if (nSamples === 0) return diag;
+
+  const depths = [];
+  let outsideCount = 0;
+
+  for (let i = 0; i < nSamples; i++) {
+    const lon = samplePts[i][0];
+    const lat = samplePts[i][1];
+    if (lon >= b.west && lon <= b.east && lat >= b.south && lat <= b.north) {
+      const col = Math.min(Math.max(Math.floor((lon - b.west) / (b.east - b.west) * 100), 0), 99);
+      const row = Math.min(Math.max(Math.floor((b.north - lat) / (b.north - b.south) * 100), 0), 99);
+      const flatIdx = row * 100 + col;
+      const d = depthMap.get(flatIdx) || 0.0;
+      depths.push(d);
+    } else {
+      outsideCount++;
+      depths.push(0.0);
+    }
+  }
+
+  diag.outsideCount = outsideCount;
+  if (outsideCount > 0) {
+    diag.status = 'BOUNDARY_CROSSING';
+    diag.dataAvailable = false;
+    diag.uncertaintyPenalty = 80.0;
+  }
+
+  let maxD = 0.0;
+  let sumD = 0.0;
+  let floodedCount = 0;
+  for (let i = 0; i < depths.length; i++) {
+    const d = depths[i];
+    if (d > maxD) maxD = d;
+    sumD += d;
+    if (d > 0.02) floodedCount++;
+  }
+
+  const meanD = depths.length > 0 ? sumD / depths.length : 0.0;
+  diag.maxDepthM = Math.round(maxD * 1000) / 1000;
+  diag.meanDepthM = Math.round(meanD * 1000) / 1000;
+
+  const floodedRatio = nSamples > 0 ? floodedCount / nSamples : 0.0;
+  diag.affectedLengthM = Math.round(edge.length_m * floodedRatio * 10) / 10;
+  diag.affectedPct = Math.round(floodedRatio * 1000) / 10;
+
+  if (maxD < 0.01) diag.riskTier = 'Dry';
+  else if (maxD < 0.05) diag.riskTier = 'Low';
+  else if (maxD < 0.15) diag.riskTier = 'Moderate';
+  else if (maxD < 0.30) diag.riskTier = 'Elevated';
+  else diag.riskTier = 'High';
+
+  diag.isCaution = (maxD >= cautionTh);
+  diag.isImpassable = (maxD >= impassableTh);
+
+  return diag;
+}
+
+/**
+ * Calculate Edge Cost for Given Scenario, Timestep, and Profile
+ */
+function calculateEdgeCost(edge, presetMm, timestepIdx, mode = 'pedestrian', profile = 'drainage_informed') {
   const cBase = edge.length_m;
+
+  // 1. Shortest / Baseline
+  if (profile === 'baseline' || profile === 'shortest') {
+    return {
+      totalCost: cBase,
+      cBase: cBase,
+      mSusc: 1.0,
+      pDepth: 0.0,
+      pDrain: 0.0,
+      pUncert: 0.0,
+      maxDepthM: 0.0,
+      exceededCount: 0,
+      highCount: 0,
+      ewsi: edge.susc_mean !== undefined ? edge.susc_mean : 0.25
+    };
+  }
+
+  // 2. Low-Susceptibility
+  if (profile === 'low_susceptibility') {
+    const ewsi = edge.susc_mean !== undefined ? edge.susc_mean : 0.25;
+    return {
+      totalCost: cBase * (1.0 + ewsi),
+      cBase: cBase,
+      mSusc: 1.0 + ewsi,
+      pDepth: 0.0,
+      pDrain: 0.0,
+      pUncert: 0.0,
+      maxDepthM: 0.0,
+      exceededCount: 0,
+      highCount: 0,
+      ewsi: ewsi
+    };
+  }
+
+  // Water Assessment
+  const assessment = assessEdgeWaterlogging(edge, presetMm, timestepIdx, mode);
+  const maxDepthM = assessment.maxDepthM;
+
+  // 3. Lowest Exposure Profile
+  if (profile === 'lowest_exposure' || profile === 'low_exposure') {
+    let pDepth = 0.0;
+    if (maxDepthM > 0.0) {
+      if (maxDepthM <= 0.01) pDepth = 0.0;
+      else if (maxDepthM <= 0.05) pDepth = (maxDepthM / 0.05) * 50.0;
+      else if (maxDepthM <= 0.15) pDepth = 150.0 + ((maxDepthM - 0.05) / 0.10) * 800.0;
+      else if (maxDepthM <= 0.25) pDepth = 1000.0 + ((maxDepthM - 0.15) / 0.10) * 3000.0;
+      else pDepth = 4000.0 + (maxDepthM - 0.25) * 10000.0;
+    }
+
+    let pThreshold = 0.0;
+    if (assessment.isImpassable) pThreshold += 20000.0;
+    else if (assessment.isCaution) pThreshold += 500.0;
+
+    const pLength = assessment.affectedLengthM * 2.0;
+    const pUncert = assessment.uncertaintyPenalty;
+
+    const totalCost = cBase + pDepth + pThreshold + pLength + pUncert;
+    return {
+      totalCost: Math.round(totalCost * 10) / 10,
+      cBase: cBase,
+      mSusc: 1.0,
+      pDepth: Math.round((pDepth + pThreshold + pLength) * 10) / 10,
+      pDrain: 0.0,
+      pUncert: pUncert,
+      maxDepthM: maxDepthM,
+      exceededCount: 0,
+      highCount: 0,
+      ewsi: edge.susc_mean !== undefined ? edge.susc_mean : 0.25,
+      assessment: assessment
+    };
+  }
+
+  // 4. Drainage-Informed Profile
   const ewsi = edge.susc_mean !== undefined ? edge.susc_mean : 0.25;
   const mSusc = 1.0 + (1.0 * ewsi);
 
-  // Modelled Depth from M5 sparse depths sampled at ~10m intervals
-  let maxDepthM = 0.0;
-  let outsideCount = 0;
-  let dataUnavailable = false;
-
-  if (state.simScenarios) {
-    const pKey = 'preset_' + presetMm + 'mm';
-    const ts = state.simScenarios.presets?.[pKey]?.timesteps?.[timestepIdx];
-    if (ts && ts.sparse_depths) {
-      const b = { west: -95.3750, south: 29.7560, east: -95.3650, north: 29.7650 };
-      const samplePts = densifyPolyline(edge.coords, 10.0);
-      samplePts.forEach(pt => {
-        const lon = pt[0], lat = pt[1];
-        if (lon >= b.west && lon <= b.east && lat >= b.south && lat <= b.north) {
-          const col = Math.min(Math.max(Math.floor((lon - b.west) / (b.east - b.west) * 100), 0), 99);
-          const row = Math.min(Math.max(Math.floor((b.north - lat) / (b.north - b.south) * 100), 0), 99);
-          const flatIdx = row * 100 + col;
-          const found = ts.sparse_depths.find(p => p[0] === flatIdx);
-          if (found && found[1] > maxDepthM) maxDepthM = found[1];
-        } else {
-          outsideCount++;
-        }
-      });
-    } else {
-      dataUnavailable = true;
-    }
-  } else {
-    dataUnavailable = true;
-  }
-
-  // Depth Penalty (P_depth)
   let pDepth = 0.0;
   if (maxDepthM > 0.0) {
-    if (maxDepthM <= 0.05) {
-      pDepth = (maxDepthM / 0.05) * 50.0;
-    } else if (maxDepthM <= 0.20) {
-      pDepth = 150.0 + ((maxDepthM - 0.05) / 0.15) * 350.0;
-    } else if (maxDepthM <= 0.50) {
-      pDepth = 500.0 + ((maxDepthM - 0.20) / 0.30) * 1500.0;
-    } else {
-      pDepth = 2000.0 + (maxDepthM - 0.50) * 5000.0;
-    }
+    if (maxDepthM <= 0.05) pDepth = (maxDepthM / 0.05) * 50.0;
+    else if (maxDepthM <= 0.20) pDepth = 150.0 + ((maxDepthM - 0.05) / 0.15) * 350.0;
+    else if (maxDepthM <= 0.50) pDepth = 500.0 + ((maxDepthM - 0.20) / 0.30) * 1500.0;
+    else pDepth = 2000.0 + (maxDepthM - 0.50) * 5000.0;
   }
 
-  // Drainage Screening Penalty (P_drain)
   let pDrain = 0.0;
   let exceededCount = 0;
   let highCount = 0;
@@ -3947,20 +4115,8 @@ function calculateEdgeCost(edge, presetMm, timestepIdx, mode) {
     pDrain = (exceededCount * 100.0) + (highCount * 30.0);
   }
 
-  // Data Uncertainty Penalty (P_uncert)
-  // Never convert missing or unmeasured data into zero flood risk
-  let pUncert = 0.0;
-  const midPt = edge.coords[Math.floor(edge.coords.length / 2)];
-  const isOutside = midPt[0] < -95.3750 || midPt[0] > -95.3650 || midPt[1] < 29.7560 || midPt[1] > 29.7650 || outsideCount > 0;
-  if (isOutside) {
-    pUncert += 80.0;
-  }
-  if (dataUnavailable) {
-    pUncert += 80.0;
-  }
-  if (insufficientCount > 0) {
-    pUncert += 25.0;
-  }
+  let pUncert = assessment.uncertaintyPenalty;
+  if (insufficientCount > 0) pUncert += 25.0;
 
   const totalCost = (cBase * mSusc) + pDepth + pDrain + pUncert;
 
@@ -3971,17 +4127,18 @@ function calculateEdgeCost(edge, presetMm, timestepIdx, mode) {
     pDepth: Math.round(pDepth * 10) / 10,
     pDrain: Math.round(pDrain * 10) / 10,
     pUncert: Math.round(pUncert * 10) / 10,
-    maxDepthM: Math.round(maxDepthM * 1000) / 1000,
+    maxDepthM: maxDepthM,
     exceededCount: exceededCount,
     highCount: highCount,
-    ewsi: ewsi
+    ewsi: ewsi,
+    assessment: assessment
   };
 }
 
 /**
  * Dijkstra Pathfinding Algorithm in Client
  */
-function runDijkstra(startNodeId, destNodeId, profile, mode) {
+function runDijkstra(startNodeId, destNodeId, profile, mode = 'pedestrian') {
   if (!state.routingGraph) return null;
 
   const nodes = state.routingGraph.nodes;
@@ -4003,7 +4160,6 @@ function runDijkstra(startNodeId, destNodeId, profile, mode) {
   for (let i = 0; i < nodes.length; i++) dist[i] = Infinity;
   dist[startNodeId] = 0;
 
-  // Priority Queue Set
   const q = new Set();
   for (let i = 0; i < nodes.length; i++) q.add(i);
 
@@ -4034,13 +4190,8 @@ function runDijkstra(startNodeId, destNodeId, profile, mode) {
         if (edgeObj.dir === 'backward' && edge.one_way === 'FT') return;
       }
 
-      let eWeight = edge.length_m;
-      if (profile === 'low_susceptibility') {
-        eWeight = edge.length_m * (1.0 + (edge.susc_mean || 0.25));
-      } else if (profile === 'drainage_informed') {
-        const costData = calculateEdgeCost(edge, preset, stepIdx, mode);
-        eWeight = costData.totalCost;
-      }
+      const costData = calculateEdgeCost(edge, preset, stepIdx, mode, profile);
+      const eWeight = costData.totalCost;
 
       const alt = dist[u] + eWeight;
       if (alt < dist[v]) {
@@ -4052,7 +4203,10 @@ function runDijkstra(startNodeId, destNodeId, profile, mode) {
   }
 
   if (dist[destNodeId] === Infinity) {
-    return { status: 'NO_ROUTE_FOUND' };
+    return {
+      status: 'NO_ROUTE_FOUND',
+      message: `No connected street path exists between intersection #${startNodeId} and #${destNodeId}.`
+    };
   }
 
   const pathEdges = [];
@@ -4068,16 +4222,46 @@ function runDijkstra(startNodeId, destNodeId, profile, mode) {
   let submergedLengthM = 0;
   let suscWeightedSum = 0;
   let exceededDrains = 0;
+  let impassableCount = 0;
+  let cautionCount = 0;
   const streetNames = new Set();
   const routeCoords = [];
+  const floodExposedSegments = [];
 
   pathEdges.forEach(eIdx => {
     const e = edges[eIdx];
     totalDistM += e.length_m;
-    const costData = calculateEdgeCost(e, preset, stepIdx, mode);
+    const costData = calculateEdgeCost(e, preset, stepIdx, mode, profile);
+    const assessment = costData.assessment || assessEdgeWaterlogging(e, preset, stepIdx, mode);
+
     totalCost += costData.totalCost;
-    if (costData.maxDepthM > maxDepthM) maxDepthM = costData.maxDepthM;
-    if (costData.maxDepthM > 0.05) submergedLengthM += e.length_m;
+    if (assessment.maxDepthM > maxDepthM) maxDepthM = assessment.maxDepthM;
+
+    if (assessment.affectedLengthM > 0) {
+      submergedLengthM += assessment.affectedLengthM;
+    } else if (assessment.maxDepthM > 0.02) {
+      submergedLengthM += e.length_m;
+    }
+
+    if (assessment.isImpassable) impassableCount++;
+    else if (assessment.isCaution) cautionCount++;
+
+    if (assessment.maxDepthM > 0.02) {
+      floodExposedSegments.push({
+        edgeId: eIdx,
+        name: e.name,
+        lengthM: e.length_m,
+        maxDepthM: assessment.maxDepthM,
+        meanDepthM: assessment.meanDepthM,
+        affectedLengthM: assessment.affectedLengthM,
+        affectedPct: assessment.affectedPct,
+        riskTier: assessment.riskTier,
+        isCaution: assessment.isCaution,
+        isImpassable: assessment.isImpassable,
+        coords: e.coords
+      });
+    }
+
     suscWeightedSum += (e.susc_mean || 0.25) * e.length_m;
     exceededDrains += costData.exceededCount;
     if (e.name) streetNames.add(e.name);
@@ -4114,9 +4298,16 @@ function runDijkstra(startNodeId, destNodeId, profile, mode) {
   else if (meanEwsi >= 0.60) tier = 'Elevated';
   else if (meanEwsi >= 0.35) tier = 'Moderate';
 
+  let exposureCat = 'Minimal (Dry)';
+  if (maxDepthM >= 0.30) exposureCat = 'High / Severe';
+  else if (maxDepthM >= 0.15) exposureCat = 'Elevated';
+  else if (maxDepthM >= 0.05) exposureCat = 'Moderate';
+  else if (maxDepthM >= 0.01) exposureCat = 'Low';
+
   return {
     status: 'SUCCESS',
     profile: profile,
+    mode: mode,
     distanceM: Math.round(totalDistM),
     distanceFt: Math.round(totalDistM * 3.28084),
     walkTimeMin: Math.round((totalDistM / (1.34 * 60)) * 10) / 10,
@@ -4125,12 +4316,120 @@ function runDijkstra(startNodeId, destNodeId, profile, mode) {
     maxDepthM: maxDepthM,
     submergedLengthM: Math.round(submergedLengthM),
     submergedPct: totalDistM > 0 ? Math.round((submergedLengthM / totalDistM) * 100) : 0,
+    exposureCategory: exposureCat,
+    floodExposedSegments: floodExposedSegments,
+    floodExposedCount: floodExposedSegments.length,
+    impassableSegmentsCount: impassableCount,
+    cautionSegmentsCount: cautionCount,
     meanEwsi: meanEwsi,
     suscTier: tier,
     exceededDrains: exceededDrains,
     streetNames: Array.from(streetNames),
     coordinates: routeCoords,
     edgeCount: pathEdges.length
+  };
+}
+
+/**
+ * Determine Recommended Route & Generate Decision Support Justification
+ */
+function determineRecommendation(alts, mode = 'pedestrian') {
+  const modeKey = mode === 'vehicle' ? 'vehicle' : 'pedestrian';
+  const thresh = EXPERIMENTAL_THRESHOLDS[modeKey];
+  const cautionD = thresh.caution_depth_m;
+  const impassableD = thresh.impassable_depth_m;
+
+  const shortest = alts.shortest || alts.baseline;
+  const lowestExp = alts.lowest_exposure;
+
+  if (!shortest || shortest.status !== 'SUCCESS') {
+    if (lowestExp && lowestExp.status === 'SUCCESS') {
+      return {
+        recommendedKey: 'lowest_exposure',
+        reason: 'Lowest Waterlogging Exposure route is the only viable path found.',
+        alerts: ['Shortest path unavailable or blocked by network restrictions.']
+      };
+    }
+    return {
+      recommendedKey: null,
+      reason: 'No continuous street route found between origin and destination.',
+      alerts: ['No route available.']
+    };
+  }
+
+  const sDepth = shortest.maxDepthM || 0.0;
+  const sSubM = shortest.submergedLengthM || 0.0;
+  const sDist = shortest.distanceM || 0;
+
+  const lDepth = (lowestExp && lowestExp.status === 'SUCCESS') ? lowestExp.maxDepthM : sDepth;
+  const lSubM = (lowestExp && lowestExp.status === 'SUCCESS') ? lowestExp.submergedLengthM : sSubM;
+  const lDist = (lowestExp && lowestExp.status === 'SUCCESS') ? lowestExp.distanceM : sDist;
+
+  const alerts = [];
+  if (sDepth >= impassableD) {
+    alerts.push(`Shortest route encounters potentially impassable water (${sDepth.toFixed(2)}m >= ${impassableD.toFixed(2)}m ${modeKey} threshold).`);
+  } else if (sDepth >= cautionD) {
+    alerts.push(`Shortest route encounters cautionary waterlogging (${sDepth.toFixed(2)}m >= ${cautionD.toFixed(2)}m ${modeKey} threshold).`);
+  }
+
+  // Dry conditions
+  if (sDepth <= 0.01 && sSubM <= 1.0) {
+    return {
+      recommendedKey: 'shortest',
+      reason: 'Shortest Route is recommended: dry conditions (0.00m water depth) modelled across all candidate paths.',
+      alerts: alerts
+    };
+  }
+
+  // Flood avoidance
+  if (lowestExp && lowestExp.status === 'SUCCESS') {
+    const extraDist = lDist - sDist;
+
+    if (sDepth >= cautionD && lDepth < sDepth) {
+      if (lDepth < impassableD && sDepth >= impassableD) {
+        return {
+          recommendedKey: 'lowest_exposure',
+          reason: `Lowest Waterlogging Exposure route is recommended: diverts around impassable inundation (${sDepth.toFixed(2)}m on shortest path), reducing maximum depth to ${lDepth.toFixed(2)}m (${extraDist >= 0 ? '+' : ''}${Math.round(extraDist)}m detour).`,
+          alerts: alerts
+        };
+      }
+      return {
+        recommendedKey: 'lowest_exposure',
+        reason: `Lowest Waterlogging Exposure route is recommended: reduces maximum water depth from ${sDepth.toFixed(2)}m to ${lDepth.toFixed(2)}m (${extraDist >= 0 ? '+' : ''}${Math.round(extraDist)}m detour, ${lSubM}m submerged vs ${sSubM}m).`,
+        alerts: alerts
+      };
+    }
+
+    if (sSubM > 50 && lSubM < sSubM * 0.5) {
+      return {
+        recommendedKey: 'lowest_exposure',
+        reason: `Lowest Waterlogging Exposure route is recommended: cuts submerged road length from ${sSubM}m to ${lSubM}m (${extraDist >= 0 ? '+' : ''}${Math.round(extraDist)}m detour).`,
+        alerts: alerts
+      };
+    }
+  }
+
+  if (sDepth < cautionD) {
+    return {
+      recommendedKey: 'shortest',
+      reason: `Shortest Route is recommended: modelled water depth (${sDepth.toFixed(2)}m) remains below ${modeKey} caution threshold (${cautionD.toFixed(2)}m).`,
+      alerts: alerts
+    };
+  }
+
+  if (lDepth >= impassableD) {
+    alerts.push(`WARNING: All alternative routes encounter water exceeding the ${modeKey} impassable threshold (${impassableD.toFixed(2)}m).`);
+    return {
+      recommendedKey: 'lowest_exposure',
+      reason: `Lowest Exposure route has lowest relative water exposure (${lDepth.toFixed(2)}m vs ${sDepth.toFixed(2)}m), but exceeds ${modeKey} threshold (${impassableD.toFixed(2)}m). Exercise extreme caution.`,
+      alerts: alerts
+    };
+  }
+
+  return {
+    recommendedKey: lDepth < sDepth ? 'lowest_exposure' : 'shortest',
+    reason: `Lowest Waterlogging Exposure route provides lower modelled water exposure (${lDepth.toFixed(2)}m vs ${sDepth.toFixed(2)}m).`,
+    alerts: alerts
   };
 }
 
@@ -4148,24 +4447,38 @@ function computeRouteAlternatives() {
     return;
   }
 
-  const baseline = runDijkstra(startSnap.nodeId, destSnap.nodeId, 'baseline', state.routeMode);
-  const drainage = runDijkstra(startSnap.nodeId, destSnap.nodeId, 'drainage_informed', state.routeMode);
-  const lowSusc = runDijkstra(startSnap.nodeId, destSnap.nodeId, 'low_susceptibility', state.routeMode);
+  const mode = state.routeMode || 'pedestrian';
+  const shortest = runDijkstra(startSnap.nodeId, destSnap.nodeId, 'shortest', mode);
+  const lowestExp = runDijkstra(startSnap.nodeId, destSnap.nodeId, 'lowest_exposure', mode);
+  const drainage = runDijkstra(startSnap.nodeId, destSnap.nodeId, 'drainage_informed', mode);
 
-  state.routeAlternatives = {
-    baseline: baseline,
+  const alts = {
+    shortest: shortest,
+    baseline: shortest, // backward compatibility alias
+    lowest_exposure: lowestExp,
     drainage_informed: drainage,
-    low_susceptibility: lowSusc,
+    low_susceptibility: lowestExp, // backward compatibility alias
     startSnap: startSnap,
     destSnap: destSnap
   };
+
+  const rec = determineRecommendation(alts, mode);
+  alts.recommendation = rec;
+  state.routeAlternatives = alts;
+
+  // Set default active route to recommended profile unless user already picked
+  if (!state.userSelectedRouteProfile && rec.recommendedKey) {
+    state.activeRouteProfile = rec.recommendedKey;
+  } else if (!state.activeRouteProfile) {
+    state.activeRouteProfile = rec.recommendedKey || 'lowest_exposure';
+  }
 
   renderActiveRouteOnMap();
   updateRouteUI();
 }
 
 /**
- * Render Route Polylines and Markers on Leaflet Map
+ * Render Route Polylines, Flood-Exposed Segments, and Markers on Leaflet Map
  */
 function renderActiveRouteOnMap() {
   if (!state.routeLayerGroup || !state.routeAlternatives) return;
@@ -4173,59 +4486,94 @@ function renderActiveRouteOnMap() {
   state.routeLayerGroup.clearLayers();
 
   const alts = state.routeAlternatives;
-  const activeProfile = state.activeRouteProfile || 'drainage_informed';
+  const activeProfile = state.activeRouteProfile || 'lowest_exposure';
+  const activeRoute = alts[activeProfile];
 
-  // 1. Draw All Alternatives with subtle background styling
-  if (alts.baseline?.coordinates && activeProfile !== 'baseline') {
-    L.polyline(alts.baseline.coordinates.map(p => [p[1], p[0]]), {
-      color: '#38bdf8',
-      weight: 3,
-      opacity: 0.5,
-      dashArray: '4, 6'
-    }).bindTooltip('Baseline Shortest Route', { sticky: true }).addTo(state.routeLayerGroup);
-  }
+  // 1. Draw Inactive Alternative Routes with Dashed Styling
+  const altProfiles = [
+    { key: 'lowest_exposure', label: 'Lowest Exposure Alternative', color: '#10b981' },
+    { key: 'shortest', label: 'Shortest Distance Alternative', color: '#0284c7' },
+    { key: 'drainage_informed', label: 'Drainage-Informed Alternative', color: '#06b6d4' }
+  ];
 
-  if (alts.low_susceptibility?.coordinates && activeProfile !== 'low_susceptibility') {
-    L.polyline(alts.low_susceptibility.coordinates.map(p => [p[1], p[0]]), {
-      color: '#f59e0b',
-      weight: 3,
-      opacity: 0.5,
-      dashArray: '6, 6'
-    }).bindTooltip('Low-Susceptibility Route', { sticky: true }).addTo(state.routeLayerGroup);
-  }
+  altProfiles.forEach(alt => {
+    if (alt.key !== activeProfile && alts[alt.key]?.coordinates) {
+      const poly = L.polyline(alts[alt.key].coordinates.map(p => [p[1], p[0]]), {
+        color: alt.color,
+        weight: 3.5,
+        opacity: 0.6,
+        dashArray: '5, 6'
+      }).addTo(state.routeLayerGroup);
+
+      poly.bindTooltip(`
+        <div style="font-weight:700; color:${alt.color};">${alt.label}</div>
+        <div>Dist: ${alts[alt.key].distanceM}m · Max Depth: ${alts[alt.key].maxDepthM.toFixed(2)}m</div>
+        <div style="font-size:0.68rem; color:#94a3b8;">Click to switch to this route</div>
+      `, { sticky: true, className: 'custom-tooltip' });
+
+      poly.on('click', () => switchRouteProfile(alt.key));
+    }
+  });
 
   // 2. Draw Active Profile Route Prominently
-  const activeRoute = alts[activeProfile];
   if (activeRoute?.coordinates) {
     let mainColor = '#10b981';
-    if (activeProfile === 'baseline') mainColor = '#38bdf8';
-    if (activeProfile === 'low_susceptibility') mainColor = '#f59e0b';
+    if (activeProfile === 'shortest') mainColor = '#0284c7';
+    if (activeProfile === 'drainage_informed') mainColor = '#06b6d4';
 
     const activePoly = L.polyline(activeRoute.coordinates.map(p => [p[1], p[0]]), {
       color: mainColor,
-      weight: 6,
+      weight: 6.5,
       opacity: 0.95
     }).addTo(state.routeLayerGroup);
 
     activePoly.bindTooltip(`
-      <div style="font-weight:700; color:${mainColor};">${activeProfile.toUpperCase().replace('_', ' ')} ROUTE</div>
+      <div style="font-weight:700; color:${mainColor}; font-size:0.8rem;">${activeProfile.toUpperCase().replace('_', ' ')} ROUTE</div>
       <div>Distance: ${activeRoute.distanceM} m · Score: ${activeRoute.hazardScore}</div>
-      <div>Max Depth: ${activeRoute.maxDepthM.toFixed(2)} m · Submerged: ${activeRoute.submergedLengthM} m</div>
+      <div>Max Depth: ${activeRoute.maxDepthM.toFixed(2)} m · Submerged: ${activeRoute.submergedLengthM} m (${activeRoute.submergedPct}%)</div>
+      <div>Exposure Category: <strong>${activeRoute.exposureCategory}</strong></div>
     `, { sticky: true, className: 'custom-tooltip' });
+
+    // 3. Highlight Flood-Exposed Road Segments along the active route
+    if (activeRoute.floodExposedSegments && activeRoute.floodExposedSegments.length > 0) {
+      activeRoute.floodExposedSegments.forEach(seg => {
+        const isImp = seg.isImpassable;
+        const segColor = isImp ? '#ef4444' : '#f59e0b';
+        const segWeight = isImp ? 9 : 8;
+
+        const floodPoly = L.polyline(seg.coords.map(p => [p[1], p[0]]), {
+          color: segColor,
+          weight: segWeight,
+          opacity: 0.9,
+          lineCap: 'round',
+          dashArray: isImp ? '8, 4' : null
+        }).addTo(state.routeLayerGroup);
+
+        floodPoly.bindTooltip(`
+          <div style="font-weight:700; color:${segColor}; font-size:0.78rem;">
+            ${isImp ? '⛔ IMPASSABLE WATERLOGGING' : '⚠️ FLOOD-EXPOSED SEGMENT'}
+          </div>
+          <div style="font-weight:600;">${seg.name || 'Street Segment'}</div>
+          <div>Est. Max Depth: <strong>${seg.maxDepthM.toFixed(2)} m</strong> (${seg.riskTier})</div>
+          <div>Affected Road: <strong>${seg.affectedLengthM} m</strong> (${seg.affectedPct}%)</div>
+          <div style="font-size:0.68rem; color:#fca5a5;">Mode: ${state.routeMode || 'pedestrian'} threshold screening</div>
+        `, { sticky: true, className: 'custom-tooltip' });
+      });
+    }
   }
 
-  // 3. Add Custom Pulsed Markers for Start (A) and Dest (B)
+  // 4. Custom Pulsed Markers for Start (Point A) and Destination (Point B)
   const iconA = L.divIcon({
     className: 'custom-route-pin pin-start',
     html: 'A',
-    iconSize: [24, 24],
-    iconAnchor: [12, 12]
+    iconSize: [26, 26],
+    iconAnchor: [13, 13]
   });
   const iconB = L.divIcon({
     className: 'custom-route-pin pin-dest',
     html: 'B',
-    iconSize: [24, 24],
-    iconAnchor: [12, 12]
+    iconSize: [26, 26],
+    iconAnchor: [13, 13]
   });
 
   L.marker([state.routeStartCoords[1], state.routeStartCoords[0]], { icon: iconA })
@@ -4238,24 +4586,51 @@ function renderActiveRouteOnMap() {
 }
 
 /**
- * Update Route Planner Sidebar UI Elements
+ * Update Route Planner UI Elements (Recommendation Box, KPIs, Comparison Table)
  */
 function updateRouteUI() {
   if (!state.routeAlternatives) return;
 
   const alts = state.routeAlternatives;
-  const activeProfile = state.activeRouteProfile || 'drainage_informed';
+  const activeProfile = state.activeRouteProfile || 'lowest_exposure';
   const r = alts[activeProfile];
+  const rec = alts.recommendation;
 
+  const recBox = document.getElementById('routeRecommendationBox');
   const profileTabs = document.getElementById('routeProfileTabs');
   const kpiCard = document.getElementById('routeKpiCard');
   const compareMini = document.getElementById('routeCompareMini');
   const statusRoute = document.getElementById('statusValActiveRoute');
 
-  if (profileTabs) profileTabs.style.display = 'flex';
+  if (profileTabs) profileTabs.style.display = 'grid';
   if (kpiCard) kpiCard.style.display = 'block';
   if (compareMini) compareMini.style.display = 'block';
 
+  // Update Dynamic Recommendation Box
+  if (recBox && rec) {
+    recBox.style.display = 'block';
+    const isRecommended = (rec.recommendedKey === activeProfile);
+    const badgeColorClass = rec.recommendedKey === 'lowest_exposure' ? 'rec-badge-emerald' : 'rec-badge-blue';
+    const titleText = rec.recommendedKey === 'lowest_exposure' ? '🏆 Recommended: Lowest Exposure' : (rec.recommendedKey === 'shortest' ? '⚡ Recommended: Shortest Path' : '✦ Recommended: Drainage-Informed');
+
+    recBox.className = 'route-recommendation-box' + (rec.alerts && rec.alerts.length > 0 ? (r?.impassableSegmentsCount > 0 ? ' has-danger' : ' has-warning') : '');
+
+    let alertsHtml = '';
+    if (rec.alerts && rec.alerts.length > 0) {
+      alertsHtml = rec.alerts.map(a => `<div class="rec-alert-item"><span>⚠️</span> <span>${a}</span></div>`).join('');
+    }
+
+    recBox.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span class="rec-badge ${badgeColorClass}">${titleText}</span>
+        ${isRecommended ? '<span style="font-size:0.67rem; color:#059669; font-weight:700;">● ACTIVE</span>' : `<span style="font-size:0.67rem; color:#64748b; cursor:pointer;" onclick="switchRouteProfile('${rec.recommendedKey}')">Switch to recommended →</span>`}
+      </div>
+      <div class="rec-reason">${rec.reason}</div>
+      ${alertsHtml}
+    `;
+  }
+
+  // Handle No Route Found
   if (!r || r.status !== 'SUCCESS') {
     const isVehRestricted = state.routeMode === 'vehicle' &&
       VEHICLE_RESTRICTED_DESTINATIONS.some(c => {
@@ -4265,19 +4640,27 @@ function updateRouteUI() {
       });
     const msg = isVehRestricted
       ? "No vehicle path exists: destination intersection has outbound one-way restrictions in the pilot domain. Switch to 🚶 Pedestrian mode for accessible path."
-      : "No continuous street route found between selected points.";
+      : (r?.message || "No continuous street route found between selected points.");
     if (kpiCard) kpiCard.innerHTML = `<div style="color:#f87171; font-weight:600; font-size:0.75rem; line-height:1.4;">${msg}</div>`;
     return;
   }
 
-  // Update Title & Pills
+  // Update Profile Tabs Active State
+  const profileBtns = document.querySelectorAll('.profile-tab-btn');
+  profileBtns.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.profile === activeProfile);
+  });
+
+  // Update Title & Status Pill
   const titleMap = {
-    drainage_informed: 'Drainage-Informed Path',
+    lowest_exposure: 'Lowest Waterlogging Exposure Path',
+    shortest: 'Shortest Geometric Path',
     baseline: 'Shortest Geometric Path',
-    low_susceptibility: 'Low-Susceptibility Path'
+    drainage_informed: 'Drainage-Informed Path',
+    low_susceptibility: 'Lowest Waterlogging Exposure Path'
   };
   const titleEl = document.getElementById('kpiProfileTitle');
-  if (titleEl) titleEl.textContent = titleMap[activeProfile];
+  if (titleEl) titleEl.textContent = titleMap[activeProfile] || activeProfile;
 
   const hazardPill = document.getElementById('kpiHazardPill');
   if (hazardPill) hazardPill.textContent = `Score: ${r.hazardScore}`;
@@ -4295,8 +4678,8 @@ function updateRouteUI() {
 
   const depthEl = document.getElementById('kpiDepthVal');
   if (depthEl) {
-    depthEl.textContent = r.maxDepthM > 0 ? `${r.maxDepthM.toFixed(2)} m` : '0.00 m (Dry)';
-    depthEl.style.color = r.maxDepthM > 0.20 ? '#f43f5e' : (r.maxDepthM > 0.05 ? '#fbbf24' : '#38bdf8');
+    depthEl.textContent = r.maxDepthM > 0 ? `${r.maxDepthM.toFixed(2)} m (${r.exposureCategory})` : '0.00 m (Dry)';
+    depthEl.style.color = r.maxDepthM >= 0.25 ? '#f43f5e' : (r.maxDepthM >= 0.10 ? '#fbbf24' : '#38bdf8');
   }
 
   const submergedEl = document.getElementById('kpiSubmergedVal');
@@ -4323,20 +4706,21 @@ function updateRouteUI() {
   const tbody = document.getElementById('routeCompareMiniBody');
   if (tbody) {
     const rows = [
-      { id: 'drainage_informed', name: 'Drainage-Informed', color: '#10b981', data: alts.drainage_informed },
-      { id: 'baseline', name: 'Shortest Baseline', color: '#38bdf8', data: alts.baseline },
-      { id: 'low_susceptibility', name: 'Low-Susceptibility', color: '#f59e0b', data: alts.low_susceptibility }
+      { id: 'lowest_exposure', name: 'Lowest Exposure', color: '#10b981', data: alts.lowest_exposure },
+      { id: 'shortest', name: 'Shortest Route', color: '#0284c7', data: alts.shortest || alts.baseline },
+      { id: 'drainage_informed', name: 'Drainage-Informed', color: '#06b6d4', data: alts.drainage_informed }
     ];
 
     tbody.innerHTML = rows.map(row => {
       const d = row.data;
       if (!d || d.status !== 'SUCCESS') return '';
       const isSel = row.id === activeProfile;
+      const isRec = rec?.recommendedKey === row.id;
       return `
         <tr style="cursor:pointer; background:${isSel ? 'rgba(56,189,248,0.1)' : 'transparent'}; font-weight:${isSel ? '600' : 'normal'};" onclick="switchRouteProfile('${row.id}')">
-          <td style="padding:4px;"><span style="color:${row.color};">■</span> ${row.name}</td>
+          <td style="padding:4px;"><span style="color:${row.color};">■</span> ${row.name} ${isRec ? '<span style="color:#059669; font-weight:700;">★</span>' : ''}</td>
           <td style="padding:4px;">${d.distanceM}m</td>
-          <td style="padding:4px; color:${d.maxDepthM > 0.05 ? '#f43f5e' : '#38bdf8'};">${d.maxDepthM > 0 ? d.maxDepthM.toFixed(2) + 'm' : 'Dry'}</td>
+          <td style="padding:4px; color:${d.maxDepthM >= 0.10 ? '#f43f5e' : '#38bdf8'};">${d.maxDepthM > 0 ? d.maxDepthM.toFixed(2) + 'm' : 'Dry'}</td>
           <td style="padding:4px; font-family:var(--font-mono);">${d.hazardScore}</td>
         </tr>
       `;
@@ -4345,14 +4729,15 @@ function updateRouteUI() {
 
   // Update Footer Bar Status Field
   if (statusRoute) {
-    statusRoute.textContent = `${titleMap[activeProfile]} (${r.distanceM}m · Score ${r.hazardScore})`;
+    statusRoute.textContent = `${titleMap[activeProfile]} (${r.distanceM}m · Max Depth: ${r.maxDepthM.toFixed(2)}m)`;
   }
 }
 
 /**
- * Switch Active Profile from Table Click
+ * Switch Active Profile from Table or Tabs
  */
 window.switchRouteProfile = function(profileKey) {
+  state.userSelectedRouteProfile = true;
   state.activeRouteProfile = profileKey;
   const profileBtns = document.querySelectorAll('.profile-tab-btn');
   profileBtns.forEach(btn => {
@@ -4370,18 +4755,18 @@ function updateActiveRouteKPIs() {
   computeRouteAlternatives();
 }
 
-/**
- * Reset Route Overlays and Selection
- */
 function resetRoute() {
   if (state.routeLayerGroup) state.routeLayerGroup.clearLayers();
   state.routeAlternatives = null;
+  state.userSelectedRouteProfile = false;
 
+  const recBox = document.getElementById('routeRecommendationBox');
   const profileTabs = document.getElementById('routeProfileTabs');
   const kpiCard = document.getElementById('routeKpiCard');
   const compareMini = document.getElementById('routeCompareMini');
   const statusRoute = document.getElementById('statusValActiveRoute');
 
+  if (recBox) recBox.style.display = 'none';
   if (profileTabs) profileTabs.style.display = 'none';
   if (kpiCard) kpiCard.style.display = 'none';
   if (compareMini) compareMini.style.display = 'none';

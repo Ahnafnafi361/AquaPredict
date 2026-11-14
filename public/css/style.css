@@ -2175,6 +2175,76 @@ body.sidebar-collapsed .bottom-hud {
   color: var(--amber-warning);
 }
 
+/* M7 Flood-Aware Recommendation Box */
+.route-recommendation-box {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  box-shadow: var(--neu-flat-sm);
+}
+
+.route-recommendation-box.has-warning {
+  background: rgba(245, 158, 11, 0.08);
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+.route-recommendation-box.has-danger {
+  background: rgba(244, 63, 94, 0.08);
+  border-color: rgba(244, 63, 94, 0.35);
+}
+
+.rec-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.rec-badge-emerald {
+  background: rgba(16, 185, 129, 0.18);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.rec-badge-blue {
+  background: rgba(2, 132, 199, 0.15);
+  color: #0284c7;
+  border: 1px solid rgba(2, 132, 199, 0.3);
+}
+
+.rec-badge-amber {
+  background: rgba(245, 158, 11, 0.15);
+  color: #d97706;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.rec-reason {
+  color: var(--text-primary);
+  font-size: 0.71rem;
+}
+
+.rec-alert-item {
+  margin-top: 4px;
+  padding: 3px 6px;
+  border-radius: 3px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  font-weight: 600;
+  font-size: 0.67rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 /* Basemap Selector Grid */
 .basemap-grid {
   display: grid;
