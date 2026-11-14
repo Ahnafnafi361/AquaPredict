@@ -41,6 +41,8 @@ REQUIRED_DATA_FILES = [
     "rainfall_sample_meta.json",
     "m3_validation_readiness.json",
     "m4_synthesis_meta.json",
+    "rescue_priority_locations.json",
+    "rescue_priority_meta.json",
     "simulation_scenarios.json",
     "m5_simulation_meta.json",
     "m6_drainage_network.json",

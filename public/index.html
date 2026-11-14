@@ -642,95 +642,6 @@
               </button>
             </div>
           </div>
-          <!-- Section 5: Dynamic Rainfall–Susceptibility Synthesis (M4) -->
-          <div class="control-section" id="sectionM4Synthesis">
-            <div class="section-label">
-              <span class="label-title" data-i18n="sidebar.section_m4_synthesis">Dynamic Synthesis (M4)</span>
-              <span class="status-m4-pill" id="sidebarM4StatusPill">M4 Prototype</span>
-            </div>
-
-            <div class="layer-item highlight-m4-item">
-              <div class="layer-header-row">
-                <label class="switch-container">
-                  <input type="checkbox" id="toggleM4Synthesis">
-                  <span class="switch-slider"></span>
-                  <span class="layer-name" data-i18n="sidebar_extra.m4_layer_title">Dynamic Synthesis Layer</span>
-                </label>
-                <span class="layer-badge badge-m4" id="m4StateBadge">UNAVAILABLE</span>
-              </div>
-
-              <!-- State Notification / Persistent Warning Container -->
-              <div class="m4-banner-box" id="m4BannerContainer">
-                <div class="banner-unavailable" id="m4BannerUnavailable">
-                  <div class="banner-state-title">DATA STATE: UNAVAILABLE</div>
-                  <p class="banner-state-desc">
-                    Actual usable rainfall observations are absent from source directory (<code>C:\AquaPredict_tests\rainfall\</code>).
-                    Real-data dynamic synthesis is disabled; static M1 terrain susceptibility displayed.
-                  </p>
-                  <button class="source-tab-btn" id="btnM4SwitchToDemo" style="margin-top: 8px; width: 100%; justify-content: center;">
-                    <span>Switch to Synthetic Demonstration (Station 1600)</span>
-                  </button>
-                </div>
-              </div>
-
-              <!-- M4 Interactive Subcontrols (Timeline Slider, Metrics, Playback) -->
-              <div class="m4-subcontrols" id="m4Subcontrols" style="display: none;">
-                <div class="m4-timeline-header">
-                  <span class="m4-step-label" id="m4IntervalStepLabel">Interval 24 of 96</span>
-                  <span class="m4-time-label" id="m4TimestampLabel">05:45 - 06:00</span>
-                </div>
-
-                <!-- Timeline Range Slider -->
-                <div class="slider-row" style="margin-top: 4px;">
-                  <input type="range" id="m4TimelineSlider" min="0" max="95" value="23" class="custom-range" title="Select 15-minute demonstration interval (0 - 95)">
-                </div>
-
-                <!-- Playback & Navigation Toolbar -->
-                <div class="m4-playback-toolbar">
-                  <button class="m4-ctrl-btn" id="btnM4Prev" title="Previous 15-min interval">
-                    <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5"></line></svg>
-                    <span>Prev</span>
-                  </button>
-                  <button class="m4-ctrl-btn btn-play-active" id="btnM4Play" title="Play / Pause 15-min timeline playback">
-                    <span id="m4PlayIcon">▶</span>
-                    <span id="m4PlayText">Play</span>
-                  </button>
-                  <button class="m4-ctrl-btn" id="btnM4Next" title="Next 15-min interval">
-                    <span>Next</span>
-                    <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
-                  </button>
-                  <button class="m4-ctrl-btn" id="btnM4Peak" title="Jump directly to peak downpour interval (#24)">
-                    <span>Peak</span>
-                  </button>
-                </div>
-
-                <!-- Interval Metrics Card -->
-                <div class="m4-metrics-card" id="m4MetricsCard">
-                  <div class="m4-metric-row">
-                    <span class="m4-metric-label">Interval Rain:</span>
-                    <span class="m4-metric-val" id="m4CardRainVal">0.38 in (9.7 mm)</span>
-                  </div>
-                  <div class="m4-metric-row">
-                    <span class="m4-metric-label">Calculated Rate:</span>
-                    <span class="m4-metric-val rate-highlight" id="m4CardRateVal">1.52 in/hr (Heavy)</span>
-                  </div>
-                  <div class="m4-metric-row">
-                    <span class="m4-metric-label">Cumulative Rain:</span>
-                    <span class="m4-metric-val" id="m4CardCumVal">1.60 in (40.6 mm)</span>
-                  </div>
-                  <div class="m4-metric-row">
-                    <span class="m4-metric-label">Display Category:</span>
-                    <span class="m4-metric-val category-highlight" id="m4CardClassVal">Heavy Intensity (Provisional)</span>
-                  </div>
-                </div>
-
-                <!-- Spatial Uniformity Caveat Note -->
-                <div class="m4-spatial-note">
-                  <strong>Spatial Assumption:</strong> Gauge Station 1600 point reading applied uniformly across 0.97 km² pilot sector. One point gauge does not establish spatially uniform rainfall.
-                </div>
-              </div>
-            </div>
-          </div>
 
           <!-- Section 6: Flood Detection (M5) -->
           <div class="control-section" id="sectionM5Simulation">
@@ -867,6 +778,36 @@
                   <span id="drawerToggleText" data-i18n="m5_simulation.workflow_btn">Hydrological Workflow (7 Steps)</span>
                   <span class="drawer-step-badge">7/7 Complete</span>
                 </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section: Rescue Priority Predictor (Directly below Flood Detection) -->
+          <div class="control-section" id="sectionRescuePriority">
+            <div class="section-label">
+              <span class="label-title">Rescue Priority Predictor</span>
+              <span class="status-rescue-pill" id="sidebarRescuePill">RISK RANKED</span>
+            </div>
+
+            <div class="layer-item highlight-rescue-item">
+              <div class="layer-header-row" style="margin-bottom: 8px;">
+                <label class="switch-container">
+                  <input type="checkbox" id="toggleRescueMarkers" checked>
+                  <span class="switch-slider"></span>
+                  <span class="layer-name">Show Alert Markers on Map</span>
+                </label>
+                <span class="layer-badge badge-rescue-alert" id="rescueActiveAlertCountBadge">0 Critical</span>
+              </div>
+
+              <!-- Active Scenario Context -->
+              <div class="rescue-context-line">
+                <span>Rainfall Scenario: <strong id="rescueActivePresetText">50 mm</strong> (Step <span id="rescueActiveStepText">12 / 60m</span>)</span>
+                <span style="font-size: 0.67rem; color: #64748b;">M5/M7 Modelled</span>
+              </div>
+
+              <!-- Categorized Location List -->
+              <div class="rescue-categories-tree" id="rescueCategoriesTree">
+                <!-- Dynamically populated via app.js -->
               </div>
             </div>
           </div>
@@ -1125,15 +1066,17 @@
           </div>
         </div>
 
-        <div class="m4-inspector-chip" id="m4Chip">
+        <div class="m4-inspector-chip" id="rescuePriorityChip">
           <div class="chip-icon">
-            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
-              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            <svg viewBox="0 0 24 24" width="15" height="15" stroke="#ef4444" stroke-width="2" fill="none">
+              <polygon points="12 2 2 22 22 22"></polygon>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <circle cx="12" cy="17" r="0.5"></circle>
             </svg>
           </div>
           <div class="chip-content">
-            <span class="chip-label" data-i18n="hud_chips.m4_synthesis">Synthesis:</span>
-            <span class="chip-value" id="cursorM4Text"><span class="badge-tier tier-unavailable">Off</span></span>
+            <span class="chip-label">Rescue Priority:</span>
+            <span class="chip-value" id="cursorRescueText"><span class="badge-tier" style="background:rgba(239,68,68,0.12); color:#ef4444;">Active</span></span>
           </div>
         </div>
 
@@ -1339,7 +1282,7 @@
         <button class="tab-btn" data-tab="tab-m1-methodology">M1 Susceptibility Model</button>
         <button class="tab-btn" data-tab="tab-m2-rainfall">M2 Rainfall Ingestion</button>
         <button class="tab-btn" data-tab="tab-m3-validation">M3 Validation Readiness</button>
-        <button class="tab-btn" data-tab="tab-m4-synthesis">M4 Dynamic Synthesis</button>
+        <button class="tab-btn" data-tab="tab-rescue-priority">Rescue Priority Predictor</button>
         <button class="tab-btn" data-tab="tab-m5-simulation">M5 Flood Detection</button>
         <button class="tab-btn" data-tab="tab-m6-drainage">M6 Drainage & Capacity</button>
         <button class="tab-btn" data-tab="tab-m7-routing">M7 Safest Route Planner</button>
@@ -1615,160 +1558,54 @@
             </div>
           </div>
         </div>
-        <!-- Tab 7: M4 Dynamic Rainfall–Susceptibility Synthesis -->
-        <div class="tab-panel" id="tab-m4-synthesis">
-          <div class="quality-intro-callout" style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.08); margin-bottom: 20px;">
+        <!-- Tab: Rescue Priority Predictor -->
+        <div class="tab-panel" id="tab-rescue-priority">
+          <div class="quality-intro-callout" style="border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.08); margin-bottom: 20px;">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap;">
               <div>
-                <strong style="color: var(--hydro-cyan); font-size: 0.95rem;">M4 Dynamic Synthesis: Scientific Architecture & Bivariate Screening Matrix</strong>
+                <strong style="color: #ef4444; font-size: 0.95rem;">Rescue Priority Predictor: Facility & Community Risk Screening</strong>
                 <p style="margin: 4px 0 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45;">
-                  M4 presents M1 terrain susceptibility alongside time-varying rainfall intensity as <strong>separate physical dimensions</strong>.
-                  This exploratory screening matrix couples terrain morphology with rainfall rate for comparative inspection.
-                  <strong>It does NOT calculate flood depths, flood volumes, inundation extents, or calibrated flood probabilities.</strong>
+                  Evaluates real City of Houston GIS locations (Hospitals, Residential Areas, Societies, Villages, Communities) against modeled M5 flood depth and M7 network accessibility.
+                  Categorizes critical hazards into <strong>Road Failure Risk</strong> and <strong>Community Isolation Risk</strong> to prioritize emergency response.
                 </p>
               </div>
               <div style="text-align: right; min-width: 170px;">
-                <span class="badge-tier tier-pending" style="font-size: 0.72rem; padding: 4px 8px;">Pilot Area: 0.97 km²</span>
-                <div style="font-size: 0.72rem; color: #f87171; margin-top: 4px; font-weight: 600;">Validation: UNAVAILABLE (M3)</div>
+                <span class="badge-tier" style="font-size: 0.72rem; padding: 4px 8px; background: rgba(239, 68, 68, 0.12); color: #ef4444;">Pilot Area: 0.97 km²</span>
+                <div style="font-size: 0.72rem; color: #64748b; margin-top: 4px; font-weight: 600;">Data: City of Houston GIS</div>
               </div>
             </div>
           </div>
 
-          <!-- Section 1: The Four Data States -->
-          <div class="validation-section" style="margin-bottom: 24px;">
-            <h4 style="font-size: 0.9rem; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
-              <span>Rigorous Data State Enforcement (UNAVAILABLE / UNVERIFIED DEMONSTRATION / VERIFIED / INVALID)</span>
-            </h4>
-            <div class="table-responsive-wrapper">
-              <table class="inventory-table">
-                <thead>
-                  <tr>
-                    <th style="width: 22%;">Data State</th>
-                    <th style="width: 32%;">Entry Criteria & Verification Condition</th>
-                    <th style="width: 30%;">Application Behavior</th>
-                    <th style="width: 16%;">Current Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><span class="badge-status-pill pill-unavailable">UNAVAILABLE</span></td>
-                    <td style="font-size:0.78rem;">Actual usable rainfall observations absent from source directory (<code style="font-size:0.7rem;">C:\AquaPredict_tests\rainfall\</code> has 0 files).</td>
-                    <td style="font-size:0.78rem;">Dynamic synthesis is disabled; original static M1 susceptibility map preserved; clear diagnostic reason displayed.</td>
-                    <td><span class="badge-status-pill pill-unavailable">ACTIVE DEFAULT</span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge-status-pill pill-unverified">UNVERIFIED DEMONSTRATION</span></td>
-                    <td style="font-size:0.78rem;">Synthetic demonstration fixture explicitly chosen by user (<code style="font-size:0.7rem;">rainfall_sample_1600.json</code>, 96 intervals).</td>
-                    <td style="font-size:0.78rem;">Timeline slider enabled; prominent "SYNTHETIC DEMONSTRATION — NOT OBSERVED RAINFALL" warning permanently visible.</td>
-                    <td><span class="badge-status-pill pill-unverified">AVAILABLE</span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge-status-pill pill-verified">VERIFIED</span></td>
-                    <td style="font-size:0.78rem;">Rigorous source provenance, sensor calibration QA, and complete documentation satisfied. Passing schema alone does NOT qualify.</td>
-                    <td style="font-size:0.78rem;">Real-data dynamic synthesis enabled with explicit point-to-grid spatial representativeness disclosure.</td>
-                    <td><span style="font-size:0.75rem; color:var(--text-muted);">0 Files Qualified</span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge-status-pill pill-unavailable">INVALID</span></td>
-                    <td style="font-size:0.78rem;">Negative rainfall values, unparseable timestamps, extreme non-physical spikes, or corrupted formatting.</td>
-                    <td style="font-size:0.78rem;">Rejected immediately from synthesis pipeline; corruption diagnostics logged; safe fallback to static M1 terrain view.</td>
-                    <td><span style="font-size:0.75rem; color:var(--text-muted);">Enforced</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Section 2: 16-Cell Neutral Bivariate Screening Matrix -->
-          <div class="validation-section" style="margin-bottom: 24px;">
-            <h4 style="font-size: 0.9rem; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-              <span>16-Cell Neutral Bivariate Screening Matrix (M1 Susceptibility × Provisional Rainfall Intensity)</span>
-            </h4>
-            <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.45;">
-              <strong>Correction of Proposed Labels:</strong> Sensationalist phrases ("Rapid Evacuation", "High-Velocity Street Gutter Flow", "Drainage Failure") have been strictly eliminated.
-              All cells are neutral joint descriptions of terrain morphology and provisional rainfall intensity categories.
-            </p>
-            <div class="table-responsive-wrapper">
-              <table class="inventory-table" style="font-size: 0.75rem;">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">M1 Susceptibility (EWSI)</th>
-                    <th style="width: 20%;">Zero / Trace (0.00 in/hr)</th>
-                    <th style="width: 20%;">Low (< 0.40 in/hr)</th>
-                    <th style="width: 20%;">Moderate (0.40–0.999 in/hr)</th>
-                    <th style="width: 20%;">Heavy (≥ 1.00 in/hr)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><strong>High Susceptibility</strong><br><span style="color:var(--text-muted);">EWSI ≥ 0.70</span></td>
-                    <td>High Susc · Dry / Trace<br><span style="color:var(--text-muted); font-size:0.68rem;">Depression bowl; no rain</span></td>
-                    <td>High Susc · Low Rain<br><span style="color:var(--text-muted); font-size:0.68rem;">Depression bowl; light rain</span></td>
-                    <td>High Susc · Moderate Rain<br><span style="color:var(--text-muted); font-size:0.68rem;">Depression bowl; steady rain</span></td>
-                    <td style="background: rgba(225, 29, 72, 0.12); border-left: 3px solid #e11d48;"><strong style="color:#be123c;">High Susc · Heavy Rain</strong><br><span style="color:var(--text-secondary); font-size:0.72rem;">Priority screening area</span></td>
-                  </tr>
-                  <tr>
-                    <td><strong>Elevated Susceptibility</strong><br><span style="color:var(--text-muted);">0.50 ≤ EWSI < 0.70</span></td>
-                    <td>Elevated Susc · Dry / Trace<br><span style="color:var(--text-muted); font-size:0.72rem;">Shallow swale; no rain</span></td>
-                    <td>Elevated Susc · Low Rain<br><span style="color:var(--text-muted); font-size:0.72rem;">Shallow swale; light rain</span></td>
-                    <td>Elevated Susc · Moderate Rain<br><span style="color:var(--text-muted); font-size:0.72rem;">Shallow swale; steady rain</span></td>
-                    <td style="background: rgba(249, 115, 22, 0.12);"><strong style="color:#c2410c;">Elevated Susc · Heavy Rain</strong><br><span style="color:var(--text-secondary); font-size:0.72rem;">Elevated screening watch</span></td>
-                  </tr>
-                  <tr>
-                    <td><strong>Moderate Susceptibility</strong><br><span style="color:var(--text-muted);">0.30 ≤ EWSI < 0.50</span></td>
-                    <td>Moderate Susc · Dry / Trace<br><span style="color:var(--text-muted); font-size:0.68rem;">Intermediate slope; no rain</span></td>
-                    <td>Moderate Susc · Low Rain<br><span style="color:var(--text-muted); font-size:0.68rem;">Intermediate slope; light rain</span></td>
-                    <td>Moderate Susc · Moderate Rain<br><span style="color:var(--text-muted); font-size:0.68rem;">Intermediate slope; steady rain</span></td>
-                    <td>Moderate Susc · Heavy Rain<br><span style="color:var(--text-secondary); font-size:0.68rem;">Moderate screening watch</span></td>
-                  </tr>
-                  <tr>
-                    <td><strong>Low Susceptibility</strong><br><span style="color:var(--text-muted);">EWSI < 0.30</span></td>
-                    <td>Low Susc · Dry / Trace<br><span style="color:var(--text-muted); font-size:0.68rem;">Elevated ridge; no rain</span></td>
-                    <td>Low Susc · Low Rain<br><span style="color:var(--text-muted); font-size:0.68rem;">Elevated ridge; light rain</span></td>
-                    <td>Low Susc · Moderate Rain<br><span style="color:var(--text-muted); font-size:0.68rem;">Elevated ridge; steady rain</span></td>
-                    <td>Low Susc · Heavy Rain<br><span style="color:var(--text-secondary); font-size:0.68rem;">Low screening watch</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Section 3: Formulas, Units, and Assumptions -->
           <div class="lineage-cards-grid" style="margin-bottom: 20px;">
             <div class="lineage-card">
               <div class="lineage-header">
-                <span class="lineage-badge">Formula & Units</span>
-                <h4>Rainfall Intensity Formulation</h4>
+                <span class="lineage-badge" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">Risk Taxonomy</span>
+                <h4>Disruption & Isolation Criteria</h4>
               </div>
               <ul class="lineage-list">
-                <li><strong>Observation Interval:</strong> $\Delta t = 15\text{ minutes} = 0.25\text{ hr}$</li>
-                <li><strong>Intensity Rate Formula:</strong> $I\;(\text{in/hr}) = \frac{r_{\text{in}}}{\Delta t / 60} = r_{\text{in}} \times 4.0$</li>
-                <li><strong>Cumulative Total:</strong> $C(t_k) = \sum_{j=0}^{k} r_{\text{in}}(j)$</li>
-                <li><strong>Provisional Disclaimer:</strong> Display categories are provisional; 1.50 in/hr is NOT a verified Houston drainage failure threshold.</li>
+                <li><strong>Road Failure Risk:</strong> At least one connecting or access road segment exceeds the modeled vehicle impassability threshold (&ge; 0.30m water depth). Detours are required.</li>
+                <li><strong>Community Isolation Risk:</strong> All viable access routes or connecting roads become impassable, cutting off the location from the rest of the municipal street network.</li>
+                <li><strong>No Critical Risk:</strong> Connecting access roads maintain modeled water depths below cautionary/impassable limits under the scenario.</li>
               </ul>
             </div>
 
             <div class="lineage-card">
               <div class="lineage-header">
-                <span class="lineage-badge badge-warning">Spatial Limitation</span>
-                <h4>Point-to-Grid Spatial Uniformity</h4>
+                <span class="lineage-badge" style="background: rgba(59, 130, 246, 0.15); color: #2563eb;">Urgency Ranking</span>
+                <h4>Rescue Priority Hierarchy</h4>
               </div>
               <ul class="lineage-list">
-                <li><strong>Gauge Station:</strong> HCFWS Station 1600 (Buffalo Bayou @ Milam St, 29.7642° N, -95.3653° W).</li>
-                <li><strong>Visualization Assumption:</strong> Point gauge values are applied uniformly across the 0.97 km² pilot sector.</li>
-                <li><strong>Scientific Caveat:</strong> A single point gauge does NOT establish spatially uniform precipitation. Convective cloudbursts often exhibit steep local gradients.</li>
-                <li><strong>No Hydraulics:</strong> Pipe surcharge, inlet clogging, and bayou backwater are not simulated.</li>
+                <li><strong>Priority 1 (Highest Urgency):</strong> Critical medical facilities and receiving hospitals (CHRISTUS St. Joseph, Good Neighbor Healthcare Clinic) with road access failure.</li>
+                <li><strong>Priority 2:</strong> Residential areas, villages, or communities suffering complete Community Isolation Risk with no alternative exits.</li>
+                <li><strong>Priority 3+:</strong> Neighborhoods and societies experiencing Road Failure Risk with alternative detours available, sorted by modeled depth severity.</li>
               </ul>
             </div>
           </div>
 
-          <!-- Section 4: M1 Integrity Verification -->
           <div class="quality-intro-callout" style="border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.08);">
-            <strong style="color: var(--emerald-accent);">M1 Terrain Susceptibility Weights 100% Intact & Preserved:</strong><br>
-            Terrain Depressions (35%), Topographic Position Index (25%), Slope Flatness (20%), Storm Inlet Proximity (20%).
-            Original static susceptibility raster and 100×100 client-side inspection grid are completely unaltered.
+            <strong style="color: var(--emerald-accent);">Verified Real Geographic Locations:</strong><br>
+            All 13 locations are verified features from City of Houston Enterprise GIS (health & public safety, subdivisions, civic clubs, parks).
+            No fictional or synthetic facility names are used.
           </div>
         </div>
 

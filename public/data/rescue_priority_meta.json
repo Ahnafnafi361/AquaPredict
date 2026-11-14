@@ -1,0 +1,41 @@
+{
+  "milestone": "M4_REPLACEMENT",
+  "title": "AquaPredict Rescue Priority Predictor Metadata",
+  "feature_name": "Rescue Priority Predictor",
+  "version": "1.0.0",
+  "disclaimer": "SCENARIO-BASED FLOOD RESCUE DECISION SUPPORT PROTOTYPE — NOT A CERTIFIED 911 DISPATCH SYSTEM",
+  "pilot_boundary": {
+    "west": -95.3750,
+    "south": 29.7560,
+    "east": -95.3650,
+    "north": 29.7650
+  },
+  "categories": [
+    "Hospitals",
+    "Residential Areas",
+    "Societies",
+    "Villages",
+    "Communities"
+  ],
+  "risk_assessment_framework": {
+    "road_failure_risk": {
+      "definition": "An access road or primary connecting road to the facility/neighborhood exceeds the modeled waterlogging depth threshold (>= 0.30m vehicle impassability threshold).",
+      "routing_implication": "Vehicular access is disrupted along at least one corridor, requiring detours."
+    },
+    "community_isolation_risk": {
+      "definition": "All viable ingress/egress connecting routes to the location are impassable due to modeled waterlogging, or the location is isolated from the municipal road network.",
+      "routing_implication": "Complete road access severance; requires priority amphibious, high-clearance, or emergency aerial response."
+    }
+  },
+  "priority_ranking_system": {
+    "Priority 1": "Critical facilities (Hospitals, Trauma centers, Healthcare clinics) experiencing road failure or isolation.",
+    "Priority 2": "Communities, residential areas, societies, or villages experiencing complete Community Isolation Risk.",
+    "Priority 3": "Communities, residential areas, societies, or villages experiencing Road Failure Risk with alternative detours available.",
+    "Priority 4+": "Subordinate road disruptions ranked by maximum modeled water depth."
+  },
+  "data_provenance": {
+    "locations_source": "City of Houston Enterprise GIS (DIR/healthandPublicSafety_gx, DIR/ReferenceAndBoundaries_gx, DIR/Parks_gx)",
+    "flood_depth_source": "AquaPredict M5 Scenario Simulation depth grid (100x100 resolution)",
+    "road_network_source": "AquaPredict M7 Street Centerlines Network Graph (160 nodes, 210 edges)"
+  }
+}

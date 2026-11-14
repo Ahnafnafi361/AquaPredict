@@ -50,11 +50,12 @@ const state = {
   rainfallSample: null,
   rainfallMeta: null,
   validationReadiness: null,
-  m4SynthesisMeta: null,
-  m4Enabled: false,
-  m4ActiveIntervalIdx: 23, // 0-indexed (Interval 24 of 96 default peak)
-  m4IsPlaying: false,
-  m4Timer: null,
+  // Rescue Priority Predictor State (Replacing M4 Dynamic Synthesis)
+  rescueLocations: null,
+  rescueRiskAssessments: [],
+  rescueMarkersLayerGroup: null,
+  rescueShowMarkers: true,
+  activeRescueLocId: null,
   // Milestone 5 (M5) Scenario Simulation State
   simScenarios: null,
   simActivePreset: 50,
@@ -202,17 +203,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadQualityMetrics(),
     loadRainfallData(),
     loadValidationReadiness(),
-    loadM4SynthesisMeta(),
+    loadRescueLocations(),
     loadSimulationScenarios(),
     loadM6DrainageNetwork(),
     loadStreetNetworkAndGraph()
   ]);
 
-  updateM4UI();
   initSimulationUI();
   initM6UI();
+  initRescuePriorityUI();
 
-  console.log("AquaPredict M0/M1/M2/M3/M4/M5/M6 initialized successfully.");
+  console.log("AquaPredict initialized successfully with Rescue Priority Predictor.");
 });
 
 /**
@@ -641,35 +642,14 @@ function onMapMouseMove(e) {
       `;
     }
 
-    // M4 Dynamic Synthesis Lookup
-    const m4CursorElem = document.getElementById('cursorM4Text');
-    if (m4CursorElem) {
-      if (!state.m4Enabled) {
-        m4CursorElem.innerHTML = `<span class="badge-tier tier-inactive">Synthesis Layer Off</span>`;
-      } else if (state.rainfallSource === 'sample' && state.rainfallSample && state.suscGrid) {
-        const sCell = state.suscGrid.grid[row][col];
-        const intervals = getActiveRainfallRecords();
-        const boundedIdx = Math.min(Math.max(state.m4ActiveIntervalIdx, 0), intervals.length - 1);
-        const intv = intervals[boundedIdx] || { rain_in: 0.0, duration_minutes: 15 };
-        const durMin = (intv.duration_minutes !== undefined) ? intv.duration_minutes : 15;
-        const rate = calculateM4Intensity(intv.rain_in, durMin);
-        if (rate === null) {
-          m4CursorElem.innerHTML = `
-            <span class="badge-tier tier-unavailable" style="background:#fb7185; color:#ffffff;">Invalid Rainfall</span>
-            <span style="font-size:0.72rem; color:var(--text-secondary); margin-left:6px;">Non-numeric or corrupt interval observation</span>
-          `;
-        } else {
-          const biv = getBivariateCategory(sCell.tier, rate);
-          m4CursorElem.innerHTML = `
-            <span class="badge-tier tier-m4" style="background:${biv.badgeColor}; color:#ffffff;">${biv.shortLabel}</span>
-            <span style="font-size:0.72rem; color:var(--text-secondary); margin-left:6px;">${biv.desc}</span>
-          `;
-        }
+    // Rescue Priority Indicator in Telemetry Bar
+    const rescueCursorElem = document.getElementById('cursorRescueText');
+    if (rescueCursorElem && state.rescueRiskAssessments) {
+      const atRiskCount = state.rescueRiskAssessments.filter(a => a.isCriticalRisk).length;
+      if (atRiskCount > 0) {
+        rescueCursorElem.innerHTML = `<span class="badge-tier" style="background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.3);">${atRiskCount} Critical</span>`;
       } else {
-        m4CursorElem.innerHTML = `
-          <span class="badge-tier tier-unavailable">Synthesis Unavailable</span>
-          <span style="font-size:0.72rem; color:var(--text-secondary); margin-left:6px;">No observed rainfall files</span>
-        `;
+        rescueCursorElem.innerHTML = `<span class="badge-tier" style="background:rgba(16,185,129,0.15); color:#059669; border:1px solid rgba(16,185,129,0.3);">Safe</span>`;
       }
     }
 
@@ -710,9 +690,9 @@ function onMapMouseMove(e) {
     if (suscElem) {
       suscElem.innerHTML = `<span class="badge-tier tier-unavailable">Unavailable (Outside Pilot)</span>`;
     }
-    const m4CursorElem = document.getElementById('cursorM4Text');
-    if (m4CursorElem) {
-      m4CursorElem.innerHTML = `<span class="badge-tier tier-unavailable">Outside Pilot Bounds</span>`;
+    const rescueCursorElem = document.getElementById('cursorRescueText');
+    if (rescueCursorElem) {
+      rescueCursorElem.innerHTML = `<span class="badge-tier" style="color:#94a3b8;">Outside Pilot</span>`;
     }
     const simCursorElem = document.getElementById('cursorSimDepthText');
     if (simCursorElem) {
@@ -1421,33 +1401,15 @@ function setupEventListeners() {
   }
 
   // ==========================================
-  // Milestone 4 (M4) — Dynamic Synthesis Controls
+  // Rescue Priority Predictor Controls
   // ==========================================
-  const toggleM4 = document.getElementById('toggleM4Synthesis');
-  if (toggleM4) {
-    toggleM4.addEventListener('change', (e) => {
-      toggleM4Synthesis(e.target.checked);
+  const toggleRescue = document.getElementById('toggleRescueMarkers');
+  if (toggleRescue) {
+    toggleRescue.addEventListener('change', (e) => {
+      state.rescueShowMarkers = e.target.checked;
+      renderRescueMapMarkers();
     });
   }
-
-  const sliderM4 = document.getElementById('m4TimelineSlider');
-  if (sliderM4) {
-    sliderM4.addEventListener('input', (e) => {
-      onM4TimelineChange(e.target.value);
-    });
-  }
-
-  const btnPrev = document.getElementById('btnM4Prev');
-  if (btnPrev) btnPrev.addEventListener('click', onM4Prev);
-
-  const btnNext = document.getElementById('btnM4Next');
-  if (btnNext) btnNext.addEventListener('click', onM4Next);
-
-  const btnPlay = document.getElementById('btnM4Play');
-  if (btnPlay) btnPlay.addEventListener('click', toggleM4Playback);
-
-  const btnPeak = document.getElementById('btnM4Peak');
-  if (btnPeak) btnPeak.addEventListener('click', onM4Peak);
 
   // ==========================================
   // Milestone 5 (M5) — Scenario Simulation Controls
@@ -2120,524 +2082,323 @@ function renderValidationModal() {
 
 /**
  * ==========================================================================
- * Milestone 4 (M4) — Dynamic Rainfall–Susceptibility Synthesis Implementation
+ * Rescue Priority Predictor Implementation (Replacing M4 Dynamic Synthesis)
  * ==========================================================================
  */
 
 /**
- * Load M4 Dynamic Synthesis metadata payload from JSON
+ * Load Rescue Priority Locations Dataset
  */
-async function loadM4SynthesisMeta() {
+async function loadRescueLocations() {
   try {
-    const res = await fetch('data/m4_synthesis_meta.json');
-    state.m4SynthesisMeta = await res.json();
+    const res = await fetch('data/rescue_priority_locations.json');
+    const data = await res.json();
+    state.rescueLocations = data.locations || [];
+    console.log(`Loaded ${state.rescueLocations.length} real locations for Rescue Priority Predictor.`);
   } catch (err) {
-    console.warn("Could not load M4 synthesis metadata payload:", err);
+    console.warn("Could not load rescue_priority_locations.json:", err);
   }
 }
 
 /**
- * Calculate rainfall intensity rate (in/hr) from depth and duration.
- * Rejects invalid, non-numeric, negative, or infinite values.
- * Returns null for invalid input, cleanly distinguishing it from valid 0.0 in/hr.
+ * Initialize Rescue Priority Predictor UI & Map Layers
  */
-function calculateM4Intensity(rainIn, minutes) {
-  if (rainIn === null || rainIn === undefined || typeof rainIn !== 'number' || !Number.isFinite(rainIn) || rainIn < 0) {
-    return null;
+function initRescuePriorityUI() {
+  if (!state.map) return;
+  if (!state.rescueMarkersLayerGroup) {
+    state.rescueMarkersLayerGroup = L.layerGroup().addTo(state.map);
   }
-  const durMin = (minutes === undefined) ? 15 : minutes;
-  if (typeof durMin !== 'number' || !Number.isFinite(durMin) || durMin <= 0) {
-    return null;
-  }
-  return rainIn / (durMin / 60.0);
+
+  evaluateRescuePriorities();
 }
 
 /**
- * Classify intensity rate into provisional neutral display categories.
- * Rejects invalid, non-numeric, negative, or infinite rates.
- * Thresholds:
- *   [0.00, 0.10) = Zero / Trace
- *   [0.10, 0.40) = Low Intensity (Light)
- *   [0.40, 1.00) = Moderate Intensity
- *   >= 1.00      = Heavy Intensity
+ * Fast Euclidean distance between two lon/lat points in survey meters
  */
-function classifyM4Intensity(rateInHr) {
-  if (rateInHr === null || rateInHr === undefined || typeof rateInHr !== 'number' || !Number.isFinite(rateInHr) || rateInHr < 0) {
-    return { key: 'invalid', name: 'Invalid Input' };
-  }
-  if (rateInHr < 0.10) return { key: 'zero', name: 'Zero / Trace' };
-  if (rateInHr < 0.40) return { key: 'low', name: 'Low Intensity' };
-  if (rateInHr < 1.00) return { key: 'mod', name: 'Moderate Intensity' };
-  return { key: 'heavy', name: 'Heavy Intensity' };
+function distanceMeters(lon1, lat1, lon2, lat2) {
+  const dx = (lon1 - lon2) * 111320.0 * Math.cos(29.76 * Math.PI / 180.0);
+  const dy = (lat1 - lat2) * 110540.0;
+  return Math.sqrt(dx * dx + dy * dy);
 }
 
 /**
- * Retrieve neutral bivariate screening cell metadata
+ * Evaluate Risk Assessment & Rescue Priority for All Available Locations
+ * Based on active M5 modeled ponding depth and M7 road network connectivity.
  */
-function getBivariateCategory(tier, rateInHr) {
-  const intensityObj = classifyM4Intensity(rateInHr);
-  if (intensityObj.key === 'invalid') {
-    return {
-      key: 'invalid',
-      label: 'Invalid Rainfall Input · Synthesis Suspended',
-      shortLabel: 'Invalid Rainfall',
-      desc: 'Invalid or non-numeric rainfall observation; synthesis suspended',
-      color: 'rgba(0, 0, 0, 0)',
-      badgeColor: '#fb7185'
-    };
-  }
-  const intensity = intensityObj.key;
-  const t = tier || 'Low';
+function evaluateRescuePriorities() {
+  if (!state.rescueLocations || state.rescueLocations.length === 0) return;
 
-  const matrix = {
-    'High': {
-      'heavy': {
-        label: 'High Susceptibility · Heavy Intensity Rainfall',
-        shortLabel: 'High Susc × Heavy Rain',
-        desc: 'Closed depression receiving intense rainfall (screening priority)',
-        color: 'rgba(225, 29, 72, 0.75)',
-        badgeColor: '#f43f5e'
-      },
-      'mod': {
-        label: 'High Susceptibility · Moderate Intensity Rainfall',
-        shortLabel: 'High Susc × Mod Rain',
-        desc: 'Closed depression receiving steady rainfall',
-        color: 'rgba(244, 63, 94, 0.55)',
-        badgeColor: '#fb7185'
-      },
-      'low': {
-        label: 'High Susceptibility · Low Intensity Rainfall',
-        shortLabel: 'High Susc × Low Rain',
-        desc: 'Closed depression receiving light rainfall',
-        color: 'rgba(244, 63, 94, 0.35)',
-        badgeColor: '#fda4af'
-      },
-      'zero': {
-        label: 'High Susceptibility · Dry / Trace Rainfall',
-        shortLabel: 'High Susc × Trace',
-        desc: 'Closed depression under dry/trace conditions',
-        color: 'rgba(244, 63, 94, 0.18)',
-        badgeColor: '#e2e8f0'
-      }
-    },
-    'Elevated': {
-      'heavy': {
-        label: 'Elevated Susceptibility · Heavy Intensity Rainfall',
-        shortLabel: 'Elev Susc × Heavy Rain',
-        desc: 'Local swale receiving intense rainfall (elevated watch)',
-        color: 'rgba(249, 115, 22, 0.70)',
-        badgeColor: '#f97316'
-      },
-      'mod': {
-        label: 'Elevated Susceptibility · Moderate Intensity Rainfall',
-        shortLabel: 'Elev Susc × Mod Rain',
-        desc: 'Local swale receiving steady rainfall',
-        color: 'rgba(249, 115, 22, 0.50)',
-        badgeColor: '#fb923c'
-      },
-      'low': {
-        label: 'Elevated Susceptibility · Low Intensity Rainfall',
-        shortLabel: 'Elev Susc × Low Rain',
-        desc: 'Local swale receiving light rainfall',
-        color: 'rgba(249, 115, 22, 0.30)',
-        badgeColor: '#fdba74'
-      },
-      'zero': {
-        label: 'Elevated Susceptibility · Dry / Trace Rainfall',
-        shortLabel: 'Elev Susc × Trace',
-        desc: 'Local swale under dry/trace conditions',
-        color: 'rgba(249, 115, 22, 0.16)',
-        badgeColor: '#e2e8f0'
-      }
-    },
-    'Moderate': {
-      'heavy': {
-        label: 'Moderate Susceptibility · Heavy Intensity Rainfall',
-        shortLabel: 'Mod Susc × Heavy Rain',
-        desc: 'Intermediate terrace receiving heavy rainfall',
-        color: 'rgba(234, 179, 8, 0.65)',
-        badgeColor: '#eab308'
-      },
-      'mod': {
-        label: 'Moderate Susceptibility · Moderate Intensity Rainfall',
-        shortLabel: 'Mod Susc × Mod Rain',
-        desc: 'Intermediate terrace receiving steady rainfall',
-        color: 'rgba(234, 179, 8, 0.45)',
-        badgeColor: '#facc15'
-      },
-      'low': {
-        label: 'Moderate Susceptibility · Low Intensity Rainfall',
-        shortLabel: 'Mod Susc × Low Rain',
-        desc: 'Intermediate terrace receiving light rainfall',
-        color: 'rgba(234, 179, 8, 0.25)',
-        badgeColor: '#fde047'
-      },
-      'zero': {
-        label: 'Moderate Susceptibility · Dry / Trace Rainfall',
-        shortLabel: 'Mod Susc × Trace',
-        desc: 'Intermediate terrace under dry/trace conditions',
-        color: 'rgba(234, 179, 8, 0.12)',
-        badgeColor: '#e2e8f0'
-      }
-    },
-    'Low': {
-      'heavy': {
-        label: 'Low Susceptibility · Heavy Intensity Rainfall',
-        shortLabel: 'Low Susc × Heavy Rain',
-        desc: 'Elevated ridge receiving heavy rainfall',
-        color: 'rgba(59, 130, 246, 0.60)',
-        badgeColor: '#3b82f6'
-      },
-      'mod': {
-        label: 'Low Susceptibility · Moderate Intensity Rainfall',
-        shortLabel: 'Low Susc × Mod Rain',
-        desc: 'Elevated ridge receiving steady rainfall',
-        color: 'rgba(59, 130, 246, 0.40)',
-        badgeColor: '#60a5fa'
-      },
-      'low': {
-        label: 'Low Susceptibility · Low Intensity Rainfall',
-        shortLabel: 'Low Susc × Low Rain',
-        desc: 'Elevated ridge receiving light rainfall',
-        color: 'rgba(59, 130, 246, 0.20)',
-        badgeColor: '#93c5fd'
-      },
-      'zero': {
-        label: 'Low Susceptibility · Dry / Trace Rainfall',
-        shortLabel: 'Low Susc × Trace',
-        desc: 'Elevated ridge under dry/trace conditions',
-        color: 'rgba(100, 116, 139, 0.10)',
-        badgeColor: '#94a3b8'
+  const presetMm = state.simActivePreset || 50;
+  const stepIdx = state.simActiveStepIdx || 0;
+  const depthMap = getTimestepDepthMap(presetMm, stepIdx);
+
+  // Update scenario context in UI
+  const presetEl = document.getElementById('rescueActivePresetText');
+  const stepEl = document.getElementById('rescueActiveStepText');
+  if (presetEl) presetEl.textContent = `${presetMm} mm`;
+  if (stepEl) stepEl.textContent = `${stepIdx} / ${stepIdx * 5}m`;
+
+  const assessments = [];
+
+  state.rescueLocations.forEach(loc => {
+    // 1. Snap to nearest node in street network
+    let nearestNode = null;
+    let bestDist = Infinity;
+    if (state.routingGraph && state.routingGraph.nodes) {
+      for (const n of state.routingGraph.nodes) {
+        const c = n.coords;
+        const d = distanceMeters(c[0], c[1], loc.coords[0], loc.coords[1]);
+        if (d < bestDist) {
+          bestDist = d;
+          nearestNode = n;
+        }
       }
     }
-  };
 
-  const tierMap = matrix[t] || matrix['Low'];
-  return tierMap[intensity] || tierMap['zero'];
-}
-
-/**
- * Synchronize M4 UI state, warnings, and timeline controls
- */
-function updateM4UI() {
-  const isSample = state.rainfallSource === 'sample';
-  const badge = document.getElementById('m4StateBadge');
-  const bannerContainer = document.getElementById('m4BannerContainer');
-  const subcontrols = document.getElementById('m4Subcontrols');
-  const toggle = document.getElementById('toggleM4Synthesis');
-
-  if (!isSample) {
-    // UNAVAILABLE STATE (Raw Directory has 0 files)
-    if (badge) {
-      badge.className = 'layer-badge badge-m4 badge-status-pill pill-unavailable';
-      badge.textContent = 'UNAVAILABLE';
+    // 2. Identify connecting/access edges
+    const accessEdges = [];
+    if (nearestNode && state.routingGraph && state.routingGraph.edges) {
+      state.routingGraph.edges.forEach(e => {
+        if (e.from_node === nearestNode.id || e.to_node === nearestNode.id) {
+          accessEdges.push(e);
+        } else if (loc.access_roads && loc.access_roads.includes(e.name)) {
+          // Corridor road matching
+          accessEdges.push(e);
+        }
+      });
     }
-    if (bannerContainer) {
-      bannerContainer.innerHTML = `
-        <div class="banner-unavailable" id="m4BannerUnavailable">
-          <div class="banner-state-title">DATA STATE: UNAVAILABLE</div>
-          <p class="banner-state-desc">
-            Actual usable rainfall observations are absent from source directory (<code style="font-size:0.7rem; color:#fca5a5;">C:\\AquaPredict_tests\\rainfall\\</code>).
-            Real-data dynamic synthesis is disabled; static M1 terrain susceptibility displayed.
-          </p>
-          <button class="source-tab-btn" id="btnM4SwitchToDemo" style="margin-top: 8px; width: 100%; justify-content: center; font-size: 0.72rem;">
-            <span>Switch to Synthetic Demonstration (Station 1600)</span>
-          </button>
-        </div>
-      `;
-      const btnSwitch = document.getElementById('btnM4SwitchToDemo');
-      if (btnSwitch) {
-        btnSwitch.addEventListener('click', () => {
-          state.rainfallSource = 'sample';
-          const btnSample = document.getElementById('btnSourceSample');
-          const btnLive = document.getElementById('btnSourceLive');
-          if (btnSample) btnSample.classList.add('active');
-          if (btnLive) btnLive.classList.remove('active');
-          const info = document.getElementById('sourceInfoLabel');
-          if (info) info.textContent = 'Exploratory Fixture: HCFWS Station 1600 (Buffalo Bayou @ Milam St)';
-          updateRainfallBadges();
-          renderRainfallModal();
-          updateM4UI();
-        });
+
+    // 3. Assess depth & impassability across connecting access roads
+    let maxConnectingDepth = 0.0;
+    let impassableEdgesCount = 0;
+    const dataAvailable = (depthMap !== null);
+
+    accessEdges.forEach(e => {
+      const assessment = assessEdgeWaterlogging(e, presetMm, stepIdx, 'vehicle');
+      if (assessment.maxDepthM > maxConnectingDepth) {
+        maxConnectingDepth = assessment.maxDepthM;
       }
-    }
-    if (subcontrols) subcontrols.style.display = 'none';
-
-    // If synthesis overlay was active, remove it and disable toggle
-    if (toggle) toggle.checked = false;
-    state.m4Enabled = false;
-    if (state.layers.m4SynthesisOverlay && state.map.hasLayer(state.layers.m4SynthesisOverlay)) {
-      state.map.removeLayer(state.layers.m4SynthesisOverlay);
-    }
-    const cursorM4 = document.getElementById('cursorM4Text');
-    if (cursorM4) {
-      cursorM4.innerHTML = `<span class="badge-tier tier-unavailable">Synthesis Unavailable</span>`;
-    }
-  } else {
-    // UNVERIFIED DEMONSTRATION STATE
-    if (badge) {
-      badge.className = 'layer-badge badge-m4 badge-status-pill pill-unverified';
-      badge.textContent = 'UNVERIFIED DEMO';
-    }
-    if (bannerContainer) {
-      bannerContainer.innerHTML = `
-        <div class="banner-demo" id="m4BannerDemo">
-          <span class="banner-warning-badge">SYNTHETIC DEMONSTRATION — NOT OBSERVED RAINFALL</span>
-          <p class="banner-warning-text">
-            This time series is an unverified synthetic fixture (Station 1600, 96 intervals). It does not reflect verified historical observations and is not calibrated to physical inundation.
-          </p>
-        </div>
-      `;
-    }
-    if (subcontrols) {
-      subcontrols.style.display = 'flex';
-    }
-    // Update timeline display
-    onM4TimelineChange(state.m4ActiveIntervalIdx);
-  }
-}
-
-/**
- * Helper to get active rainfall records/intervals reliably
- */
-function getActiveRainfallRecords() {
-  const data = state.rainfallSource === 'sample' ? state.rainfallSample : state.rainfallLive;
-  if (!data) return [];
-  return data.records || data.intervals || [];
-}
-
-/**
- * Handle Timeline Slider or Programmatic Interval Change
- */
-function onM4TimelineChange(idx) {
-  state.m4ActiveIntervalIdx = parseInt(idx, 10);
-  const intervals = getActiveRainfallRecords();
-  if (intervals.length === 0) return;
-
-  const boundedIdx = Math.min(Math.max(state.m4ActiveIntervalIdx, 0), intervals.length - 1);
-  const intv = intervals[boundedIdx];
-
-  // Update slider position
-  const slider = document.getElementById('m4TimelineSlider');
-  if (slider && parseInt(slider.value, 10) !== boundedIdx) {
-    slider.value = boundedIdx;
-  }
-
-  // Update Header Labels
-  const stepLabel = document.getElementById('m4IntervalStepLabel');
-  if (stepLabel) {
-    stepLabel.textContent = `Interval ${boundedIdx + 1} of ${intervals.length}`;
-  }
-
-  const timeLabel = document.getElementById('m4TimestampLabel');
-  if (timeLabel) {
-    const fromParts = intv.date_from ? intv.date_from.split(' ') : [''];
-    const toParts = intv.date_to ? intv.date_to.split(' ') : [''];
-    const timeFrom = fromParts.length >= 3 ? `${fromParts[1]} ${fromParts[2]}` : (intv.date_from || '');
-    const timeTo = toParts.length >= 3 ? `${toParts[1]} ${toParts[2]}` : (intv.date_to || '');
-    timeLabel.textContent = `${timeFrom} - ${timeTo}`;
-  }
-
-  // Calculate Metrics
-  const rawRain = intv.rain_in;
-  const durMin = (intv.duration_minutes !== undefined) ? intv.duration_minutes : 15;
-  const rateInHr = calculateM4Intensity(rawRain, durMin);
-  const category = classifyM4Intensity(rateInHr);
-
-  const cardRain = document.getElementById('m4CardRainVal');
-  const cardRate = document.getElementById('m4CardRateVal');
-  const cardCum = document.getElementById('m4CardCumVal');
-  const cardClass = document.getElementById('m4CardClassVal');
-
-  if (rateInHr === null) {
-    if (cardRain) cardRain.textContent = 'Invalid Data';
-    if (cardRate) cardRate.textContent = 'Invalid Rate';
-    if (cardCum) cardCum.textContent = 'Invalid / N/A';
-    if (cardClass) cardClass.textContent = 'Invalid Input (Synthesis Halted)';
-
-    if (state.layers.m4SynthesisOverlay && state.map.hasLayer(state.layers.m4SynthesisOverlay)) {
-      state.map.removeLayer(state.layers.m4SynthesisOverlay);
-    }
-  } else {
-    const rainIn = rawRain;
-    const rainMm = (rainIn * 25.4).toFixed(1);
-    const rateMmHr = (rateInHr * 25.4).toFixed(1);
-
-    // Cumulative rain up to this index
-    let cumIn = 0.0;
-    for (let i = 0; i <= boundedIdx; i++) {
-      cumIn += (intervals[i].rain_in || 0.0);
-    }
-    const cumMm = (cumIn * 25.4).toFixed(1);
-
-    if (cardRain) cardRain.textContent = `${rainIn.toFixed(2)} in (${rainMm} mm)`;
-    if (cardRate) cardRate.textContent = `${rateInHr.toFixed(2)} in/hr (${rateMmHr} mm/h)`;
-    if (cardCum) cardCum.textContent = `${cumIn.toFixed(2)} in (${cumMm} mm)`;
-    if (cardClass) cardClass.textContent = `${category.name} (Provisional)`;
-
-    // Update dynamic raster if layer enabled
-    if (state.m4Enabled) {
-      renderM4DynamicOverlay();
-    }
-  }
-}
-
-/**
- * Render Dynamic Synthesis Overlay (100x100 Bivariate Visualizer)
- */
-function renderM4DynamicOverlay() {
-  if (!state.m4Enabled) {
-    if (state.layers.m4SynthesisOverlay && state.map.hasLayer(state.layers.m4SynthesisOverlay)) {
-      state.map.removeLayer(state.layers.m4SynthesisOverlay);
-    }
-    return;
-  }
-
-  // Only render if in demonstration mode with valid grid
-  if (state.rainfallSource === 'live' || !state.rainfallSample || !state.suscGrid) {
-    if (state.layers.m4SynthesisOverlay && state.map.hasLayer(state.layers.m4SynthesisOverlay)) {
-      state.map.removeLayer(state.layers.m4SynthesisOverlay);
-    }
-    return;
-  }
-
-  const intervals = getActiveRainfallRecords();
-  const idx = Math.min(Math.max(state.m4ActiveIntervalIdx, 0), intervals.length - 1);
-  const intv = intervals[idx];
-  if (!intv) return;
-
-  const durMin = (intv.duration_minutes !== undefined) ? intv.duration_minutes : 15;
-  const rate = calculateM4Intensity(intv.rain_in, durMin);
-  if (rate === null) {
-    if (state.layers.m4SynthesisOverlay && state.map.hasLayer(state.layers.m4SynthesisOverlay)) {
-      state.map.removeLayer(state.layers.m4SynthesisOverlay);
-    }
-    return;
-  }
-  const cols = state.suscGrid.cols || 100;
-  const rows = state.suscGrid.rows || 100;
-
-  // Create or reuse offscreen canvas
-  let canvas = document.getElementById('m4OffscreenCanvas');
-  if (!canvas) {
-    canvas = document.createElement('canvas');
-    canvas.id = 'm4OffscreenCanvas';
-    canvas.width = cols;
-    canvas.height = rows;
-  }
-  const ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, cols, rows);
-
-  // Pre-calculate colors for the 4 tiers at this rainfall rate
-  const tierColors = {
-    'High': getBivariateCategory('High', rate).color,
-    'Elevated': getBivariateCategory('Elevated', rate).color,
-    'Moderate': getBivariateCategory('Moderate', rate).color,
-    'Low': getBivariateCategory('Low', rate).color
-  };
-
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const tier = state.suscGrid.grid[r][c].tier;
-      ctx.fillStyle = tierColors[tier] || 'rgba(0,0,0,0)';
-      ctx.fillRect(c, r, 1, 1);
-    }
-  }
-
-  const dataUrl = canvas.toDataURL();
-  if (!state.layers.m4SynthesisOverlay) {
-    state.layers.m4SynthesisOverlay = L.imageOverlay(dataUrl, PILOT_BOUNDS, {
-      opacity: 0.85,
-      interactive: false,
-      pane: 'm4Pane'
+      if (assessment.isImpassable || assessment.maxDepthM >= 0.30) {
+        impassableEdgesCount++;
+      }
     });
-  } else {
-    state.layers.m4SynthesisOverlay.setUrl(dataUrl);
-  }
 
-  if (!state.map.hasLayer(state.layers.m4SynthesisOverlay)) {
-    state.layers.m4SynthesisOverlay.addTo(state.map);
-  }
-}
+    // 4. Determine Risk Category
+    let riskReason = null;
+    let isCriticalRisk = false;
 
-/**
- * Toggle M4 Synthesis Layer Visibility
- */
-function toggleM4Synthesis(enable) {
-  state.m4Enabled = enable;
-  const cursorM4 = document.getElementById('cursorM4Text');
-
-  if (!enable) {
-    if (state.layers.m4SynthesisOverlay && state.map.hasLayer(state.layers.m4SynthesisOverlay)) {
-      state.map.removeLayer(state.layers.m4SynthesisOverlay);
-    }
-    if (cursorM4) {
-      cursorM4.innerHTML = `<span class="badge-tier tier-inactive">Synthesis Layer Off</span>`;
-    }
-  } else {
-    if (state.rainfallSource === 'sample') {
-      renderM4DynamicOverlay();
+    if (!dataAvailable) {
+      riskReason = 'Assessment Unavailable';
+    } else if (accessEdges.length > 0 && impassableEdgesCount === accessEdges.length) {
+      riskReason = 'Community Isolation Risk';
+      isCriticalRisk = true;
+    } else if (impassableEdgesCount > 0) {
+      riskReason = 'Road Failure Risk';
+      isCriticalRisk = true;
     } else {
-      if (cursorM4) {
-        cursorM4.innerHTML = `<span class="badge-tier tier-unavailable">Synthesis Unavailable</span>`;
-      }
+      riskReason = 'No Critical Risk Detected';
+      isCriticalRisk = false;
     }
+
+    assessments.push({
+      ...loc,
+      nearestNodeId: nearestNode ? nearestNode.id : null,
+      snapDistM: Math.round(bestDist),
+      accessEdgesCount: accessEdges.length,
+      impassableEdgesCount: impassableEdgesCount,
+      maxConnectingDepthM: maxConnectingDepth,
+      riskReason: riskReason,
+      isCriticalRisk: isCriticalRisk,
+      dataAvailable: dataAvailable
+    });
+  });
+
+  // 5. Rescue Priority Ranking
+  // Critical facilities (Hospitals) and Community Isolation receive highest urgency
+  const atRisk = assessments.filter(a => a.isCriticalRisk);
+  atRisk.sort((a, b) => {
+    // Critical facility priority
+    if (a.is_critical && !b.is_critical) return -1;
+    if (!a.is_critical && b.is_critical) return 1;
+
+    // Isolation Risk higher than Road Failure Risk
+    if (a.riskReason === 'Community Isolation Risk' && b.riskReason !== 'Community Isolation Risk') return -1;
+    if (a.riskReason !== 'Community Isolation Risk' && b.riskReason === 'Community Isolation Risk') return 1;
+
+    // Max water depth severity
+    return b.maxConnectingDepthM - a.maxConnectingDepthM;
+  });
+
+  // Assign sequential Priority 1, Priority 2, Priority 3...
+  let priorityRank = 1;
+  atRisk.forEach(loc => {
+    loc.priority = priorityRank++;
+  });
+
+  state.rescueRiskAssessments = assessments;
+
+  // 6. Update UI List and Map Markers
+  renderRescuePriorityList();
+  renderRescueMapMarkers();
+
+  // 7. Update Header/Sidebar Badge
+  const countBadge = document.getElementById('rescueActiveAlertCountBadge');
+  if (countBadge) {
+    countBadge.textContent = `${atRisk.length} Critical`;
+    countBadge.style.background = atRisk.length > 0 ? 'rgba(239, 68, 68, 0.12)' : 'rgba(16, 185, 129, 0.12)';
+    countBadge.style.color = atRisk.length > 0 ? '#ef4444' : '#059669';
   }
 }
 
 /**
- * Toggle Timeline Playback Animation
+ * Render Categorized Location List in Sidebar
  */
-function toggleM4Playback() {
-  const intervals = getActiveRainfallRecords();
-  if (intervals.length === 0) return;
+function renderRescuePriorityList() {
+  const container = document.getElementById('rescueCategoriesTree');
+  if (!container || !state.rescueRiskAssessments) return;
 
-  const playIcon = document.getElementById('m4PlayIcon');
-  const playText = document.getElementById('m4PlayText');
+  const categories = [
+    { key: 'Hospitals', icon: '🏥' },
+    { key: 'Residential Areas', icon: '🏡' },
+    { key: 'Societies', icon: '🏛️' },
+    { key: 'Villages', icon: '🏘️' },
+    { key: 'Communities', icon: '👥' }
+  ];
 
-  if (state.m4IsPlaying) {
-    clearInterval(state.m4Timer);
-    state.m4Timer = null;
-    state.m4IsPlaying = false;
-    if (playIcon) playIcon.textContent = '▶';
-    if (playText) playText.textContent = 'Play';
-  } else {
-    state.m4IsPlaying = true;
-    if (playIcon) playIcon.textContent = '❚❚';
-    if (playText) playText.textContent = 'Pause';
+  let html = '';
 
-    state.m4Timer = setInterval(() => {
-      let nextIdx = state.m4ActiveIntervalIdx + 1;
-      if (nextIdx >= intervals.length) {
-        nextIdx = 0; // Loop back
+  categories.forEach(cat => {
+    const locs = state.rescueRiskAssessments.filter(a => a.category === cat.key);
+    if (locs.length === 0) return;
+
+    const riskCount = locs.filter(a => a.isCriticalRisk).length;
+
+    html += `
+      <div class="rescue-cat-group">
+        <div class="rescue-cat-header">
+          <div class="rescue-cat-header-title">
+            <span>${cat.icon}</span>
+            <span>${cat.key}</span>
+          </div>
+          <span class="rescue-cat-count">${riskCount > 0 ? `<strong style="color:#ef4444;">${riskCount} at risk</strong> / ` : ''}${locs.length} total</span>
+        </div>
+        <div class="rescue-cat-items">
+    `;
+
+    locs.forEach(loc => {
+      const isActive = state.activeRescueLocId === loc.id;
+      let statusHtml = '';
+
+      if (!loc.dataAvailable) {
+        statusHtml = `<span class="risk-unavail-text">— Assessment Unavailable</span>`;
+      } else if (loc.isCriticalRisk) {
+        const riskClass = loc.riskReason === 'Community Isolation Risk' ? 'risk-tag-isolation' : 'risk-tag-road-failure';
+        statusHtml = `
+          <span class="rescue-danger-dot">🔴</span>
+          <span class="${riskClass}">${loc.riskReason}</span>
+          <span class="priority-tag-pill">Priority ${loc.priority}</span>
+        `;
+      } else {
+        statusHtml = `<span class="risk-safe-text">— No Critical Risk Detected</span>`;
       }
-      onM4TimelineChange(nextIdx);
-    }, 400); // 400ms per 15-minute interval
+
+      html += `
+        <div class="rescue-loc-card ${isActive ? 'is-active' : ''}" onclick="zoomToRescueLocation('${loc.id}')" title="Click to inspect ${loc.name} on map">
+          <div class="rescue-loc-card-header">${loc.name}</div>
+          <div class="rescue-loc-card-status">${statusHtml}</div>
+        </div>
+      `;
+    });
+
+    html += `
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+/**
+ * Render Red Rescue Alert Markers on Map
+ */
+function renderRescueMapMarkers() {
+  if (!state.rescueMarkersLayerGroup) return;
+  state.rescueMarkersLayerGroup.clearLayers();
+
+  if (!state.rescueShowMarkers || !state.rescueRiskAssessments) return;
+
+  const atRisk = state.rescueRiskAssessments.filter(a => a.isCriticalRisk);
+
+  atRisk.forEach(loc => {
+    const markerHtml = `
+      <div class="rescue-pulse-marker" title="${loc.name} (${loc.riskReason} - Priority ${loc.priority})">
+        <span>${loc.priority}</span>
+      </div>
+    `;
+
+    const icon = L.divIcon({
+      className: 'custom-rescue-icon',
+      html: markerHtml,
+      iconSize: [26, 26],
+      iconAnchor: [13, 13],
+      popupAnchor: [0, -14]
+    });
+
+    const marker = L.marker([loc.coords[1], loc.coords[0]], { icon: icon });
+
+    const popupHtml = `
+      <div class="rescue-popup-container">
+        <div class="rescue-popup-title">${loc.name}</div>
+        <div class="rescue-popup-category">${loc.category} · ${loc.address || 'Houston Pilot Area'}</div>
+        <div class="rescue-popup-risk-badge">
+          <span>🔴</span>
+          <span>${loc.riskReason} — Priority ${loc.priority}</span>
+        </div>
+        <div style="font-size:0.72rem; color:#475569; margin-top:4px;">
+          <div>Modeled Access Depth: <strong>${loc.maxConnectingDepthM.toFixed(2)}m</strong></div>
+          <div>Impassable Access Roads: <strong>${loc.impassableEdgesCount} of ${loc.accessEdgesCount}</strong></div>
+          <div style="margin-top:4px; font-size:0.67rem; color:#94a3b8;">Source: ${loc.source}</div>
+        </div>
+      </div>
+    `;
+
+    marker.bindPopup(popupHtml);
+    loc._marker = marker;
+    state.rescueMarkersLayerGroup.addLayer(marker);
+  });
+}
+
+/**
+ * Zoom to and Highlight a Rescue Location
+ */
+function zoomToRescueLocation(locId) {
+  if (!state.rescueRiskAssessments) return;
+  const loc = state.rescueRiskAssessments.find(a => a.id === locId);
+  if (!loc || !state.map) return;
+
+  state.activeRescueLocId = locId;
+  renderRescuePriorityList();
+
+  ensure2DMapView();
+  state.map.setView([loc.coords[1], loc.coords[0]], 17, { animate: true });
+
+  if (loc._marker) {
+    loc._marker.openPopup();
+  } else {
+    L.popup()
+      .setLatLng([loc.coords[1], loc.coords[0]])
+      .setContent(`
+        <div class="rescue-popup-container">
+          <div class="rescue-popup-title">${loc.name}</div>
+          <div class="rescue-popup-category">${loc.category}</div>
+          <div style="font-size:0.72rem; color:#059669; font-weight:600; margin-top:4px;">
+            ${loc.riskReason}
+          </div>
+        </div>
+      `)
+      .openOn(state.map);
   }
-}
-
-/**
- * Jump to previous 15-min interval
- */
-function onM4Prev() {
-  const nextIdx = Math.max(state.m4ActiveIntervalIdx - 1, 0);
-  onM4TimelineChange(nextIdx);
-}
-
-/**
- * Jump to next 15-min interval
- */
-function onM4Next() {
-  const intervals = getActiveRainfallRecords();
-  const nextIdx = Math.min(state.m4ActiveIntervalIdx + 1, Math.max(intervals.length - 1, 0));
-  onM4TimelineChange(nextIdx);
-}
-
-/**
- * Jump directly to peak downpour interval (#24, index 23)
- */
-function onM4Peak() {
-  onM4TimelineChange(23);
 }
 
 /**
@@ -2782,6 +2543,7 @@ function selectSimPreset(val) {
 
   updateSimUI();
   updateRainfallModeIndicator();
+  evaluateRescuePriorities();
 
   if (state.simLayerEnabled) {
     renderSimDynamicOverlay();
@@ -2801,6 +2563,7 @@ function onSimTimelineChange(stepVal) {
   }
 
   updateSimUI();
+  evaluateRescuePriorities();
 
   if (state.simLayerEnabled) {
     renderSimDynamicOverlay();

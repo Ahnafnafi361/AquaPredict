@@ -1,0 +1,156 @@
+{
+  "dataset": "City of Houston Enterprise GIS Real Locations",
+  "bounding_box": [-95.3750, 29.7560, -95.3650, 29.7650],
+  "categories": [
+    "Hospitals",
+    "Residential Areas",
+    "Societies",
+    "Villages",
+    "Communities"
+  ],
+  "locations": [
+    {
+      "id": "hosp_christus_st_joseph",
+      "name": "CHRISTUS St. Joseph Hospital (Downtown)",
+      "category": "Hospitals",
+      "coords": [-95.3668, 29.7492],
+      "source": "City of Houston Enterprise GIS (DIR/healthandPublicSafety_gx Layer 13 Hospitals, OBJECTID 12)",
+      "facility_type": "Acute Care & Trauma Receiving Center",
+      "is_critical": true,
+      "address": "1919 La Branch St, Houston 77002",
+      "access_roads": ["TRAVIS ST", "MILAM ST", "PEASE IH 45 RAMP"]
+    },
+    {
+      "id": "hosp_good_neighbor",
+      "name": "Good Neighbor Healthcare Center",
+      "category": "Hospitals",
+      "coords": [-95.3782, 29.7525],
+      "source": "City of Houston Enterprise GIS (DIR/healthandPublicSafety_gx Layer 11 Clinics, OBJECTID 65)",
+      "facility_type": "Primary Health Clinic",
+      "is_critical": true,
+      "address": "277 W Gray St, Houston 77019",
+      "access_roads": ["W DALLAS ST", "HEINER ST"]
+    },
+    {
+      "id": "res_sabine_island",
+      "name": "Sabine Island Residential District",
+      "category": "Residential Areas",
+      "coords": [-95.3738, 29.7628],
+      "source": "City of Houston Enterprise GIS (DIR/ReferenceAndBoundaries_gx Layer 29 Subdivision, OBJECTID 690)",
+      "facility_type": "Residential Neighborhood",
+      "is_critical": false,
+      "address": "Sabine St Corridor along Buffalo Bayou",
+      "access_roads": ["SABINE ST", "MEMORIAL DR", "WALKER SABINE RAMP"]
+    },
+    {
+      "id": "res_old_sixth_ward",
+      "name": "Old Sixth Ward Historic Residential",
+      "category": "Residential Areas",
+      "coords": [-95.3745, 29.7645],
+      "source": "City of Houston Enterprise GIS (DIR/ReferenceAndBoundaries_gx Layer 18 Historic District & Layer 40 Civic Clubs)",
+      "facility_type": "Historic Residential District",
+      "is_critical": false,
+      "address": "1816 Kane St / Memorial Dr Corridor",
+      "access_roads": ["HOUSTON AVE", "LUBBOCK ST", "STATE ST"]
+    },
+    {
+      "id": "res_reisner",
+      "name": "Reisner Subdivision",
+      "category": "Residential Areas",
+      "coords": [-95.3725, 29.7638],
+      "source": "City of Houston Enterprise GIS (DIR/ReferenceAndBoundaries_gx Layer 29 Subdivision, OBJECTID 7112)",
+      "facility_type": "Residential Subdivision",
+      "is_critical": false,
+      "address": "Reisner St Corridor",
+      "access_roads": ["PRESTON ST", "FRANKLIN ST"]
+    },
+    {
+      "id": "res_johnson",
+      "name": "Johnson Subdivision",
+      "category": "Residential Areas",
+      "coords": [-95.3735, 29.7642],
+      "source": "City of Houston Enterprise GIS (DIR/ReferenceAndBoundaries_gx Layer 29 Subdivision, OBJECTID 7861)",
+      "facility_type": "Residential Subdivision",
+      "is_critical": false,
+      "address": "Memorial Northwest Ridge",
+      "access_roads": ["MEMORIAL SERVICE RD", "HOUSTON AVE"]
+    },
+    {
+      "id": "soc_old_sixth_ward_assoc",
+      "name": "Old Sixth Ward Neighborhood Association",
+      "category": "Societies",
+      "coords": [-95.3745, 29.7645],
+      "source": "City of Houston Enterprise GIS (DIR/ReferenceAndBoundaries_gx Layer 40 Civic Clubs/HOA's, OBJECTID 395)",
+      "facility_type": "Civic Club & Neighborhood Society",
+      "is_critical": false,
+      "address": "1816 Kane St, Houston 77007",
+      "access_roads": ["HOUSTON AVE", "LUBBOCK ST"]
+    },
+    {
+      "id": "soc_freedmens_town_assoc",
+      "name": "Freedmen's Town Association, Inc.",
+      "category": "Societies",
+      "coords": [-95.3715, 29.7568],
+      "source": "City of Houston Enterprise GIS (DIR/ReferenceAndBoundaries_gx Layer 40 Civic Clubs/HOA's, OBJECTID 364)",
+      "facility_type": "Civic Society & Historic Association",
+      "is_critical": false,
+      "address": "1320 Robin St, Houston 77019",
+      "access_roads": ["ROBIN ST", "ANDREWS ST", "HEINER ST"]
+    },
+    {
+      "id": "soc_cdc_freedmens_town",
+      "name": "CDC of Freedmen's Town",
+      "category": "Societies",
+      "coords": [-95.3722, 29.7572],
+      "source": "City of Houston Enterprise GIS (DIR/ReferenceAndBoundaries_gx Layer 40 Civic Clubs/HOA's, OBJECTID 294)",
+      "facility_type": "Community Development Society",
+      "is_critical": false,
+      "address": "Robin & Buckner St Corridor",
+      "access_roads": ["ROBIN ST", "W DALLAS ST"]
+    },
+    {
+      "id": "vil_allen_parkway_village",
+      "name": "Allen Parkway Village",
+      "category": "Villages",
+      "coords": [-95.3740, 29.7610],
+      "source": "City of Houston Enterprise GIS (DIR/healthandPublicSafety_gx Layer 11 Clinic/Facility ID 79 & HUD Historic District)",
+      "facility_type": "Historic Residential Community Village",
+      "is_critical": false,
+      "address": "1600 Allen Parkway, Houston 77019",
+      "access_roads": ["ALLEN PKWY", "WALKER ST", "W DALLAS ST"]
+    },
+    {
+      "id": "com_fonde_center",
+      "name": "Fonde Community Center",
+      "category": "Communities",
+      "coords": [-95.3735, 29.7635],
+      "source": "City of Houston Enterprise GIS (DIR/Parks_gx Layer 2 Community Center, OBJECTID 44, Site 385)",
+      "facility_type": "Municipal Community & Recreation Center",
+      "is_critical": false,
+      "address": "110 Sabine St, Houston 77007",
+      "access_roads": ["SABINE ST", "MEMORIAL DR"]
+    },
+    {
+      "id": "com_wesley_anchor",
+      "name": "Wesley Anchor Community House",
+      "category": "Communities",
+      "coords": [-95.3720, 29.7565],
+      "source": "City of Houston Enterprise GIS (DIR/healthandPublicSafety_gx Layer 11, OBJECTID 129)",
+      "facility_type": "Senior & Community Outreach House",
+      "is_critical": false,
+      "address": "1200 W Dallas St, Houston 77019",
+      "access_roads": ["W DALLAS ST", "ANDREWS ST"]
+    },
+    {
+      "id": "com_freedmens_town_comm",
+      "name": "Freedmen's Town Historic Community",
+      "category": "Communities",
+      "coords": [-95.3710, 29.7575],
+      "source": "City of Houston Enterprise GIS (DIR/ReferenceAndBoundaries_gx Layer 31 Super Neighborhood 60)",
+      "facility_type": "Historic Community Settlement",
+      "is_critical": false,
+      "address": "Fourth Ward Historical Sector",
+      "access_roads": ["ANDREWS ST", "ROBIN ST", "HEINER ST", "W DALLAS ST"]
+    }
+  ]
+}

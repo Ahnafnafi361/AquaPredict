@@ -3608,3 +3608,232 @@ body.demo-mode-active .hud-3d-controls {
     width: 100%;
   }
 }
+
+/* ==========================================================================
+   Rescue Priority Predictor Styles (Replacing M4 Dynamic Synthesis)
+   ========================================================================== */
+
+.highlight-rescue-item {
+  border-left: 3px solid #ef4444;
+}
+
+.status-rescue-pill {
+  font-size: 0.69rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 6px;
+  white-space: nowrap;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.badge-rescue-alert {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.28);
+}
+
+.rescue-context-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  padding: 4px 6px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 4px;
+}
+
+.rescue-categories-tree {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.rescue-cat-group {
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.015);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.rescue-cat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  background: rgba(0, 0, 0, 0.03);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.rescue-cat-header-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rescue-cat-count {
+  font-size: 0.67rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.rescue-cat-items {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 6px;
+  gap: 4px;
+}
+
+.rescue-loc-card {
+  padding: 6px 8px;
+  border-radius: 5px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-size: 0.74rem;
+}
+
+.rescue-loc-card:hover {
+  background: rgba(239, 68, 68, 0.04);
+  border-color: rgba(239, 68, 68, 0.35);
+  transform: translateX(2px);
+}
+
+.rescue-loc-card.is-active {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: #ef4444;
+  box-shadow: 0 0 0 1px #ef4444;
+}
+
+.rescue-loc-card-header {
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.rescue-loc-card-status {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 3px;
+  font-size: 0.71rem;
+}
+
+.rescue-danger-dot {
+  color: #ef4444;
+  font-size: 0.72rem;
+  display: inline-block;
+}
+
+.risk-tag-road-failure {
+  font-weight: 700;
+  color: #b91c1c;
+}
+
+.risk-tag-isolation {
+  font-weight: 700;
+  color: #991b1b;
+}
+
+.priority-tag-pill {
+  font-weight: 800;
+  font-size: 0.67rem;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: #ef4444;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+
+.risk-safe-text {
+  font-size: 0.70rem;
+  color: #059669;
+  font-weight: 500;
+}
+
+.risk-unavail-text {
+  font-size: 0.70rem;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+/* Red Pulsing Rescue Map Marker */
+.rescue-pulse-marker {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  background: #ef4444;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 11px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  animation: pulseRescue 1.8s infinite;
+}
+
+@keyframes pulseRescue {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+.rescue-popup-container {
+  font-family: inherit;
+  font-size: 0.76rem;
+  line-height: 1.4;
+  max-width: 240px;
+}
+
+.rescue-popup-title {
+  font-weight: 700;
+  font-size: 0.84rem;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.rescue-popup-category {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.rescue-popup-risk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
