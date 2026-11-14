@@ -126,7 +126,7 @@ def export_static(output_dir=DIST_STATIC_DIR):
     os.makedirs(output_dir, exist_ok=True)
 
     # 2. Copy directories
-    for sub in ["css", "js", "i18n"]:
+    for sub in ["css", "js", "i18n", "assets"]:
         src_sub = os.path.join(PUBLIC_DIR, sub)
         dst_sub = os.path.join(output_dir, sub)
         if os.path.exists(src_sub):

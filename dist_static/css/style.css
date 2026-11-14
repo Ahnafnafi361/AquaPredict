@@ -119,7 +119,21 @@ html, body {
 .brand-logo {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 10px;
+}
+
+.brand-logo-img {
+  height: 34px;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+  filter: drop-shadow(0 2px 4px rgba(11, 48, 72, 0.16));
+  transition: transform 0.2s ease;
+}
+
+.brand-logo-img:hover {
+  transform: scale(1.05);
 }
 
 .logo-icon-pulse {
