@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "framework": null,
+  "outputDirectory": "dist_static",
+  "cleanUrls": true,
+  "trailingSlash": false
+}
+
