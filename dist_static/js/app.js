@@ -4923,10 +4923,10 @@ const GUIDED_DEMO_STAGES = [
   {
     num: '03',
     titleKey: 'guided_demo.s3_title',
-    fallbackTitle: 'Waterlogging Simulation',
+    fallbackTitle: 'Flood Detection',
     descKey: 'guided_demo.s3_desc',
-    fallbackDesc: 'Run the M5 2D hydrodynamic screening model across a 180-minute storm timeline. Observe ponding depths (SIM-01 5-class ramp) accumulating in low-lying topographic depressions, clearly labeled MODELLED and UNVALIDATED.',
-    provenance: 'MODELLED · UNVALIDATED (M5)',
+    fallbackDesc: 'Run the M5 2D hydrodynamic screening model across a 180-minute storm timeline. Observe ponding depths (SIM-01 5-class ramp) accumulating in low-lying topographic depressions.',
+    provenance: 'MODELLED SCREENING (M5)',
     actionKey: 'guided_demo.action_jump_peak',
     fallbackAction: 'Jump to Peak Flood (60m)',
     highlightIds: ['sectionM5Simulation'],
