@@ -1,5 +1,5 @@
 """
-AquaPredict Milestone 7 (M7) — Drainage-Informed Route Planner Test Suite
+AquaPredict Milestone 7 (M7) — Safest Route Planner Test Suite
 
 Verifies:
 1. Route graph connectivity and topology (160 nodes, single connected component)
@@ -539,7 +539,7 @@ class TestM7RoutePlanner(unittest.TestCase):
         self.assertAlmostEqual(p_depth(0.501), 2005.0, places=3)
 
     # --------------------------------------------------------------------------
-    # Flood-Aware Route Decision Support Tests (Requirements 1-8)
+    # Safest Route Decision Support Tests (Requirements 1-8)
     # --------------------------------------------------------------------------
 
     def test_28_flood_aware_route_diversion_when_shortest_submerged(self):

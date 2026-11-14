@@ -74,7 +74,7 @@ const state = {
   m6ActiveTraceLayer: null,
   drainageLoadingMode: false,
   activeInspectorAsset: null,
-  // Milestone 7 (M7) Route Planner State
+  // Milestone 7 (M7) Safest Route Planner State
   streetNetwork: null,
   routingGraph: null,
   m7Meta: null,
@@ -1597,7 +1597,7 @@ function setupEventListeners() {
   }
 
   // ==========================================
-  // Milestone 7 (M7) — Route Planner Events
+  // Milestone 7 (M7) — Safest Route Planner Events
   // ==========================================
   setupRoutePlannerEventListeners();
 }
@@ -3521,7 +3521,7 @@ function updateConduitLoadingStyles() {
 
 /**
  * ==========================================================================
- * Milestone 7 (M7) — Drainage-Informed Route Planner Implementation
+ * Milestone 7 (M7) — Safest Route Planner Implementation
  * ==========================================================================
  */
 
@@ -3594,7 +3594,7 @@ function renderStreetNetworkOverlay() {
 }
 
 /**
- * Setup Route Planner UI Event Listeners
+ * Setup Safest Route Planner UI Event Listeners
  */
 function setupRoutePlannerEventListeners() {
   // Street layer toggle
@@ -4648,7 +4648,7 @@ function renderActiveRouteOnMap() {
 }
 
 /**
- * Update Route Planner UI Elements (Recommendation Box, KPIs, Comparison Table)
+ * Update Safest Route Planner UI Elements (Recommendation Box, KPIs, Comparison Table)
  */
 function updateRouteUI() {
   if (!state.routeAlternatives) return;
@@ -4838,7 +4838,7 @@ function resetRoute() {
 }
 
 /**
- * Open Route Governance & Comparison Modal
+ * Open Safest Route Governance & Comparison Modal
  */
 function openRouteGovernanceModal() {
   const modal = document.getElementById('qualityModalBackdrop');
@@ -4985,10 +4985,10 @@ const GUIDED_DEMO_STAGES = [
   {
     num: '05',
     titleKey: 'guided_demo.s5_title',
-    fallbackTitle: 'Route Analysis',
+    fallbackTitle: 'Safest Route Analysis',
     descKey: 'guided_demo.s5_desc',
-    fallbackDesc: 'Compare M7 flood-aware navigation profiles between Origin (A) and Destination (B): Drainage-Informed, Shortest Path, and Low-EWSI routes, evaluating water depth exposure and surcharged drain proximity.',
-    provenance: 'DRAINAGE-INFORMED ROUTING · EXPERIMENTAL (M7)',
+    fallbackDesc: 'Compare M7 safest route navigation profiles between Origin (A) and Destination (B): Lowest Exposure, Shortest Distance, and Drainage-Informed routes, evaluating water depth exposure and impassable (>0.30m) road segments.',
+    provenance: 'SAFEST ROUTE SCREENING · EXPERIMENTAL (M7)',
     actionKey: 'guided_demo.action_compare_routes',
     fallbackAction: 'Re-Compute Route Comparison',
     highlightIds: ['sectionM7RoutePlanner'],
