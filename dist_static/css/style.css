@@ -3982,29 +3982,28 @@ body.demo-mode-active .hud-3d-controls {
   margin-bottom: 6px;
 }
 
-/* Waterlogged road polyline interactive styling */
-.rescue-water-polyline {
+/* Rescue Corridors Dashed Line (Matching Image 2 Reference) */
+.rescue-corridor-dashed {
   cursor: pointer;
-  filter: drop-shadow(0 0 3px rgba(29, 78, 216, 0.5));
-  transition: all 0.2s ease;
+  transition: stroke 0.15s ease, stroke-width 0.15s ease;
 }
 
-.rescue-water-polyline:hover {
-  opacity: 1 !important;
-  stroke-width: 8px !important;
+.rescue-corridor-dashed:hover {
+  stroke: #dc2626 !important;
+  stroke-width: 3.5px !important;
 }
 
-.rescue-active-road-highlight {
-  animation: pulseRoadHighlight 1.4s infinite alternate;
+/* Map Performance Optimizations for Ultra-Smooth Zoom & Scroll */
+.leaflet-container {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
-@keyframes pulseRoadHighlight {
-  0% {
-    stroke-opacity: 0.55;
-    stroke-width: 7px;
-  }
-  100% {
-    stroke-opacity: 1.0;
-    stroke-width: 11px;
-  }
+.leaflet-pane {
+  will-change: transform;
+}
+
+.leaflet-image-layer {
+  image-rendering: auto;
 }

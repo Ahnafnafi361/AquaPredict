@@ -227,6 +227,12 @@ function initMap() {
     zoom: 16,
     minZoom: 13,
     maxZoom: 19,
+    preferCanvas: true,
+    zoomAnimation: true,
+    fadeAnimation: true,
+    markerZoomAnimation: true,
+    wheelDebounceTime: 60,
+    wheelPxPerZoomLevel: 120,
     zoomControl: true,
     attributionControl: false
   });
@@ -597,10 +603,18 @@ async function loadGisLayers() {
 /**
  * Handle Map Mouse Move for Live Coordinates and DEM Elevation Lookup
  */
+let mouseMoveRaf = null;
 function onMapMouseMove(e) {
+  if (mouseMoveRaf) return;
   const lat = e.latlng.lat;
   const lng = e.latlng.lng;
+  mouseMoveRaf = requestAnimationFrame(() => {
+    mouseMoveRaf = null;
+    processMapMouseMove(lat, lng);
+  });
+}
 
+function processMapMouseMove(lat, lng) {
   // Update coordinate display
   const coordsElem = document.getElementById('cursorCoordsText');
   if (coordsElem) {
@@ -2421,11 +2435,10 @@ function renderRescueMapMarkers() {
 }
 
 /**
- * Render Modeled Waterlogging along Access Roads and Critical Corridors
- * Color mapped strictly to M5 modeled water depth:
- * - High-risk / deeper water (>=0.50m or >=0.30m impassable) -> Deep Blue (#1d4ed8)
- * - Medium-risk waterlogging (0.20m to 0.50m) -> Blue (#2563eb)
- * - Lower-depth waterlogging (0.02m to 0.20m) -> Sky Blue (#60a5fa)
+ * Render Modeled Waterlogging and Access Corridors (Matching Image 2 Reference)
+ * - Natural soft flood surface is rendered via M5 simulation raster overlay.
+ * - At-risk access corridors traversing flooded pools are shown as clean dashed lines (Image 2 style).
+ * - Hard, solid deep blue vector lines are completely removed.
  */
 function renderRescueWaterloggedRoads() {
   if (!state.rescueWaterloggingLayerGroup) return;
@@ -2439,121 +2452,83 @@ function renderRescueWaterloggedRoads() {
   const depthMap = getTimestepDepthMap(presetMm, stepIdx);
   if (!depthMap || !state.routingGraph || !state.routingGraph.edges) return;
 
-  // Map each edge to the rescue locations that rely on it
-  const edgeLocationMap = new Map();
-  state.rescueRiskAssessments.forEach(loc => {
+  // Ensure M5 flood surface is visible to provide the natural waterlogging background (Image 2 reference)
+  if (!state.simLayerEnabled) {
+    const simToggle = document.getElementById('toggleSimulationLayer');
+    if (simToggle) simToggle.checked = true;
+    state.simLayerEnabled = true;
+    renderSimDynamicOverlay();
+  }
+
+  // Identify at-risk access corridors that traverse flooded pools
+  const atRiskCorridorsMap = new Map();
+  state.rescueRiskAssessments.filter(a => a.isCriticalRisk).forEach(loc => {
     if (loc.floodedEdges) {
       loc.floodedEdges.forEach(item => {
         const eid = item.edge.edge_id;
-        if (!edgeLocationMap.has(eid)) {
-          edgeLocationMap.set(eid, {
+        if (!atRiskCorridorsMap.has(eid)) {
+          atRiskCorridorsMap.set(eid, {
             edge: item.edge,
             assessment: item.assessment,
             locations: [loc]
           });
         } else {
-          edgeLocationMap.get(eid).locations.push(loc);
+          atRiskCorridorsMap.get(eid).locations.push(loc);
         }
       });
     }
   });
 
-  // Also evaluate all other network edges within the pilot area to render visible waterlogging
-  state.routingGraph.edges.forEach(e => {
-    if (!edgeLocationMap.has(e.edge_id)) {
-      const assessment = assessEdgeWaterlogging(e, presetMm, stepIdx, 'vehicle');
-      if (assessment.maxDepthM > 0.02) {
-        edgeLocationMap.set(e.edge_id, {
-          edge: e,
-          assessment: assessment,
-          locations: []
-        });
-      }
-    }
-  });
+  let corridorCount = 0;
 
-  let floodedCount = 0;
-
-  edgeLocationMap.forEach(({ edge, assessment, locations }) => {
+  atRiskCorridorsMap.forEach(({ edge, assessment, locations }) => {
     const maxD = assessment.maxDepthM;
     if (maxD <= 0.02) return;
-    floodedCount++;
-
-    let waterColor, casingColor, weight, casingWeight, depthCategory;
-    if (maxD >= 0.50 || assessment.isImpassable || maxD >= 0.30) {
-      waterColor = '#1d4ed8'; // Deep Blue
-      casingColor = '#1e3a8a';
-      weight = 5.5;
-      casingWeight = 9.0;
-      depthCategory = 'Deep Blue — High Risk (Impassable ≥0.30m)';
-    } else if (maxD >= 0.20) {
-      waterColor = '#2563eb'; // Blue
-      casingColor = '#3b82f6';
-      weight = 4.5;
-      casingWeight = 7.5;
-      depthCategory = 'Blue — Medium-Risk Waterlogging (0.20m–0.50m)';
-    } else {
-      waterColor = '#60a5fa'; // Sky Blue
-      casingColor = '#93c5fd';
-      weight = 3.5;
-      casingWeight = 6.0;
-      depthCategory = 'Sky Blue — Lower-Depth Waterlogging (≤0.20m)';
-    }
+    corridorCount++;
 
     const latLngs = edge.coords.map(c => [c[1], c[0]]);
 
-    // Outer glow casing
-    const casing = L.polyline(latLngs, {
-      color: casingColor,
-      weight: casingWeight,
-      opacity: 0.35,
+    // Clean dashed corridor line matching Image 2 reference
+    const dashedLine = L.polyline(latLngs, {
+      color: '#ef4444',
+      weight: 2.5,
+      dashArray: '6, 6',
+      opacity: 0.85,
       lineCap: 'round',
-      lineJoin: 'round',
-      interactive: false
-    });
-    state.rescueWaterloggingLayerGroup.addLayer(casing);
-
-    // Inner water core
-    const waterPolyline = L.polyline(latLngs, {
-      color: waterColor,
-      weight: weight,
-      opacity: 0.90,
-      lineCap: 'round',
-      lineJoin: 'round',
       interactive: true,
-      className: 'rescue-water-polyline'
+      className: 'rescue-corridor-dashed'
     });
 
-    const isAccessCorridor = locations.length > 0;
-    const connectedHtml = isAccessCorridor
-      ? `<div style="margin-top:5px; padding-top:4px; border-top:1px dashed #cbd5e1; font-size:0.71rem; color:#1e293b;">
-           <strong>Critical Access Corridor for:</strong><br>
-           ${locations.map(l => `• <strong>${l.name}</strong> (${l.isCriticalRisk ? 'Priority ' + l.priority : 'Passable'})`).join('<br>')}
-         </div>`
-      : '';
+    const connectedHtml = locations.map(l =>
+      `• <strong>${l.name}</strong> (${l.isCriticalRisk ? 'Priority ' + l.priority : 'Passable'})`
+    ).join('<br>');
 
-    waterPolyline.bindTooltip(`
-      <div style="font-size:0.76rem; line-height:1.4; max-width:260px;">
-        <div style="font-weight:700; color:${waterColor}; font-size:0.82rem;">
-          🌊 ${edge.name || 'Road Segment'}
+    dashedLine.bindTooltip(`
+      <div style="font-size:0.75rem; line-height:1.4; max-width:250px;">
+        <div style="font-weight:700; color:#b91c1c; font-size:0.80rem;">
+          ⚠️ ${edge.name || 'Access Corridor'}
         </div>
-        <div style="font-size:0.72rem; color:#475569; margin-top:2px;">
-          Modeled Water Depth: <strong>${maxD.toFixed(2)}m</strong> (${depthCategory})
+        <div style="font-size:0.71rem; color:#475569; margin-top:2px;">
+          Modeled Water Depth: <strong>${maxD.toFixed(2)}m</strong>
+          <span style="color:#b91c1c; font-weight:600;">(Impassable ≥0.30m)</span>
         </div>
-        ${connectedHtml}
+        <div style="margin-top:4px; padding-top:3px; border-top:1px dashed #cbd5e1; font-size:0.70rem; color:#1e293b;">
+          <strong>Access Route for:</strong><br>
+          ${connectedHtml}
+        </div>
       </div>
     `, { sticky: true, className: 'custom-tooltip' });
 
-    waterPolyline.on('click', () => {
+    dashedLine.on('click', () => {
       if (locations.length > 0) {
         zoomToRescueLocation(locations[0].id);
       }
     });
 
-    state.rescueWaterloggingLayerGroup.addLayer(waterPolyline);
+    state.rescueWaterloggingLayerGroup.addLayer(dashedLine);
   });
 
-  // Connector lines for off-road/critical facilities to their closest flooded access road
+  // Connector dashed lines for off-road/critical facilities to their closest flooded access corridor
   state.rescueRiskAssessments.filter(a => a.isCriticalRisk).forEach(loc => {
     if (!loc.coords || !loc.floodedEdges || loc.floodedEdges.length === 0) return;
     let closestPt = null;
@@ -2575,7 +2550,7 @@ function renderRescueWaterloggedRoads() {
       ], {
         color: '#ef4444',
         weight: 2,
-        dashArray: '5, 7',
+        dashArray: '5, 5',
         opacity: 0.75,
         interactive: false
       });
@@ -2583,10 +2558,10 @@ function renderRescueWaterloggedRoads() {
     }
   });
 
-  // Update flooded corridors counter badge in sidebar
+  // Update at-risk corridors counter badge in sidebar
   const countBadge = document.getElementById('rescueFloodedRoadsCountBadge');
   if (countBadge) {
-    countBadge.textContent = `${floodedCount} Flooded Roads`;
+    countBadge.textContent = `${corridorCount} At-Risk Corridors`;
   }
 }
 
@@ -2616,24 +2591,23 @@ function zoomToRescueLocation(locId) {
       const d = item.assessment.maxDepthM;
       e.coords.forEach(pt => allPoints.push([pt[1], pt[0]]));
 
-      // Golden glowing highlight casing on the active flooded access road
+      // Clean active dashed corridor highlight matching Image 2
       if (state.rescueHighlightLayerGroup) {
         const highlightLine = L.polyline(e.coords.map(c => [c[1], c[0]]), {
-          color: '#f59e0b',
-          weight: 10,
-          opacity: 0.85,
-          className: 'rescue-active-road-highlight',
+          color: '#f87171',
+          weight: 3.5,
+          dashArray: '6, 6',
+          opacity: 1.0,
           interactive: false
         });
         state.rescueHighlightLayerGroup.addLayer(highlightLine);
       }
 
-      const colorName = d >= 0.50 || d >= 0.30 ? 'Deep Blue' : d >= 0.20 ? 'Blue' : 'Sky Blue';
-      return `<li style="margin-top:2px;"><strong>${e.name || 'Access Road'}</strong>: ${d.toFixed(2)}m (${colorName})</li>`;
+      return `<li style="margin-top:2px;"><strong>${e.name || 'Access Road'}</strong>: ${d.toFixed(2)}m (Impassable)</li>`;
     }).join('');
   }
 
-  // Frame both the location marker and its flooded access roads
+  // Frame both the location marker and its flooded access roads smoothly
   if (allPoints.length > 1) {
     const bounds = L.latLngBounds(allPoints);
     state.map.fitBounds(bounds.pad(0.35), { animate: true, maxZoom: 17 });
