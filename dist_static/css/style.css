@@ -241,6 +241,7 @@ html, body {
   gap: 6px;
   min-width: 0;
   flex-shrink: 1;
+  overflow: hidden;
 }
 
 .scope-pill {
@@ -257,6 +258,13 @@ html, body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.scope-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .scope-pill strong {
@@ -830,17 +838,7 @@ body.demo-mode-active .leaflet-top.leaflet-left {
 }
 
 .leaflet-control-attribution {
-  background: rgba(247, 247, 250, 0.88) !important;
-  color: var(--text-secondary) !important;
-  font-size: 0.69rem !important;
-  padding: 2px 8px !important;
-  border-top-left-radius: 8px;
-  border-top: 1px solid var(--border-subtle);
-  border-left: 1px solid var(--border-subtle);
-}
-
-.leaflet-control-attribution a {
-  color: var(--accent-primary) !important;
+  display: none !important;
 }
 
 /* ==========================================================================
@@ -3300,34 +3298,85 @@ body.demo-mode-active .hud-3d-controls {
    13. Responsive Breakpoints (1560px, 1280px, 1024px, 768px, 480px)
    ========================================================================== */
 
-/* Laptop (<= 1560px): Compact header pills & buttons so zero horizontal overflow occurs */
+/* Wide Desktop (<= 1920px): Cleanly hide redundant status badges to preserve breathing room */
+@media (max-width: 1920px) {
+  .btn-header .badge-status-pill {
+    display: none !important;
+  }
+}
+
+/* Desktop / Laptop (<= 1750px): Hide header-center to guarantee zero overlap with Guided Demo & action buttons */
+@media (max-width: 1750px) {
+  .header-center {
+    display: none !important;
+  }
+}
+
+/* Laptop (<= 1560px): Compact header buttons & subtitle */
 @media (max-width: 1560px) {
-  .header-center .disclaimer-tag,
-  .header-center .scope-divider {
-    display: none;
+  .header-center {
+    display: none !important;
   }
   .brand-subtitle {
-    max-width: 180px;
+    display: none !important;
   }
   .btn-header {
-    padding: 5px 8px;
-    font-size: 0.71rem;
+    padding: 5px 7px;
+    font-size: 0.70rem;
+    gap: 4px;
+  }
+  .header-right {
+    gap: 4px;
   }
   .btn-header .badge-status-pill {
-    display: none;
+    display: none !important;
+  }
+}
+
+/* Compact Laptop / Small Desktop (<= 1366px) */
+@media (max-width: 1366px) {
+  .btn-header {
+    padding: 4px 6px;
+    font-size: 0.68rem;
+    gap: 3px;
+  }
+  .header-left {
+    gap: 6px;
+  }
+  .tab-btn {
+    padding: 5px 8px;
+    font-size: 0.72rem;
   }
 }
 
 /* Compact Laptop / Large Tablet (<= 1280px) */
 @media (max-width: 1280px) {
   :root {
-    --sidebar-width: 320px;
+    --sidebar-width: 300px;
   }
-  .header-center .scope-pill {
-    display: none;
+  .header-center {
+    display: none !important;
   }
   .brand-subtitle {
-    display: none;
+    display: none !important;
+  }
+  .badge-tab-m8 {
+    display: none !important;
+  }
+  .header-left {
+    gap: 4px;
+  }
+  .tab-btn {
+    padding: 4px 6px;
+    font-size: 0.70rem;
+  }
+  .btn-header {
+    padding: 4px 5px;
+    font-size: 0.66rem;
+    gap: 3px;
+  }
+  .header-right {
+    gap: 3px;
   }
 }
 

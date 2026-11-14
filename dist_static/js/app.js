@@ -247,11 +247,7 @@ function initMap() {
   state.map.createPane('floodPane');
   state.map.getPane('floodPane').style.zIndex = 280;
 
-  // Custom subtle attribution
-  L.control.attribution({
-    position: 'bottomleft',
-    prefix: 'AquaPredict M0 · Houston Pilot Prototype'
-  }).addTo(state.map);
+  // Leaflet attribution control removed to prevent overlap with bottom Telemetry HUD
 
   // Mouse move coordinate and elevation tracking
   state.map.on('mousemove', onMapMouseMove);
