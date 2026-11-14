@@ -1,0 +1,66 @@
+{
+  "title": "AquaPredict M1 Exploratory Waterlogging Susceptibility Analysis",
+  "disclaimer": "EXPLORATORY WATERLOGGING SUSCEPTIBILITY \u2014 NOT A VALIDATED FLOOD FORECAST",
+  "pilot_boundary": {
+    "west": -95.375,
+    "south": 29.756,
+    "east": -95.365,
+    "north": 29.765
+  },
+  "pilot_area_km2": 0.97,
+  "elevation_model": {
+    "source": "NOAA 2018 Coastal Texas DEM (StratMap18 1-meter)",
+    "resolution": "1 metre",
+    "vertical_datum": "UNVERIFIED - Raw relative elevation",
+    "min_elev_m": -0.17,
+    "max_elev_m": 17.82,
+    "mean_elev_m": 12.01
+  },
+  "indicators": {
+    "terrain_depressions": {
+      "name": "Local Topographic Depressions (Ponding Sinks)",
+      "method": "Morphological reconstruction sink filling on 1m DEM",
+      "max_depression_depth_m": 6.15,
+      "sink_area_pct": 8.8,
+      "weight": 0.35,
+      "rationale": "Closed topographical depressions collect overland runoff before spilling over."
+    },
+    "relative_elevation": {
+      "name": "Topographic Position Index (TPI)",
+      "method": "Elevation relative to 30m moving neighborhood mean",
+      "kernel_radius_m": 30,
+      "weight": 0.25,
+      "rationale": "Identifies local swales, hollows, and valleys regardless of absolute sea level elevation."
+    },
+    "slope_flatness": {
+      "name": "Surface Slope Flatness",
+      "method": "Terrain gradient magnitude in degrees",
+      "mean_slope_deg": 4.1,
+      "flat_area_pct": 46.0,
+      "weight": 0.2,
+      "rationale": "Slopes < 1.5\u00b0 impede overland runoff evacuation velocity and promote surface ponding."
+    },
+    "drainage_proximity": {
+      "name": "Distance to Nearest Storm Inlet",
+      "method": "CRS-aware 2D Euclidean distance to nearest City of Houston storm inlet",
+      "crs_used": "EPSG:6344 (UTM 15N Metric Coordinates)",
+      "total_inlets_evaluated": 265,
+      "mean_inlet_distance_m": 54.7,
+      "weight": 0.2,
+      "rationale": "Screening indicator for overland flow path travel distance to mapped municipal intake points."
+    }
+  },
+  "tier_distribution_pct": {
+    "Low": 69.7,
+    "Moderate": 23.5,
+    "Elevated": 5.8,
+    "High": 1.0
+  },
+  "limitations_and_guardrails": [
+    "Screening Tool Only: This analysis highlights terrain-based ponding tendencies; it is NOT a certified 1D/2D hydrodynamic model or real-time flood warning system.",
+    "DEM Artifacts: Highway overpasses, bridges, or culverts not burned into the raw LiDAR may create false artificial dams in depression calculations.",
+    "Subsurface Drainage Not Modeled: Proximity to an inlet does not evaluate whether that inlet or pipe has hydraulic capacity, is clogged, or suffers from bayou backwater.",
+    "Rainfall Excluded: No rainfall intensity or storm events (e.g. 10-yr, 100-yr) are modeled in this milestone.",
+    "Pilot Domain Restriction: Analysis is strictly confined to the 0.97 km\u00b2 Downtown Houston study sector and cannot be extrapolated citywide."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "source": "NOAA 2018 Coastal Texas DEM, Mission 8899 (StratMap18)",
+  "tile_used": "stratmap18-1m_2995143c3.tif",
+  "original_crs": "EPSG:6344",
+  "reprojected_crs": "EPSG:4326 (WGS84)",
+  "native_resolution": "1 metre",
+  "pilot_bbox_wgs84": {
+    "west": -95.375,
+    "south": 29.756,
+    "east": -95.365,
+    "north": 29.765
+  },
+  "elevation_min_meters": -0.17,
+  "elevation_max_meters": 17.82,
+  "elevation_mean_meters": 12.01,
+  "elevation_min_feet": -0.6,
+  "elevation_max_feet": 58.5,
+  "elevation_mean_feet": 39.4,
+  "vertical_datum_status": "UNVERIFIED (Requires survey benchmark calibration)",
+  "flood_model_status": "M0 PROTOTYPE VISUALIZATION ONLY (Not calibrated flood prediction)"
+}

@@ -1,0 +1,57 @@
+{
+  "milestone": "M9",
+  "model_name": "AquaPredict Screening Model ML Surrogate",
+  "model_type": "HistGradientBoostingRegressor",
+  "framework": "scikit-learn",
+  "provenance_label": "SYNTHETIC SURROGATE",
+  "validation_status": "UNVALIDATED against real-world flood observations",
+  "scientific_disclaimer": "These metrics measure how closely the ML surrogate reproduces the AquaPredict screening model. They do not measure real-world flood prediction accuracy.",
+  "random_seed": 42,
+  "features": [
+    "elev",
+    "slope",
+    "tpi",
+    "dep",
+    "inlet_dist",
+    "cn",
+    "rainfall_total",
+    "duration_min",
+    "time_min",
+    "cum_rain_mm",
+    "intensity_mm_hr",
+    "cum_runoff_mm",
+    "drain_rate"
+  ],
+  "package_versions": {
+    "scikit_learn": "1.9.1",
+    "numpy": "2.5.4",
+    "joblib": "1.6.0"
+  },
+  "training_configuration": {
+    "max_iter": 100,
+    "max_depth": 10,
+    "learning_rate": 0.1,
+    "min_samples_leaf": 20,
+    "l2_regularization": 0.01,
+    "random_state": 42
+  },
+  "training_time_seconds": 0.364,
+  "dataset_split": {
+    "strategy": "Complete simulation scenario partition (zero scenario overlap)",
+    "leakage_prevention": "VERIFIED (Train scenario IDs disjoint from held-out IDs)",
+    "train_scenario_count": 15,
+    "heldout_scenario_count": 5,
+    "train_samples": 27000,
+    "heldout_samples": 9000
+  },
+  "heldout_metrics": {
+    "mae_meters": 0.0096,
+    "mae_mm": 9.57,
+    "rmse_meters": 0.0508,
+    "rmse_mm": 50.84,
+    "max_abs_error_meters": 2.008,
+    "max_abs_error_mm": 2007.99,
+    "surrogate_inference_time_ms_per_frame": 17.09,
+    "original_simulator_time_ms_per_frame": 0.09
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "aquapredict-houston-pilot",
+  "version": "0.1.0",
+  "description": "AquaPredict M0: Urban waterlogging risk visualization prototype using Houston pilot area",
+  "scripts": {
+    "start": "python serve.py",
+    "serve": "python serve.py",
+    "prepare-data": "python scripts/prepare_m0_data.py"
+  },
+  "keywords": [
+    "aquapredict",
+    "houston",
+    "flood-risk",
+    "waterlogging",
+    "gis",
+    "dem"
+  ],
+  "author": "AquaPredict Team",
+  "license": "UNLICENSED"
+}

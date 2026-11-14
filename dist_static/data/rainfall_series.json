@@ -1,0 +1,33 @@
+{
+  "status": "UNAVAILABLE",
+  "station_id": null,
+  "station_name": "No Rainfall Data Ingested",
+  "station_coords": null,
+  "source_organization": "None (Awaiting Ingestion)",
+  "source_file": null,
+  "temporal_resolution": "unavailable",
+  "median_interval_minutes": null,
+  "units": {
+    "primary": "in",
+    "secondary": "mm"
+  },
+  "time_zone": "US/Central (CDT/CST)",
+  "period": {
+    "start": null,
+    "end": null
+  },
+  "metrics": {
+    "total_records": 0,
+    "valid_records": 0,
+    "nonzero_records": 0,
+    "missing_records": 0,
+    "duplicate_timestamps": 0,
+    "cumulative_in": 0.0,
+    "cumulative_mm": 0.0,
+    "max_reading_in": 0.0,
+    "max_reading_mm": 0.0,
+    "peak_intensity_in_hr": 0.0
+  },
+  "records": [],
+  "disclaimer": "UNAVAILABLE: No gauge observations exist in raw directory. Real-time data is not claimed."
+}

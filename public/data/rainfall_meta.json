@@ -1,0 +1,28 @@
+{
+  "timestamp_generated": "2026-10-24T06:22:12.600925+00:00",
+  "status": "UNAVAILABLE",
+  "station_id": null,
+  "station_name": "No Station Configured",
+  "source_directory": "C:\\AquaPredict_tests\\rainfall",
+  "files_scanned": 0,
+  "message": "No rainfall gauge files found in C:\\AquaPredict_tests\\rainfall. System state is set to UNAVAILABLE. Awaiting gauge file placement or API feed.",
+  "expected_inputs": {
+    "format": [
+      "Excel (.xls, .xlsx)",
+      "CSV (.csv)",
+      "JSON (.json)"
+    ],
+    "expected_columns": [
+      "Reading Date From",
+      "Reading Date To",
+      "Rain (inches)"
+    ],
+    "target_station": "Harris County Flood Warning System (HCFWS) Station 1600 (Buffalo Bayou @ Milam St)",
+    "ingestion_command": "python scripts/ingest_rainfall.py"
+  },
+  "scientific_disclaimers": [
+    "Rainfall observations are currently UNAVAILABLE for this pilot run.",
+    "Synthetic or fabricated rainfall has NOT been substituted into the system.",
+    "Waterlogging susceptibility (M1) remains purely terrain- and inlet-driven."
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "milestone": "M9",
+  "title": "AquaPredict Screening Model Surrogate Training Dataset",
+  "description": "Reproducible synthetic dataset generated from M5 screening simulation",
+  "scientific_disclaimer": "SYNTHETIC SIMULATOR LABELS ONLY. NOT real-world observed floods.",
+  "random_seed": 42,
+  "features": [
+    "elev",
+    "slope",
+    "tpi",
+    "dep",
+    "inlet_dist",
+    "cn",
+    "rainfall_total",
+    "duration_min",
+    "time_min",
+    "cum_rain_mm",
+    "intensity_mm_hr",
+    "cum_runoff_mm",
+    "drain_rate"
+  ],
+  "scenarios_count_total": 20,
+  "scenarios_count_train": 15,
+  "scenarios_count_heldout": 5,
+  "train_scenario_ids": [
+    "scen_01",
+    "scen_02",
+    "scen_03",
+    "scen_04",
+    "scen_05",
+    "scen_06",
+    "scen_07",
+    "scen_08",
+    "scen_09",
+    "scen_10",
+    "scen_11",
+    "scen_12",
+    "scen_13",
+    "scen_14",
+    "scen_15"
+  ],
+  "heldout_scenario_ids": [
+    "scen_16",
+    "scen_17",
+    "scen_18",
+    "scen_19",
+    "scen_20"
+  ],
+  "train_samples_count": 27000,
+  "heldout_samples_count": 9000,
+  "target_variable": "depth_m",
+  "pilot_bounding_box": {
+    "west": -95.375,
+    "south": 29.756,
+    "east": -95.365,
+    "north": 29.765
+  },
+  "scenarios_plan": [
+    {
+      "id": "scen_01",
+      "total_mm": 15.0,
+      "duration_min": 180,
+      "peak_fraction": 0.33,
+      "drain_rate": 0.05,
+      "split": "train"
+    },
+    {
+      "id": "scen_02",
+      "total_mm": 25.0,
+      "duration_min": 180,
+      "peak_fraction": 0.33,
+      "drain_rate": 0.05,
+      "split": "train"
+    },
+    {
+      "id": "scen_03",
+      "total_mm": 35.0,
+      "duration_min": 120,
+      "peak_fraction": 0.5,
+      "drain_rate": 0.05,
+      "split": "train"
+    },
+    {
+      "id": "scen_04",
+      "total_mm": 45.0,
+      "duration_min": 180,
+      "peak_fraction": 0.25,
+      "drain_rate": 0.03,
+      "split": "train"
+    },
+    {
+      "id": "scen_05",
+      "total_mm": 50.0,
+      "duration_min": 180,
+      "peak_fraction": 0.33,
+      "drain_rate": 0.05,
+      "split": "train"
+    },
+    {
+      "id": "scen_06",
+      "total_mm": 60.0,
+      "duration_min": 240,
+      "peak_fraction": 0.5,
+      "drain_rate": 0.05,
+      "split": "train"
+    },
+    {
+      "id": "scen_07",
+      "total_mm": 70.0,
+      "duration_min": 180,
+      "peak_fraction": 0.67,
+      "drain_rate": 0.07,
+      "split": "train"
+    },
+    {
+      "id": "scen_08",
+      "total_mm": 75.0,
+      "duration_min": 180,
+      "peak_fraction": 0.33,
+      "drain_rate": 0.05,
+      "split": "train"
+    },
+    {
+      "id": "scen_09",
+      "total_mm": 85.0,
+      "duration_min": 120,
+      "peak_fraction": 0.5,
+      "drain_rate": 0.05,
+      "split": "train"
+    },
+    {
+      "id": "scen_10",
+      "total_mm": 90.0,
+      "duration_min": 240,
+      "peak_fraction": 0.25,
+      "drain_rate": 0.03,
+      "split": "train"
+    },
+    {
+      "id": "scen_11",
+      "total_mm": 100.0,
+      "duration_min": 180,
+      "peak_fraction": 0.33,
+      "drain_rate": 0.05,
+      "split": "train"
+    },
+    {
+      "id": "scen_12",
+      "total_mm": 110.0,
+      "duration_min": 180,
+      "peak_fraction": 0.5,
+      "drain_rate": 0.07,
+      "split": "train"
+    },
+    {
+      "id": "scen_13",
+      "total_mm": 120.0,
+      "duration_min": 240,
+      "peak_fraction": 0.67,
+      "drain_rate": 0.05,
+      "split": "train"
+    },
+    {
+      "id": "scen_14",
+      "total_mm": 30.0,
+      "duration_min": 60,
+      "peak_fraction": 0.5,
+      "drain_rate": 0.05,
+      "split": "train"
+    },
+    {
+      "id": "scen_15",
+      "total_mm": 80.0,
+      "duration_min": 120,
+      "peak_fraction": 0.33,
+      "drain_rate": 0.07,
+      "split": "train"
+    },
+    {
+      "id": "scen_16",
+      "total_mm": 20.0,
+      "duration_min": 120,
+      "peak_fraction": 0.5,
+      "drain_rate": 0.05,
+      "split": "heldout"
+    },
+    {
+      "id": "scen_17",
+      "total_mm": 40.0,
+      "duration_min": 180,
+      "peak_fraction": 0.33,
+      "drain_rate": 0.05,
+      "split": "heldout"
+    },
+    {
+      "id": "scen_18",
+      "total_mm": 65.0,
+      "duration_min": 240,
+      "peak_fraction": 0.67,
+      "drain_rate": 0.03,
+      "split": "heldout"
+    },
+    {
+      "id": "scen_19",
+      "total_mm": 95.0,
+      "duration_min": 180,
+      "peak_fraction": 0.25,
+      "drain_rate": 0.07,
+      "split": "heldout"
+    },
+    {
+      "id": "scen_20",
+      "total_mm": 125.0,
+      "duration_min": 180,
+      "peak_fraction": 0.5,
+      "drain_rate": 0.05,
+      "split": "heldout"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "title": "AquaPredict Milestone 7 Drainage-Informed Route Planner Metadata",
+  "milestone": "M7",
+  "disclaimer": "RESEARCH & DEMONSTRATION PROTOTYPE — NOT A CERTIFIED NAVIGATION OR EMERGENCY EVACUATION SYSTEM",
+  "scientific_status": "EXPERIMENTAL MULTI-CRITERIA ROUTE SCREENING PROTOTYPE",
+  "study_area": {
+    "name": "Downtown Houston / Buffalo Bayou Pilot Sector",
+    "bounding_box": {
+      "west": -95.3750,
+      "south": 29.7560,
+      "east": -95.3650,
+      "north": 29.7650
+    },
+    "area_km2": 0.97
+  },
+  "network_data_audit": {
+    "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)",
+    "layer_name": "Street Centerlines",
+    "feature_count": 200,
+    "total_length_km": 28.56,
+    "total_length_ft": 93697.7,
+    "unique_streets_count": 51,
+    "intersection_nodes_count": 160,
+    "snap_tolerance_m": 3.0,
+    "connected_components_count": 1,
+    "connectivity_pct": 100.0,
+    "directionality": {
+      "one_way_from_to_ft": 100,
+      "one_way_to_from_tf": 69,
+      "bidirectional_bi": 31
+    },
+    "road_classes": {
+      "LOCAL": 111,
+      "MAJOR": 51,
+      "RAMP": 28,
+      "HIGHWAY": 10
+    }
+  },
+  "cost_formulation": {
+    "equation": "Cost(e) = C_base * (1 + w_susc * EWSI) + P_depth + P_drain + P_uncert",
+    "non_negative_guarantee": "Cost(e) >= C_base > 0 for all edges under all scenarios and parameter values",
+    "components": {
+      "base_travel_cost": {
+        "symbol": "C_base",
+        "definition": "Geometric segment length in survey meters (derived from Shape.STLength)",
+        "unit": "metres"
+      },
+      "terrain_susceptibility_factor": {
+        "symbol": "M_susc",
+        "definition": "1.0 + (w_susc * EWSI_mean), where EWSI is the length-weighted continuous Exploratory Waterlogging Susceptibility Index [0.0 - 1.0]",
+        "weight_w_susc": 1.0
+      },
+      "modelled_depth_penalty": {
+        "symbol": "P_depth",
+        "definition": "Piecewise non-linear penalty based on maximum modelled ponding depth d_max from M5 simulation at selected preset and timestep",
+        "weight_w_depth": 1.0,
+        "thresholds_m": {
+          "dry": 0.0,
+          "shallow_max": 0.05,
+          "moderate_max": 0.20,
+          "deep_max": 0.50,
+          "very_deep": "> 0.50"
+        }
+      },
+      "drainage_screening_penalty": {
+        "symbol": "P_drain",
+        "definition": "Screening penalty for proximity (< 25m street corridor) to M6 stormwater conduits with capacity exceeded (Qinflow > Qcap) or high loading",
+        "weight_w_drain": 1.0,
+        "values_m": {
+          "normal": 0.0,
+          "high_loading_per_conduit": 30.0,
+          "capacity_exceeded_per_conduit": 100.0
+        }
+      },
+      "data_uncertainty_penalty": {
+        "symbol": "P_uncert",
+        "definition": "Penalty applied when hydraulic information is missing or segment extends outside the 0.97 km² pilot grid. Missing data is never treated as evidence of safety.",
+        "weight_w_uncert": 1.0,
+        "values_m": {
+          "outside_pilot_grid": 80.0,
+          "unmeasured_conduit_hydraulics": 25.0
+        }
+      }
+    }
+  },
+  "speed_and_travel_time_assumptions": {
+    "pedestrian_walking_speed_mps": 1.34,
+    "pedestrian_walking_speed_source": "AASHTO / MUTCD default pedestrian walking speed standard (4.8 km/h, 3.0 mph)",
+    "vehicular_speed_default_mph": 30.0,
+    "vehicular_speed_source": "Municipal City of Houston SPEED attribute when present, defaulting to 30.0 mph for local streets"
+  },
+  "scientific_guardrails": [
+    "Prototype Disclaimer: This route planner is an experimental research and demonstration prototype, NOT a certified navigation system or emergency evacuation service.",
+    "Relative Prototype Metric: The calculated hazard score is a relative multi-criteria screening metric, not a calibrated probability of flooding, property damage, or injury.",
+    "No Automatic Road Closure: Drainage capacity flags from M6 indicate subterranean hydraulic surcharge screening and must NOT be used to automatically declare streets closed.",
+    "Uncalibrated Model Outputs: M5 depth inputs are provisional simulation estimates from an uncalibrated 5% aggregate drawdown model and have not been validated against high-water marks.",
+    "Missing Data Governance: Missing terrain, depth, or drainage attributes are penalized as uncertain; missing data is NEVER treated as proof that a route is safe.",
+    "Strict Pilot Scope: Confined to the 0.97 km² Downtown Houston study domain. Extrapolation outside this boundary is unverified."
+  ]
+}

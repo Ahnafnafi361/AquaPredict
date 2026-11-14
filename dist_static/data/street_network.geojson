@@ -1,0 +1,7838 @@
+{
+  "type": "FeatureCollection",
+  "name": "Houston_Downtown_Street_Centerlines",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "metadata": {
+    "source": "City of Houston Enterprise GIS",
+    "layer": "DIR/LandbaseandRoads_gx/MapServer/9 (Street Centerlines)",
+    "query_bounds": [
+      -95.375,
+      29.756,
+      -95.365,
+      29.765
+    ],
+    "feature_count": 200,
+    "total_length_km": 28.56,
+    "date_accessed": "October 2026",
+    "scientific_disclaimer": "Municipal street centerlines for prototype routing research. Not certified for navigation or emergency evacuation."
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 47002,
+        "starmap_id": 10135459,
+        "name": "ALLEN PKWY",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 40,
+        "length_ft": 249.5517005079239,
+        "length_m": 76.06,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.373771,
+            29.760242
+          ],
+          [
+            -95.37387,
+            29.760241
+          ],
+          [
+            -95.374558,
+            29.760233
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 37115,
+        "starmap_id": 10135538,
+        "name": "IH 45 ALLEN RAMP",
+        "road_class": "RAMP",
+        "one_way": "TF",
+        "speed_limit_mph": 35,
+        "length_ft": 818.6850994053705,
+        "length_m": 249.54,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374191,
+            29.758962
+          ],
+          [
+            -95.374046,
+            29.759517
+          ],
+          [
+            -95.373962,
+            29.759843
+          ],
+          [
+            -95.37394,
+            29.759949
+          ],
+          [
+            -95.373925,
+            29.760023
+          ],
+          [
+            -95.373914,
+            29.760063
+          ],
+          [
+            -95.373891,
+            29.760142
+          ],
+          [
+            -95.37387,
+            29.760241
+          ],
+          [
+            -95.37386,
+            29.760285
+          ],
+          [
+            -95.373869,
+            29.760394
+          ],
+          [
+            -95.373914,
+            29.760519
+          ],
+          [
+            -95.374002,
+            29.760645
+          ],
+          [
+            -95.374156,
+            29.760752
+          ],
+          [
+            -95.374314,
+            29.760809
+          ],
+          [
+            -95.374336,
+            29.760816
+          ],
+          [
+            -95.374526,
+            29.760839
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 32369,
+        "starmap_id": 10135203,
+        "name": "MEMORIAL DR",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 40,
+        "length_ft": 619.7255690399063,
+        "length_m": 188.89,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.373924,
+            29.763797
+          ],
+          [
+            -95.375877,
+            29.763776
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 156044,
+        "starmap_id": 10135139,
+        "name": "N MEMORIAL WAY",
+        "road_class": "LOCAL",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 343.2783457696612,
+        "length_m": 104.63,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.371034,
+            29.764
+          ],
+          [
+            -95.37196,
+            29.764023
+          ],
+          [
+            -95.372115,
+            29.764019
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 176233,
+        "starmap_id": 10135549,
+        "name": "MEMORIAL SERVICE RD",
+        "road_class": "MAJOR",
+        "one_way": "FT",
+        "speed_limit_mph": 40,
+        "length_ft": 501.5625046256473,
+        "length_m": 152.88,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.375588,
+            29.763505
+          ],
+          [
+            -95.374008,
+            29.763515
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 37347,
+        "starmap_id": 10135159,
+        "name": "MILAM ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 327.91636986763876,
+        "length_m": 99.95,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366081,
+            29.758745
+          ],
+          [
+            -95.366668,
+            29.758003
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 121497,
+        "starmap_id": 10135001,
+        "name": "LOUISIANA ST",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 326.0327324113417,
+        "length_m": 99.37,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.368705,
+            29.757038
+          ],
+          [
+            -95.368972,
+            29.756679
+          ],
+          [
+            -95.369285,
+            29.756298
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 101592,
+        "starmap_id": 10135464,
+        "name": "RUSK ST",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 40,
+        "length_ft": 110.70430893533393,
+        "length_m": 33.74,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.37074,
+            29.763554
+          ],
+          [
+            -95.370584,
+            29.763393
+          ],
+          [
+            -95.37056,
+            29.763367
+          ],
+          [
+            -95.370555,
+            29.763361
+          ],
+          [
+            -95.370522,
+            29.763317
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 220358,
+        "starmap_id": 10222956,
+        "name": "IH 45 ALLEN RAMP",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 1556.166195329846,
+        "length_m": 474.32,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.373682,
+            29.759562
+          ],
+          [
+            -95.373529,
+            29.759837
+          ],
+          [
+            -95.373473,
+            29.759938
+          ],
+          [
+            -95.373378,
+            29.760108
+          ],
+          [
+            -95.373244,
+            29.76035
+          ],
+          [
+            -95.373176,
+            29.760472
+          ],
+          [
+            -95.373051,
+            29.760698
+          ],
+          [
+            -95.37297,
+            29.760846
+          ],
+          [
+            -95.372833,
+            29.761095
+          ],
+          [
+            -95.372741,
+            29.761264
+          ],
+          [
+            -95.372657,
+            29.761407
+          ],
+          [
+            -95.372413,
+            29.761934
+          ],
+          [
+            -95.372343,
+            29.762165
+          ],
+          [
+            -95.372261,
+            29.762441
+          ],
+          [
+            -95.372241,
+            29.762551
+          ],
+          [
+            -95.372184,
+            29.762876
+          ],
+          [
+            -95.372179,
+            29.762973
+          ],
+          [
+            -95.372154,
+            29.763444
+          ],
+          [
+            -95.372139,
+            29.763571
+          ],
+          [
+            -95.372139,
+            29.763571
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 76846,
+        "starmap_id": 10135548,
+        "name": "MEMORIAL SERVICE RD",
+        "road_class": "MAJOR",
+        "one_way": "FT",
+        "speed_limit_mph": 40,
+        "length_ft": 108.6377744696538,
+        "length_m": 33.11,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372482,
+            29.76358
+          ],
+          [
+            -95.372139,
+            29.763571
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 10451,
+        "starmap_id": 10135652,
+        "name": "LAMAR ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 333.5157323946133,
+        "length_m": 101.66,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.365508,
+            29.756219
+          ],
+          [
+            -95.364646,
+            29.755695
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 10351,
+        "starmap_id": 10135415,
+        "name": "MEMORIAL DR",
+        "road_class": "MAJOR",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 748.6493122600705,
+        "length_m": 228.19,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367652,
+            29.763052
+          ],
+          [
+            -95.368113,
+            29.763333
+          ],
+          [
+            -95.368455,
+            29.763481
+          ],
+          [
+            -95.368881,
+            29.763635
+          ],
+          [
+            -95.36918,
+            29.763706
+          ],
+          [
+            -95.369323,
+            29.76374
+          ],
+          [
+            -95.369688,
+            29.763757
+          ],
+          [
+            -95.369819,
+            29.763763
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 131201,
+        "starmap_id": 10135400,
+        "name": "CAPITOL ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 145.2549833317326,
+        "length_m": 44.27,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.370247,
+            29.763441
+          ],
+          [
+            -95.370076,
+            29.763265
+          ],
+          [
+            -95.369953,
+            29.763136
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 176236,
+        "starmap_id": 10135207,
+        "name": "N MEMORIAL WAY",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 148.90532946108885,
+        "length_m": 45.39,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.373928,
+            29.763976
+          ],
+          [
+            -95.374397,
+            29.763956
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 11250,
+        "starmap_id": 10135180,
+        "name": "HOUSTON AVE",
+        "road_class": "MAJOR",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 528.866416989958,
+        "length_m": 161.2,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372115,
+            29.764019
+          ],
+          [
+            -95.372123,
+            29.764852
+          ],
+          [
+            -95.372177,
+            29.765077
+          ],
+          [
+            -95.372321,
+            29.765447
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 81755,
+        "starmap_id": 10135650,
+        "name": "LAMAR ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 341.46703297971646,
+        "length_m": 104.08,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366401,
+            29.756744
+          ],
+          [
+            -95.365508,
+            29.756219
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 47225,
+        "starmap_id": 10135155,
+        "name": "SMITH ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 327.8543391501544,
+        "length_m": 99.93,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366607,
+            29.761281
+          ],
+          [
+            -95.367194,
+            29.76054
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 77035,
+        "starmap_id": 10135032,
+        "name": "DALLAS ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 333.1480708117856,
+        "length_m": 101.54,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.368705,
+            29.757038
+          ],
+          [
+            -95.367835,
+            29.756524
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 121320,
+        "starmap_id": 10135505,
+        "name": "W DALLAS ST",
+        "road_class": "MAJOR",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 491.5440601738154,
+        "length_m": 149.82,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372749,
+            29.75782
+          ],
+          [
+            -95.374297,
+            29.757781
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 101815,
+        "starmap_id": 10135226,
+        "name": "SMITH ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 322.1937223463512,
+        "length_m": 98.2,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.364791,
+            29.76357
+          ],
+          [
+            -95.365379,
+            29.762847
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 81978,
+        "starmap_id": 10135220,
+        "name": "LOUISIANA ST",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 332.9554557795299,
+        "length_m": 101.48,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367515,
+            29.758525
+          ],
+          [
+            -95.368026,
+            29.757896
+          ],
+          [
+            -95.368118,
+            29.757776
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 96597,
+        "starmap_id": 10135470,
+        "name": "SAULNIER ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 300.163590166559,
+        "length_m": 91.49,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.375099,
+            29.757089
+          ],
+          [
+            -95.376045,
+            29.757081
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 10288,
+        "starmap_id": 10125949,
+        "name": "S IH 45",
+        "road_class": "HIGHWAY",
+        "one_way": "FT",
+        "speed_limit_mph": 60,
+        "length_ft": 6220.437497978541,
+        "length_m": 1895.99,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374191,
+            29.758962
+          ],
+          [
+            -95.374404,
+            29.75846
+          ],
+          [
+            -95.374511,
+            29.758134
+          ],
+          [
+            -95.374581,
+            29.757787
+          ],
+          [
+            -95.37461,
+            29.757617
+          ],
+          [
+            -95.374658,
+            29.754361
+          ],
+          [
+            -95.374659,
+            29.754272
+          ],
+          [
+            -95.374607,
+            29.753804
+          ],
+          [
+            -95.374565,
+            29.753429
+          ],
+          [
+            -95.374511,
+            29.752912
+          ],
+          [
+            -95.374502,
+            29.75288
+          ],
+          [
+            -95.374471,
+            29.752773
+          ],
+          [
+            -95.374435,
+            29.752645
+          ],
+          [
+            -95.374366,
+            29.752376
+          ],
+          [
+            -95.374267,
+            29.75212
+          ],
+          [
+            -95.374137,
+            29.751859
+          ],
+          [
+            -95.374109,
+            29.751812
+          ],
+          [
+            -95.373946,
+            29.751541
+          ],
+          [
+            -95.373761,
+            29.751287
+          ],
+          [
+            -95.373687,
+            29.751186
+          ],
+          [
+            -95.373484,
+            29.750999
+          ],
+          [
+            -95.373382,
+            29.750905
+          ],
+          [
+            -95.37272,
+            29.750373
+          ],
+          [
+            -95.372512,
+            29.750225
+          ],
+          [
+            -95.371858,
+            29.749847
+          ],
+          [
+            -95.370955,
+            29.749325
+          ],
+          [
+            -95.370098,
+            29.748813
+          ],
+          [
+            -95.369273,
+            29.74832
+          ],
+          [
+            -95.368363,
+            29.747777
+          ],
+          [
+            -95.368362,
+            29.747776
+          ],
+          [
+            -95.367505,
+            29.747265
+          ],
+          [
+            -95.366645,
+            29.746751
+          ],
+          [
+            -95.365801,
+            29.746217
+          ],
+          [
+            -95.365222,
+            29.74588
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 136282,
+        "starmap_id": 10136366,
+        "name": "ANDREWS ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 543.4807242577871,
+        "length_m": 165.65,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.37075,
+            29.756038
+          ],
+          [
+            -95.370887,
+            29.75592
+          ],
+          [
+            -95.371017,
+            29.755861
+          ],
+          [
+            -95.37239,
+            29.755844
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 86710,
+        "starmap_id": 10135312,
+        "name": "RUSK ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 320.3698578753285,
+        "length_m": 97.65,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.368019,
+            29.761049
+          ],
+          [
+            -95.367194,
+            29.76054
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 27443,
+        "starmap_id": 10135253,
+        "name": "LAMAR ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 330.69024274053555,
+        "length_m": 100.79,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367256,
+            29.757265
+          ],
+          [
+            -95.366401,
+            29.756744
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 106552,
+        "starmap_id": 10135528,
+        "name": "S IH 45",
+        "road_class": "HIGHWAY",
+        "one_way": "FT",
+        "speed_limit_mph": 60,
+        "length_ft": 448.3126953545593,
+        "length_m": 136.65,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.371482,
+            29.762901
+          ],
+          [
+            -95.372001,
+            29.762681
+          ],
+          [
+            -95.372241,
+            29.762551
+          ],
+          [
+            -95.372436,
+            29.762445
+          ],
+          [
+            -95.372703,
+            29.762285
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 62110,
+        "starmap_id": 10135000,
+        "name": "CAPITOL ST",
+        "road_class": "LOCAL",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 378.9060592649442,
+        "length_m": 115.49,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.369953,
+            29.763136
+          ],
+          [
+            -95.369732,
+            29.762929
+          ],
+          [
+            -95.369498,
+            29.762705
+          ],
+          [
+            -95.369302,
+            29.762493
+          ],
+          [
+            -95.369156,
+            29.76236
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 32372,
+        "starmap_id": 10135243,
+        "name": "STATE ST",
+        "road_class": "LOCAL",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 521.8931464397627,
+        "length_m": 159.07,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.373908,
+            29.764707
+          ],
+          [
+            -95.374084,
+            29.764701
+          ],
+          [
+            -95.37474,
+            29.764682
+          ],
+          [
+            -95.375449,
+            29.764694
+          ],
+          [
+            -95.375549,
+            29.764719
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 150900,
+        "starmap_id": 10135513,
+        "name": "PRESTON ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 257.31113207657035,
+        "length_m": 78.43,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367261,
+            29.765034
+          ],
+          [
+            -95.366577,
+            29.764654
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 126209,
+        "starmap_id": 10135622,
+        "name": "SMITH ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 350.18770635301337,
+        "length_m": 106.74,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.37075,
+            29.756038
+          ],
+          [
+            -95.371391,
+            29.755254
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 156041,
+        "starmap_id": 10135017,
+        "name": "MEMORIAL DR",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 40,
+        "length_ft": 107.6549995863847,
+        "length_m": 32.81,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.368957,
+            29.763769
+          ],
+          [
+            -95.369042,
+            29.763779
+          ],
+          [
+            -95.369293,
+            29.763811
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 146229,
+        "starmap_id": 10135170,
+        "name": "CAPITOL ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 335.46946568336034,
+        "length_m": 102.25,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.364898,
+            29.760253
+          ],
+          [
+            -95.364028,
+            29.759729
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 22293,
+        "starmap_id": 10135589,
+        "name": "S IH 45",
+        "road_class": "HIGHWAY",
+        "one_way": "FT",
+        "speed_limit_mph": 60,
+        "length_ft": 1736.2775395810943,
+        "length_m": 529.22,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374191,
+            29.758962
+          ],
+          [
+            -95.37379,
+            29.759913
+          ],
+          [
+            -95.37374,
+            29.760029
+          ],
+          [
+            -95.37366,
+            29.760208
+          ],
+          [
+            -95.373634,
+            29.760265
+          ],
+          [
+            -95.373485,
+            29.760686
+          ],
+          [
+            -95.373294,
+            29.761115
+          ],
+          [
+            -95.373114,
+            29.761412
+          ],
+          [
+            -95.372959,
+            29.761605
+          ],
+          [
+            -95.37279,
+            29.761785
+          ],
+          [
+            -95.372534,
+            29.762025
+          ],
+          [
+            -95.372343,
+            29.762165
+          ],
+          [
+            -95.372244,
+            29.762239
+          ],
+          [
+            -95.372039,
+            29.762353
+          ],
+          [
+            -95.371966,
+            29.762392
+          ],
+          [
+            -95.371843,
+            29.762463
+          ],
+          [
+            -95.371627,
+            29.762571
+          ],
+          [
+            -95.371494,
+            29.762632
+          ],
+          [
+            -95.371363,
+            29.762685
+          ],
+          [
+            -95.371218,
+            29.762715
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 96803,
+        "starmap_id": 10135079,
+        "name": "HOUSTON AVE",
+        "road_class": "MAJOR",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 269.4143240939479,
+        "length_m": 82.12,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372497,
+            29.764732
+          ],
+          [
+            -95.372505,
+            29.764915
+          ],
+          [
+            -95.372489,
+            29.765022
+          ],
+          [
+            -95.372451,
+            29.765109
+          ],
+          [
+            -95.372321,
+            29.765447
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 126432,
+        "starmap_id": 10135300,
+        "name": "PRAIRIE ST",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 269.6630823101232,
+        "length_m": 82.19,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366104,
+            29.763235
+          ],
+          [
+            -95.365379,
+            29.762847
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 10345,
+        "starmap_id": 10135366,
+        "name": "MILAM ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 340.0103834709169,
+        "length_m": 103.64,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.364272,
+            29.761013
+          ],
+          [
+            -95.364898,
+            29.760253
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 151115,
+        "starmap_id": 10135235,
+        "name": "CAPITOL ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 264.5865584356837,
+        "length_m": 80.65,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.369156,
+            29.76236
+          ],
+          [
+            -95.368774,
+            29.762241
+          ],
+          [
+            -95.36853,
+            29.762166
+          ],
+          [
+            -95.36837,
+            29.762119
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 157945,
+        "starmap_id": 10135580,
+        "name": "MEMORIAL SERVICE RD",
+        "road_class": "MAJOR",
+        "one_way": "FT",
+        "speed_limit_mph": 40,
+        "length_ft": 387.7558649312272,
+        "length_m": 118.19,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374008,
+            29.763515
+          ],
+          [
+            -95.373835,
+            29.763522
+          ],
+          [
+            -95.372787,
+            29.763567
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 47016,
+        "starmap_id": 10135533,
+        "name": "N MEM WAY MEMORIAL OB RAMP",
+        "road_class": "RAMP",
+        "one_way": "TF",
+        "speed_limit_mph": 35,
+        "length_ft": 474.8333086788679,
+        "length_m": 144.73,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374397,
+            29.763956
+          ],
+          [
+            -95.375121,
+            29.763832
+          ],
+          [
+            -95.375877,
+            29.763776
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 151098,
+        "starmap_id": 10135147,
+        "name": "HEINER ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 288.8169827331229,
+        "length_m": 88.03,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.375299,
+            29.75855
+          ],
+          [
+            -95.375289,
+            29.758182
+          ],
+          [
+            -95.375236,
+            29.757991
+          ],
+          [
+            -95.375203,
+            29.75791
+          ],
+          [
+            -95.375152,
+            29.757787
+          ],
+          [
+            -95.375144,
+            29.757776
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 141285,
+        "starmap_id": 10134999,
+        "name": "RUSK ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 560.4923124122228,
+        "length_m": 170.84,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.370522,
+            29.763317
+          ],
+          [
+            -95.370344,
+            29.763136
+          ],
+          [
+            -95.369959,
+            29.762816
+          ],
+          [
+            -95.369699,
+            29.762654
+          ],
+          [
+            -95.369418,
+            29.762471
+          ],
+          [
+            -95.369156,
+            29.76236
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 207711,
+        "starmap_id": 10202701,
+        "name": "N IH 45",
+        "road_class": "HIGHWAY",
+        "one_way": "TF",
+        "speed_limit_mph": 60,
+        "length_ft": 1727.0215698465158,
+        "length_m": 526.4,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.369821,
+            29.763386
+          ],
+          [
+            -95.369438,
+            29.763568
+          ],
+          [
+            -95.36918,
+            29.763706
+          ],
+          [
+            -95.369042,
+            29.763779
+          ],
+          [
+            -95.368713,
+            29.763956
+          ],
+          [
+            -95.368476,
+            29.764078
+          ],
+          [
+            -95.368141,
+            29.764278
+          ],
+          [
+            -95.367978,
+            29.764389
+          ],
+          [
+            -95.367878,
+            29.764469
+          ],
+          [
+            -95.36778,
+            29.764553
+          ],
+          [
+            -95.367687,
+            29.764642
+          ],
+          [
+            -95.367597,
+            29.764734
+          ],
+          [
+            -95.367512,
+            29.76483
+          ],
+          [
+            -95.367315,
+            29.765063
+          ],
+          [
+            -95.367294,
+            29.765088
+          ],
+          [
+            -95.367286,
+            29.765096
+          ],
+          [
+            -95.367051,
+            29.765496
+          ],
+          [
+            -95.36705,
+            29.765499
+          ],
+          [
+            -95.366691,
+            29.766212
+          ],
+          [
+            -95.366517,
+            29.766626
+          ],
+          [
+            -95.366417,
+            29.766858
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 57215,
+        "starmap_id": 10135144,
+        "name": "ALLEN PKWY",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 40,
+        "length_ft": 631.6313241030332,
+        "length_m": 192.52,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              -95.374558,
+              29.760233
+            ],
+            [
+              -95.374866,
+              29.76023
+            ]
+          ],
+          [
+            [
+              -95.374866,
+              29.76023
+            ],
+            [
+              -95.375301,
+              29.760225
+            ],
+            [
+              -95.376548,
+              29.760211
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 126412,
+        "starmap_id": 10135028,
+        "name": "RUSK ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 337.02270718690136,
+        "length_m": 102.72,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.365501,
+            29.759511
+          ],
+          [
+            -95.364623,
+            29.758989
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 136393,
+        "starmap_id": 10135023,
+        "name": "MEMORIAL DR",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 40,
+        "length_ft": 382.56014794665816,
+        "length_m": 116.6,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372718,
+            29.763824
+          ],
+          [
+            -95.373924,
+            29.763797
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 96645,
+        "starmap_id": 10135868,
+        "name": "POLK ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 600.2743289352525,
+        "length_m": 182.96,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372199,
+            29.756782
+          ],
+          [
+            -95.371566,
+            29.756566
+          ],
+          [
+            -95.371185,
+            29.756505
+          ],
+          [
+            -95.370765,
+            29.756502
+          ],
+          [
+            -95.370361,
+            29.756517
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 116554,
+        "starmap_id": 10135205,
+        "name": "MILAM ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 326.80131672226145,
+        "length_m": 99.61,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366668,
+            29.758003
+          ],
+          [
+            -95.366737,
+            29.757915
+          ],
+          [
+            -95.367134,
+            29.757415
+          ],
+          [
+            -95.367256,
+            29.757265
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 11210,
+        "starmap_id": 10135135,
+        "name": "BAGBY ST",
+        "road_class": "MAJOR",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 408.4353021139592,
+        "length_m": 124.49,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367652,
+            29.763052
+          ],
+          [
+            -95.36837,
+            29.762119
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 18941,
+        "starmap_id": 10135078,
+        "name": "RIESNER ST",
+        "road_class": "LOCAL",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 214.03632243202267,
+        "length_m": 65.24,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.371169,
+            29.764957
+          ],
+          [
+            -95.371181,
+            29.764368
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 106781,
+        "starmap_id": 10135307,
+        "name": "CAPITOL ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 314.5997651892442,
+        "length_m": 95.89,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.36837,
+            29.762119
+          ],
+          [
+            -95.368102,
+            29.762054
+          ],
+          [
+            -95.367835,
+            29.76196
+          ],
+          [
+            -95.367462,
+            29.761781
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 151092,
+        "starmap_id": 10135030,
+        "name": "WALKER ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 329.129427365643,
+        "length_m": 100.32,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366081,
+            29.758745
+          ],
+          [
+            -95.365226,
+            29.758232
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 47065,
+        "starmap_id": 10135885,
+        "name": "SMITH ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 213.39341725605217,
+        "length_m": 65.04,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.370361,
+            29.756517
+          ],
+          [
+            -95.37075,
+            29.756038
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 141297,
+        "starmap_id": 10135019,
+        "name": "MEMORIAL DR",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 544.3261117405401,
+        "length_m": 165.91,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367263,
+            29.76353
+          ],
+          [
+            -95.367393,
+            29.763549
+          ],
+          [
+            -95.36872,
+            29.763732
+          ],
+          [
+            -95.368957,
+            29.763769
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 22279,
+        "starmap_id": 10135551,
+        "name": "IH 45 ALLEN PKWY EXIT RAMP",
+        "road_class": "RAMP",
+        "one_way": "TF",
+        "speed_limit_mph": 35,
+        "length_ft": 797.6878943881413,
+        "length_m": 243.14,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372703,
+            29.762285
+          ],
+          [
+            -95.372756,
+            29.762218
+          ],
+          [
+            -95.372962,
+            29.76197
+          ],
+          [
+            -95.373107,
+            29.761793
+          ],
+          [
+            -95.373321,
+            29.761556
+          ],
+          [
+            -95.373451,
+            29.761424
+          ],
+          [
+            -95.373588,
+            29.761304
+          ],
+          [
+            -95.373771,
+            29.761184
+          ],
+          [
+            -95.373939,
+            29.761106
+          ],
+          [
+            -95.374221,
+            29.760978
+          ],
+          [
+            -95.374227,
+            29.760975
+          ],
+          [
+            -95.374526,
+            29.760839
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 203215,
+        "starmap_id": 10197002,
+        "name": "S IH 45",
+        "road_class": "HIGHWAY",
+        "one_way": "TF",
+        "speed_limit_mph": 60,
+        "length_ft": 1377.2438380043723,
+        "length_m": 419.78,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374725,
+            29.758344
+          ],
+          [
+            -95.374771,
+            29.75779
+          ],
+          [
+            -95.374786,
+            29.757623
+          ],
+          [
+            -95.374798,
+            29.754707
+          ],
+          [
+            -95.374799,
+            29.754559
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 111485,
+        "starmap_id": 10135923,
+        "name": "HEINER ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 229.59485645197594,
+        "length_m": 69.98,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.375099,
+            29.757089
+          ],
+          [
+            -95.375091,
+            29.756458
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 42022,
+        "starmap_id": 10135565,
+        "name": "WALKER MCKINNEY RAMP",
+        "road_class": "RAMP",
+        "one_way": "TF",
+        "speed_limit_mph": 35,
+        "length_ft": 398.6699534307706,
+        "length_m": 121.51,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.370071,
+            29.76115
+          ],
+          [
+            -95.370231,
+            29.76128
+          ],
+          [
+            -95.370347,
+            29.761338
+          ],
+          [
+            -95.370475,
+            29.761402
+          ],
+          [
+            -95.370595,
+            29.761451
+          ],
+          [
+            -95.37075,
+            29.761493
+          ],
+          [
+            -95.3708,
+            29.761505
+          ],
+          [
+            -95.370862,
+            29.761518
+          ],
+          [
+            -95.370947,
+            29.761528
+          ],
+          [
+            -95.37103,
+            29.761536
+          ],
+          [
+            -95.371105,
+            29.76154
+          ],
+          [
+            -95.37115,
+            29.761542
+          ],
+          [
+            -95.371207,
+            29.761541
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 72069,
+        "starmap_id": 10135249,
+        "name": "LAMAR ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 328.70843887589047,
+        "length_m": 100.19,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.370689,
+            29.759323
+          ],
+          [
+            -95.369834,
+            29.758811
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 66874,
+        "starmap_id": 10135313,
+        "name": "CAPITOL ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 329.8848160956831,
+        "length_m": 100.55,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.36576,
+            29.760761
+          ],
+          [
+            -95.364898,
+            29.760253
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 106739,
+        "starmap_id": 10135003,
+        "name": "MEMORIAL DR",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 40,
+        "length_ft": 454.64641819678735,
+        "length_m": 138.58,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.370585,
+            29.763899
+          ],
+          [
+            -95.370842,
+            29.763886
+          ],
+          [
+            -95.372016,
+            29.763843
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 22463,
+        "starmap_id": 10135006,
+        "name": "MCKINNEY ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 336.8015050091274,
+        "length_m": 102.66,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.365806,
+            29.757476
+          ],
+          [
+            -95.365623,
+            29.757373
+          ],
+          [
+            -95.364921,
+            29.756965
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 57064,
+        "starmap_id": 10135772,
+        "name": "MILAM ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 334.9881402971326,
+        "length_m": 102.1,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367835,
+            29.756524
+          ],
+          [
+            -95.36843,
+            29.755763
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 10346,
+        "starmap_id": 10135381,
+        "name": "LAMAR ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 328.33686685415574,
+        "length_m": 100.08,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.368972,
+            29.758285
+          ],
+          [
+            -95.368919,
+            29.758253
+          ],
+          [
+            -95.368308,
+            29.757892
+          ],
+          [
+            -95.368118,
+            29.757776
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 61950,
+        "starmap_id": 10135481,
+        "name": "W DALLAS ST",
+        "road_class": "MAJOR",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 96.79607158120001,
+        "length_m": 29.5,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.375144,
+            29.757776
+          ],
+          [
+            -95.375449,
+            29.757774
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 66905,
+        "starmap_id": 10135581,
+        "name": "MEMORIAL SERVICE RD",
+        "road_class": "MAJOR",
+        "one_way": "FT",
+        "speed_limit_mph": 40,
+        "length_ft": 96.97430152372345,
+        "length_m": 29.56,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372787,
+            29.763567
+          ],
+          [
+            -95.372482,
+            29.76358
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 22497,
+        "starmap_id": 10135268,
+        "name": "LOUISIANA ST",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 324.3985922281222,
+        "length_m": 98.88,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366363,
+            29.760015
+          ],
+          [
+            -95.366927,
+            29.759271
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 106553,
+        "starmap_id": 10135536,
+        "name": "WALKER IH 45 RAMP",
+        "road_class": "RAMP",
+        "one_way": "TF",
+        "speed_limit_mph": 35,
+        "length_ft": 1115.2916050932174,
+        "length_m": 339.94,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.370071,
+            29.76115
+          ],
+          [
+            -95.37033,
+            29.761209
+          ],
+          [
+            -95.37046,
+            29.761226
+          ],
+          [
+            -95.370712,
+            29.761249
+          ],
+          [
+            -95.370963,
+            29.76127
+          ],
+          [
+            -95.371322,
+            29.761295
+          ],
+          [
+            -95.371453,
+            29.761323
+          ],
+          [
+            -95.371547,
+            29.761358
+          ],
+          [
+            -95.371653,
+            29.761404
+          ],
+          [
+            -95.371704,
+            29.761432
+          ],
+          [
+            -95.371746,
+            29.761455
+          ],
+          [
+            -95.371806,
+            29.761508
+          ],
+          [
+            -95.371857,
+            29.761574
+          ],
+          [
+            -95.371896,
+            29.761633
+          ],
+          [
+            -95.371929,
+            29.7617
+          ],
+          [
+            -95.371953,
+            29.761799
+          ],
+          [
+            -95.371957,
+            29.761899
+          ],
+          [
+            -95.371937,
+            29.761986
+          ],
+          [
+            -95.371902,
+            29.762059
+          ],
+          [
+            -95.371826,
+            29.76218
+          ],
+          [
+            -95.371749,
+            29.762266
+          ],
+          [
+            -95.371597,
+            29.762414
+          ],
+          [
+            -95.371496,
+            29.762498
+          ],
+          [
+            -95.371409,
+            29.762567
+          ],
+          [
+            -95.371333,
+            29.762626
+          ],
+          [
+            -95.371218,
+            29.762715
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 155833,
+        "starmap_id": 10135510,
+        "name": "W DALLAS ST",
+        "road_class": "MAJOR",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 268.8877428741546,
+        "length_m": 81.96,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374297,
+            29.757781
+          ],
+          [
+            -95.374399,
+            29.757784
+          ],
+          [
+            -95.374581,
+            29.757787
+          ],
+          [
+            -95.374771,
+            29.75779
+          ],
+          [
+            -95.374999,
+            29.757781
+          ],
+          [
+            -95.375144,
+            29.757776
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 10403,
+        "starmap_id": 10135561,
+        "name": "IH 45 RAMP",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 475.2399068264171,
+        "length_m": 144.85,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374976,
+            29.759632
+          ],
+          [
+            -95.374908,
+            29.759223
+          ],
+          [
+            -95.374816,
+            29.758695
+          ],
+          [
+            -95.374725,
+            29.758344
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 27237,
+        "starmap_id": 10135557,
+        "name": "N IH 45",
+        "road_class": "HIGHWAY",
+        "one_way": "FT",
+        "speed_limit_mph": 60,
+        "length_ft": 1806.2296466391151,
+        "length_m": 550.54,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.36663,
+            29.76708
+          ],
+          [
+            -95.366762,
+            29.766772
+          ],
+          [
+            -95.366897,
+            29.766456
+          ],
+          [
+            -95.366981,
+            29.766284
+          ],
+          [
+            -95.367202,
+            29.765833
+          ],
+          [
+            -95.367363,
+            29.765559
+          ],
+          [
+            -95.367408,
+            29.765483
+          ],
+          [
+            -95.36757,
+            29.76525
+          ],
+          [
+            -95.367656,
+            29.765133
+          ],
+          [
+            -95.367747,
+            29.765021
+          ],
+          [
+            -95.367844,
+            29.764914
+          ],
+          [
+            -95.367946,
+            29.764811
+          ],
+          [
+            -95.368053,
+            29.764713
+          ],
+          [
+            -95.368164,
+            29.764621
+          ],
+          [
+            -95.36828,
+            29.764534
+          ],
+          [
+            -95.3684,
+            29.764453
+          ],
+          [
+            -95.368523,
+            29.764377
+          ],
+          [
+            -95.368705,
+            29.76428
+          ],
+          [
+            -95.368957,
+            29.764137
+          ],
+          [
+            -95.369354,
+            29.763917
+          ],
+          [
+            -95.369522,
+            29.763837
+          ],
+          [
+            -95.369688,
+            29.763757
+          ],
+          [
+            -95.369735,
+            29.763734
+          ],
+          [
+            -95.370094,
+            29.763559
+          ],
+          [
+            -95.370246,
+            29.763498
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 61953,
+        "starmap_id": 10135547,
+        "name": "PEASE IH 45 RAMP",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 1441.6134815763057,
+        "length_m": 439.4,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.373649,
+            29.759438
+          ],
+          [
+            -95.373452,
+            29.759807
+          ],
+          [
+            -95.373398,
+            29.759909
+          ],
+          [
+            -95.373312,
+            29.760069
+          ],
+          [
+            -95.37314,
+            29.760382
+          ],
+          [
+            -95.372939,
+            29.760747
+          ],
+          [
+            -95.37292,
+            29.760781
+          ],
+          [
+            -95.372761,
+            29.761056
+          ],
+          [
+            -95.372483,
+            29.761524
+          ],
+          [
+            -95.372376,
+            29.761694
+          ],
+          [
+            -95.372277,
+            29.761826
+          ],
+          [
+            -95.372184,
+            29.761941
+          ],
+          [
+            -95.372112,
+            29.762027
+          ],
+          [
+            -95.372056,
+            29.762074
+          ],
+          [
+            -95.371945,
+            29.762187
+          ],
+          [
+            -95.371771,
+            29.762327
+          ],
+          [
+            -95.371431,
+            29.762594
+          ],
+          [
+            -95.371218,
+            29.762715
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 10443,
+        "starmap_id": 10135593,
+        "name": "LOUISIANA ST",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 336.44053575482957,
+        "length_m": 102.55,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.369285,
+            29.756298
+          ],
+          [
+            -95.369888,
+            29.755536
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 47223,
+        "starmap_id": 10135140,
+        "name": "MEMORIAL DR",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 40,
+        "length_ft": 165.94255859207757,
+        "length_m": 50.58,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              -95.369293,
+              29.763811
+            ],
+            [
+              -95.369522,
+              29.763837
+            ]
+          ],
+          [
+            [
+              -95.369522,
+              29.763837
+            ],
+            [
+              -95.369625,
+              29.763849
+            ],
+            [
+              -95.369811,
+              29.76387
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 146212,
+        "starmap_id": 10135153,
+        "name": "SMITH ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 354.3820613934104,
+        "length_m": 108.02,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.365379,
+            29.762847
+          ],
+          [
+            -95.365989,
+            29.762031
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 51980,
+        "starmap_id": 10135503,
+        "name": "BAGBY ST",
+        "road_class": "MAJOR",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 325.5314882553745,
+        "length_m": 99.22,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.371276,
+            29.758579
+          ],
+          [
+            -95.371749,
+            29.757938
+          ],
+          [
+            -95.371848,
+            29.757837
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 126195,
+        "starmap_id": 10135509,
+        "name": "BAGBY ST",
+        "road_class": "MAJOR",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 462.92286341862865,
+        "length_m": 141.1,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366577,
+            29.764654
+          ],
+          [
+            -95.367263,
+            29.76353
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 116557,
+        "starmap_id": 10135267,
+        "name": "LOUISIANA ST",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 343.3943204708961,
+        "length_m": 104.67,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.365134,
+            29.761531
+          ],
+          [
+            -95.36576,
+            29.760761
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 47017,
+        "starmap_id": 10135566,
+        "name": "WALKER MCKINNEY RAMP",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 821.54408991012,
+        "length_m": 250.41,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.371207,
+            29.761541
+          ],
+          [
+            -95.371249,
+            29.761514
+          ],
+          [
+            -95.371306,
+            29.761484
+          ],
+          [
+            -95.371351,
+            29.761449
+          ],
+          [
+            -95.371399,
+            29.761403
+          ],
+          [
+            -95.371453,
+            29.761323
+          ],
+          [
+            -95.371513,
+            29.761199
+          ],
+          [
+            -95.371567,
+            29.76109
+          ],
+          [
+            -95.371573,
+            29.761046
+          ],
+          [
+            -95.371564,
+            29.76099
+          ],
+          [
+            -95.371527,
+            29.760926
+          ],
+          [
+            -95.371482,
+            29.760889
+          ],
+          [
+            -95.371438,
+            29.760853
+          ],
+          [
+            -95.37104,
+            29.760616
+          ],
+          [
+            -95.370086,
+            29.76007
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 52175,
+        "starmap_id": 10135129,
+        "name": "BAGBY ST",
+        "road_class": "MAJOR",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 326.0201593898797,
+        "length_m": 99.37,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.369506,
+            29.76081
+          ],
+          [
+            -95.370086,
+            29.76007
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 141320,
+        "starmap_id": 10135248,
+        "name": "BAGBY ST",
+        "road_class": "MAJOR",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 332.43044869724923,
+        "length_m": 101.32,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.370086,
+            29.76007
+          ],
+          [
+            -95.370689,
+            29.759323
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 101787,
+        "starmap_id": 10135007,
+        "name": "BRAZOS ST",
+        "road_class": "LOCAL",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 338.78054046583816,
+        "length_m": 103.26,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.369834,
+            29.758811
+          ],
+          [
+            -95.370422,
+            29.758033
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 81750,
+        "starmap_id": 10135577,
+        "name": "ALLEN IH 45 RAMP",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 560.5331932570986,
+        "length_m": 170.85,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374545,
+            29.760092
+          ],
+          [
+            -95.374412,
+            29.760049
+          ],
+          [
+            -95.374329,
+            29.760032
+          ],
+          [
+            -95.374107,
+            29.759984
+          ],
+          [
+            -95.37394,
+            29.759949
+          ],
+          [
+            -95.37379,
+            29.759913
+          ],
+          [
+            -95.373529,
+            29.759837
+          ],
+          [
+            -95.373452,
+            29.759807
+          ],
+          [
+            -95.373414,
+            29.759792
+          ],
+          [
+            -95.373321,
+            29.759756
+          ],
+          [
+            -95.373176,
+            29.759635
+          ],
+          [
+            -95.373084,
+            29.759511
+          ],
+          [
+            -95.373046,
+            29.75942
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 22500,
+        "starmap_id": 10135285,
+        "name": "WALKER ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 335.93031966024705,
+        "length_m": 102.39,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.369506,
+            29.76081
+          ],
+          [
+            -95.368843,
+            29.760425
+          ],
+          [
+            -95.368629,
+            29.760293
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 101578,
+        "starmap_id": 10135387,
+        "name": "MAIN ST",
+        "road_class": "MAJOR",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 329.04298592719783,
+        "length_m": 100.29,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.364921,
+            29.756965
+          ],
+          [
+            -95.365508,
+            29.756219
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 121509,
+        "starmap_id": 10135029,
+        "name": "WALKER ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 329.8784368413434,
+        "length_m": 100.55,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366927,
+            29.759271
+          ],
+          [
+            -95.366081,
+            29.758745
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 57230,
+        "starmap_id": 10135245,
+        "name": "WALKER ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 217.54525316029952,
+        "length_m": 66.31,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.370071,
+            29.76115
+          ],
+          [
+            -95.369911,
+            29.761051
+          ],
+          [
+            -95.369506,
+            29.76081
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 121498,
+        "starmap_id": 10135013,
+        "name": "RUSK ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 276.3586739985945,
+        "length_m": 84.23,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.369156,
+            29.76236
+          ],
+          [
+            -95.368751,
+            29.761687
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 10652,
+        "starmap_id": 10136123,
+        "name": "ROBIN ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 299.98555303700795,
+        "length_m": 91.44,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.375091,
+            29.756458
+          ],
+          [
+            -95.375195,
+            29.756458
+          ],
+          [
+            -95.375358,
+            29.75646
+          ],
+          [
+            -95.376036,
+            29.756456
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 131439,
+        "starmap_id": 10135308,
+        "name": "TEXAS ST",
+        "road_class": "MAJOR",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 326.404255430766,
+        "length_m": 99.49,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.365989,
+            29.762031
+          ],
+          [
+            -95.365134,
+            29.761531
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 207709,
+        "starmap_id": 10202699,
+        "name": "S IH 45",
+        "road_class": "HIGHWAY",
+        "one_way": "FT",
+        "speed_limit_mph": 60,
+        "length_ft": 204.8921232640612,
+        "length_m": 62.45,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.370924,
+            29.763183
+          ],
+          [
+            -95.371482,
+            29.762901
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 47014,
+        "starmap_id": 10135465,
+        "name": "MEMORIAL SERVICE RD",
+        "road_class": "MAJOR",
+        "one_way": "FT",
+        "speed_limit_mph": 40,
+        "length_ft": 447.0519440142792,
+        "length_m": 136.26,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372139,
+            29.763571
+          ],
+          [
+            -95.371162,
+            29.763622
+          ],
+          [
+            -95.37091,
+            29.763597
+          ],
+          [
+            -95.37074,
+            29.763554
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 62125,
+        "starmap_id": 10135156,
+        "name": "SMITH ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 331.34839079690107,
+        "length_m": 100.99,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367194,
+            29.76054
+          ],
+          [
+            -95.367797,
+            29.759795
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 74007,
+        "starmap_id": 10135076,
+        "name": "LUBBOCK ST",
+        "road_class": "LOCAL",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 419.92074703756845,
+        "length_m": 127.99,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.371169,
+            29.764957
+          ],
+          [
+            -95.371245,
+            29.765067
+          ],
+          [
+            -95.371303,
+            29.765118
+          ],
+          [
+            -95.37137,
+            29.765156
+          ],
+          [
+            -95.371456,
+            29.765197
+          ],
+          [
+            -95.371757,
+            29.765321
+          ],
+          [
+            -95.371803,
+            29.765335
+          ],
+          [
+            -95.372055,
+            29.765401
+          ],
+          [
+            -95.372228,
+            29.765431
+          ],
+          [
+            -95.372321,
+            29.765447
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 136391,
+        "starmap_id": 10135016,
+        "name": "RUSK ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 332.3808249569197,
+        "length_m": 101.31,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.368744,
+            29.761679
+          ],
+          [
+            -95.368751,
+            29.761687
+          ],
+          [
+            -95.368446,
+            29.761388
+          ],
+          [
+            -95.368301,
+            29.761272
+          ],
+          [
+            -95.368019,
+            29.761049
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 37333,
+        "starmap_id": 10135012,
+        "name": "SMITH ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 327.8925606869743,
+        "length_m": 99.94,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.368972,
+            29.758285
+          ],
+          [
+            -95.369308,
+            29.757877
+          ],
+          [
+            -95.369575,
+            29.757553
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 81979,
+        "starmap_id": 10135264,
+        "name": "LOUISIANA ST",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 346.52815295561027,
+        "length_m": 105.62,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.364517,
+            29.762317
+          ],
+          [
+            -95.365134,
+            29.761531
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 27446,
+        "starmap_id": 10135270,
+        "name": "LOUISIANA ST",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 326.7975186554027,
+        "length_m": 99.61,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.368118,
+            29.757776
+          ],
+          [
+            -95.368377,
+            29.75745
+          ],
+          [
+            -95.368705,
+            29.757038
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 86963,
+        "starmap_id": 10135311,
+        "name": "CAPITOL ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 328.72952626474284,
+        "length_m": 100.2,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366607,
+            29.761281
+          ],
+          [
+            -95.36576,
+            29.760761
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 52176,
+        "starmap_id": 10135141,
+        "name": "CAPITOL ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 73.86873427794563,
+        "length_m": 22.52,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.371034,
+            29.764
+          ],
+          [
+            -95.370842,
+            29.763886
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 86771,
+        "starmap_id": 10135930,
+        "name": "HEINER ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 226.85736347080507,
+        "length_m": 69.15,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.375091,
+            29.756458
+          ],
+          [
+            -95.375083,
+            29.755834
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 67095,
+        "starmap_id": 10135298,
+        "name": "PRAIRIE ST",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 385.49579621004807,
+        "length_m": 117.5,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367263,
+            29.76353
+          ],
+          [
+            -95.366676,
+            29.763429
+          ],
+          [
+            -95.366218,
+            29.763294
+          ],
+          [
+            -95.366104,
+            29.763235
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 22292,
+        "starmap_id": 10135587,
+        "name": "S IH 45",
+        "road_class": "HIGHWAY",
+        "one_way": "TF",
+        "speed_limit_mph": 60,
+        "length_ft": 1667.382299972498,
+        "length_m": 508.22,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372703,
+            29.762285
+          ],
+          [
+            -95.372756,
+            29.76225
+          ],
+          [
+            -95.373046,
+            29.762069
+          ],
+          [
+            -95.373439,
+            29.761815
+          ],
+          [
+            -95.373744,
+            29.761558
+          ],
+          [
+            -95.373957,
+            29.761348
+          ],
+          [
+            -95.374157,
+            29.761089
+          ],
+          [
+            -95.374221,
+            29.760978
+          ],
+          [
+            -95.374223,
+            29.760974
+          ],
+          [
+            -95.374262,
+            29.760907
+          ],
+          [
+            -95.374314,
+            29.760809
+          ],
+          [
+            -95.374376,
+            29.760694
+          ],
+          [
+            -95.374505,
+            29.760426
+          ],
+          [
+            -95.374558,
+            29.760233
+          ],
+          [
+            -95.374599,
+            29.760092
+          ],
+          [
+            -95.37461,
+            29.760056
+          ],
+          [
+            -95.374618,
+            29.760029
+          ],
+          [
+            -95.374637,
+            29.759867
+          ],
+          [
+            -95.374638,
+            29.759864
+          ],
+          [
+            -95.374679,
+            29.759512
+          ],
+          [
+            -95.374725,
+            29.758344
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 101573,
+        "starmap_id": 10135314,
+        "name": "RUSK ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 325.5441184314892,
+        "length_m": 99.23,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367194,
+            29.76054
+          ],
+          [
+            -95.366363,
+            29.760015
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 52170,
+        "starmap_id": 10135080,
+        "name": "TRINITY ST",
+        "road_class": "LOCAL",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 266.3440030451577,
+        "length_m": 81.18,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.373908,
+            29.764707
+          ],
+          [
+            -95.373908,
+            29.765396
+          ],
+          [
+            -95.373893,
+            29.765438
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 146044,
+        "starmap_id": 10135935,
+        "name": "CLAY ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 329.6376711766772,
+        "length_m": 100.47,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.37075,
+            29.756038
+          ],
+          [
+            -95.370658,
+            29.756008
+          ],
+          [
+            -95.369888,
+            29.755536
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 57231,
+        "starmap_id": 10135299,
+        "name": "PRESTON ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 333.49191745670686,
+        "length_m": 101.65,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.364791,
+            29.76357
+          ],
+          [
+            -95.363922,
+            29.763055
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 141321,
+        "starmap_id": 10135256,
+        "name": "MEMORIAL DR",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 40,
+        "length_ft": 174.2865260157003,
+        "length_m": 53.12,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              -95.372483,
+              29.763835
+            ],
+            [
+              -95.372566,
+              29.763833
+            ]
+          ],
+          [
+            [
+              -95.372115,
+              29.763841
+            ],
+            [
+              -95.372483,
+              29.763835
+            ]
+          ],
+          [
+            [
+              -95.372016,
+              29.763843
+            ],
+            [
+              -95.372115,
+              29.763841
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 77039,
+        "starmap_id": 10135145,
+        "name": "ALLEN PKWY",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 40,
+        "length_ft": 752.5072033241377,
+        "length_m": 229.36,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.373359,
+            29.759894
+          ],
+          [
+            -95.373398,
+            29.759909
+          ],
+          [
+            -95.373473,
+            29.759938
+          ],
+          [
+            -95.373596,
+            29.759984
+          ],
+          [
+            -95.37374,
+            29.760029
+          ],
+          [
+            -95.373794,
+            29.760046
+          ],
+          [
+            -95.373914,
+            29.760063
+          ],
+          [
+            -95.374015,
+            29.760078
+          ],
+          [
+            -95.374323,
+            29.76009
+          ],
+          [
+            -95.374359,
+            29.760091
+          ],
+          [
+            -95.374545,
+            29.760092
+          ],
+          [
+            -95.374599,
+            29.760092
+          ],
+          [
+            -95.374778,
+            29.760093
+          ],
+          [
+            -95.374902,
+            29.760095
+          ],
+          [
+            -95.375099,
+            29.760097
+          ],
+          [
+            -95.375295,
+            29.760096
+          ],
+          [
+            -95.375694,
+            29.760093
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 66889,
+        "starmap_id": 10135560,
+        "name": "IH 45 BAGBY RAMP",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 804.9171036880923,
+        "length_m": 245.34,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374099,
+            29.761678
+          ],
+          [
+            -95.374282,
+            29.761453
+          ],
+          [
+            -95.374465,
+            29.761161
+          ],
+          [
+            -95.374532,
+            29.761045
+          ],
+          [
+            -95.374603,
+            29.760921
+          ],
+          [
+            -95.374664,
+            29.760787
+          ],
+          [
+            -95.374725,
+            29.760654
+          ],
+          [
+            -95.374832,
+            29.76036
+          ],
+          [
+            -95.374866,
+            29.76023
+          ],
+          [
+            -95.374902,
+            29.760095
+          ],
+          [
+            -95.374931,
+            29.759986
+          ],
+          [
+            -95.374937,
+            29.759937
+          ],
+          [
+            -95.374954,
+            29.759807
+          ],
+          [
+            -95.374976,
+            29.759632
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 91955,
+        "starmap_id": 10135251,
+        "name": "CLAY ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 597.3715647283628,
+        "length_m": 182.08,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.373046,
+            29.75942
+          ],
+          [
+            -95.37297,
+            29.759319
+          ],
+          [
+            -95.372886,
+            29.759111
+          ],
+          [
+            -95.372825,
+            29.758884
+          ],
+          [
+            -95.372802,
+            29.758726
+          ],
+          [
+            -95.372805,
+            29.758312
+          ],
+          [
+            -95.372749,
+            29.75782
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 207710,
+        "starmap_id": 10202700,
+        "name": "S IH 45",
+        "road_class": "HIGHWAY",
+        "one_way": "TF",
+        "speed_limit_mph": 60,
+        "length_ft": 505.97432183920773,
+        "length_m": 154.22,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              -95.371218,
+              29.762715
+            ],
+            [
+              -95.371159,
+              29.762744
+            ],
+            [
+              -95.370344,
+              29.763136
+            ],
+            [
+              -95.370344,
+              29.763136
+            ]
+          ],
+          [
+            [
+              -95.370344,
+              29.763136
+            ],
+            [
+              -95.370344,
+              29.763136
+            ],
+            [
+              -95.370076,
+              29.763265
+            ],
+            [
+              -95.369949,
+              29.763326
+            ],
+            [
+              -95.369821,
+              29.763386
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 11254,
+        "starmap_id": 10135310,
+        "name": "TEXAS ST",
+        "road_class": "MAJOR",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 332.234348095241,
+        "length_m": 101.27,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.365134,
+            29.761531
+          ],
+          [
+            -95.364272,
+            29.761013
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 106780,
+        "starmap_id": 10135305,
+        "name": "TEXAS ST",
+        "road_class": "MAJOR",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 337.4197321777345,
+        "length_m": 102.85,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366859,
+            29.762565
+          ],
+          [
+            -95.365989,
+            29.762031
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 156060,
+        "starmap_id": 10135292,
+        "name": "FRANKLIN ST",
+        "road_class": "LOCAL",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 673.5667905611575,
+        "length_m": 205.3,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366317,
+            29.765344
+          ],
+          [
+            -95.364257,
+            29.764896
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 153020,
+        "starmap_id": 10135077,
+        "name": "RIESNER ST",
+        "road_class": "LOCAL",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 838.5100624664274,
+        "length_m": 255.58,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.371148,
+            29.767095
+          ],
+          [
+            -95.371159,
+            29.766107
+          ],
+          [
+            -95.371159,
+            29.766078
+          ],
+          [
+            -95.371151,
+            29.766039
+          ],
+          [
+            -95.371127,
+            29.766007
+          ],
+          [
+            -95.370963,
+            29.765919
+          ],
+          [
+            -95.370936,
+            29.765895
+          ],
+          [
+            -95.370932,
+            29.765876
+          ],
+          [
+            -95.371011,
+            29.765706
+          ],
+          [
+            -95.371016,
+            29.765675
+          ],
+          [
+            -95.37102,
+            29.765649
+          ],
+          [
+            -95.371016,
+            29.765624
+          ],
+          [
+            -95.371004,
+            29.765606
+          ],
+          [
+            -95.370984,
+            29.765577
+          ],
+          [
+            -95.370977,
+            29.76555
+          ],
+          [
+            -95.370975,
+            29.765518
+          ],
+          [
+            -95.370988,
+            29.76549
+          ],
+          [
+            -95.371185,
+            29.76516
+          ],
+          [
+            -95.3712,
+            29.765117
+          ],
+          [
+            -95.371201,
+            29.765087
+          ],
+          [
+            -95.371169,
+            29.764957
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 86743,
+        "starmap_id": 10135651,
+        "name": "DALLAS ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 330.690517440123,
+        "length_m": 100.79,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367835,
+            29.756524
+          ],
+          [
+            -95.366981,
+            29.756004
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 151099,
+        "starmap_id": 10135158,
+        "name": "MILAM ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 330.69988514622884,
+        "length_m": 100.8,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.364898,
+            29.760253
+          ],
+          [
+            -95.365501,
+            29.759511
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 136392,
+        "starmap_id": 10135018,
+        "name": "MEMORIAL DR",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 40,
+        "length_ft": 245.64765092067748,
+        "length_m": 74.87,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.369811,
+            29.76387
+          ],
+          [
+            -95.370585,
+            29.763899
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 11211,
+        "starmap_id": 10135143,
+        "name": "ALLEN PKWY",
+        "road_class": "RAMP",
+        "one_way": "TF",
+        "speed_limit_mph": 35,
+        "length_ft": 463.35219052028515,
+        "length_m": 141.23,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              -95.372611,
+              29.760887
+            ],
+            [
+              -95.372686,
+              29.760783
+            ],
+            [
+              -95.372726,
+              29.760728
+            ],
+            [
+              -95.372878,
+              29.760522
+            ],
+            [
+              -95.373016,
+              29.760421
+            ],
+            [
+              -95.37314,
+              29.760382
+            ]
+          ],
+          [
+            [
+              -95.37314,
+              29.760382
+            ],
+            [
+              -95.373244,
+              29.76035
+            ],
+            [
+              -95.373374,
+              29.760309
+            ],
+            [
+              -95.37358,
+              29.760274
+            ],
+            [
+              -95.373634,
+              29.760265
+            ],
+            [
+              -95.373771,
+              29.760242
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 116555,
+        "starmap_id": 10135221,
+        "name": "SMITH ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 267.37212625050927,
+        "length_m": 81.5,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.369888,
+            29.757125
+          ],
+          [
+            -95.370361,
+            29.756517
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 111494,
+        "starmap_id": 10136095,
+        "name": "MAIN ST",
+        "road_class": "MAJOR",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 333.28744686327104,
+        "length_m": 101.59,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.365508,
+            29.756219
+          ],
+          [
+            -95.366104,
+            29.755464
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 22280,
+        "starmap_id": 10135558,
+        "name": "RAMP RAMP",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 434.5699269005502,
+        "length_m": 132.46,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.375365,
+            29.763666
+          ],
+          [
+            -95.375129,
+            29.763631
+          ],
+          [
+            -95.374954,
+            29.763616
+          ],
+          [
+            -95.374709,
+            29.763585
+          ],
+          [
+            -95.374259,
+            29.763553
+          ],
+          [
+            -95.374008,
+            29.763515
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 106774,
+        "starmap_id": 10135172,
+        "name": "TRAVIS ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 330.5511126553764,
+        "length_m": 100.75,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.365226,
+            29.758232
+          ],
+          [
+            -95.365455,
+            29.757934
+          ],
+          [
+            -95.365806,
+            29.757476
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 91944,
+        "starmap_id": 10135099,
+        "name": "DALLAS ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 529.2248295420403,
+        "length_m": 161.31,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.373359,
+            29.759894
+          ],
+          [
+            -95.373086,
+            29.759786
+          ],
+          [
+            -95.372703,
+            29.75955
+          ],
+          [
+            -95.372695,
+            29.759544
+          ],
+          [
+            -95.372001,
+            29.759059
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 141318,
+        "starmap_id": 10135182,
+        "name": "N MEMORIAL WAY",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 118.68167817551237,
+        "length_m": 36.17,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372115,
+            29.764019
+          ],
+          [
+            -95.372489,
+            29.764011
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 86943,
+        "starmap_id": 10135137,
+        "name": "MCKINNEY ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 335.84791374718935,
+        "length_m": 102.37,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.368377,
+            29.759061
+          ],
+          [
+            -95.367515,
+            29.758525
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 156043,
+        "starmap_id": 10135136,
+        "name": "WALKER ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 320.0150677747265,
+        "length_m": 97.54,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.368629,
+            29.760293
+          ],
+          [
+            -95.367797,
+            29.759795
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 121496,
+        "starmap_id": 10134998,
+        "name": "PRESTON ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 689.9220141725535,
+        "length_m": 210.29,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366577,
+            29.764654
+          ],
+          [
+            -95.365981,
+            29.764295
+          ],
+          [
+            -95.364791,
+            29.76357
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 101593,
+        "starmap_id": 10135512,
+        "name": "PRESTON ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 133.78424660772671,
+        "length_m": 40.78,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              -95.367617,
+              29.76523
+            ],
+            [
+              -95.367592,
+              29.765217
+            ]
+          ],
+          [
+            [
+              -95.367592,
+              29.765217
+            ],
+            [
+              -95.367315,
+              29.765063
+            ]
+          ],
+          [
+            [
+              -95.367315,
+              29.765063
+            ],
+            [
+              -95.367261,
+              29.765034
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 52196,
+        "starmap_id": 10135260,
+        "name": "TRAVIS ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 335.2813757847532,
+        "length_m": 102.19,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.364623,
+            29.758989
+          ],
+          [
+            -95.365226,
+            29.758232
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 81965,
+        "starmap_id": 10135157,
+        "name": "MILAM ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 334.0433944956672,
+        "length_m": 101.82,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.365501,
+            29.759511
+          ],
+          [
+            -95.366081,
+            29.758745
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 96824,
+        "starmap_id": 10135184,
+        "name": "N MEMORIAL WAY",
+        "road_class": "LOCAL",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 367.91024414017164,
+        "length_m": 112.14,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374397,
+            29.763956
+          ],
+          [
+            -95.375556,
+            29.763956
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 32339,
+        "starmap_id": 10135005,
+        "name": "LAMAR ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 330.74648827518115,
+        "length_m": 100.81,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.368118,
+            29.757776
+          ],
+          [
+            -95.367545,
+            29.757427
+          ],
+          [
+            -95.367256,
+            29.757265
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 131437,
+        "starmap_id": 10135223,
+        "name": "SMITH ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 324.2261116400041,
+        "length_m": 98.82,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367797,
+            29.759795
+          ],
+          [
+            -95.368377,
+            29.759061
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 141324,
+        "starmap_id": 10135286,
+        "name": "MCKINNEY ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 654.7154980606035,
+        "length_m": 199.56,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.370086,
+            29.76007
+          ],
+          [
+            -95.368881,
+            29.759357
+          ],
+          [
+            -95.368377,
+            29.759061
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 76847,
+        "starmap_id": 10135559,
+        "name": "IH 45 ALLEN PKWY EXIT RAMP",
+        "road_class": "RAMP",
+        "one_way": "TF",
+        "speed_limit_mph": 35,
+        "length_ft": 258.2225856823721,
+        "length_m": 78.71,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374526,
+            29.760839
+          ],
+          [
+            -95.374664,
+            29.760787
+          ],
+          [
+            -95.375274,
+            29.760559
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 131420,
+        "starmap_id": 10135015,
+        "name": "BAGBY ST",
+        "road_class": "MAJOR",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 198.09942588163176,
+        "length_m": 60.38,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.36837,
+            29.762119
+          ],
+          [
+            -95.368751,
+            29.761687
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 176237,
+        "starmap_id": 10135181,
+        "name": "TRINITY ST",
+        "road_class": "LOCAL",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 266.09408423990493,
+        "length_m": 81.11,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.373928,
+            29.763976
+          ],
+          [
+            -95.373908,
+            29.764707
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 106757,
+        "starmap_id": 10135160,
+        "name": "MILAM ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 326.02033601272365,
+        "length_m": 99.37,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367256,
+            29.757265
+          ],
+          [
+            -95.367835,
+            29.756524
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 136395,
+        "starmap_id": 10135101,
+        "name": "WALKER ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 346.2282736858168,
+        "length_m": 105.53,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.365226,
+            29.758232
+          ],
+          [
+            -95.364761,
+            29.757945
+          ],
+          [
+            -95.364333,
+            29.757684
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 71841,
+        "starmap_id": 10135542,
+        "name": "WALKER SABINE RAMP",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 403.47855306985093,
+        "length_m": 122.98,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374153,
+            29.760948
+          ],
+          [
+            -95.374223,
+            29.760974
+          ],
+          [
+            -95.374227,
+            29.760975
+          ],
+          [
+            -95.374282,
+            29.760995
+          ],
+          [
+            -95.374412,
+            29.761026
+          ],
+          [
+            -95.374519,
+            29.761045
+          ],
+          [
+            -95.374532,
+            29.761045
+          ],
+          [
+            -95.374626,
+            29.761049
+          ],
+          [
+            -95.374755,
+            29.761026
+          ],
+          [
+            -95.37503,
+            29.760925
+          ],
+          [
+            -95.375129,
+            29.760917
+          ],
+          [
+            -95.375221,
+            29.760948
+          ],
+          [
+            -95.375327,
+            29.761043
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 11251,
+        "starmap_id": 10135183,
+        "name": "HOUSTON AVE",
+        "road_class": "MAJOR",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 262.2058598653772,
+        "length_m": 79.92,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372489,
+            29.764011
+          ],
+          [
+            -95.372497,
+            29.764732
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 96598,
+        "starmap_id": 10135537,
+        "name": "ALLEN IH 45 RAMP",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 973.0654568677519,
+        "length_m": 296.59,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.375694,
+            29.760093
+          ],
+          [
+            -95.37548,
+            29.760068
+          ],
+          [
+            -95.375292,
+            29.760023
+          ],
+          [
+            -95.374937,
+            29.759937
+          ],
+          [
+            -95.374638,
+            29.759864
+          ],
+          [
+            -95.374526,
+            29.759837
+          ],
+          [
+            -95.37445,
+            29.759801
+          ],
+          [
+            -95.374389,
+            29.759748
+          ],
+          [
+            -95.374364,
+            29.759713
+          ],
+          [
+            -95.374328,
+            29.759662
+          ],
+          [
+            -95.374313,
+            29.759582
+          ],
+          [
+            -95.374328,
+            29.759492
+          ],
+          [
+            -95.374411,
+            29.75928
+          ],
+          [
+            -95.374587,
+            29.758827
+          ],
+          [
+            -95.374725,
+            29.758344
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 47224,
+        "starmap_id": 10135152,
+        "name": "SMITH ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 335.8465051457176,
+        "length_m": 102.37,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.365989,
+            29.762031
+          ],
+          [
+            -95.366607,
+            29.761281
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 101816,
+        "starmap_id": 10135252,
+        "name": "DALLAS ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 335.89710054268676,
+        "length_m": 102.38,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.371276,
+            29.758579
+          ],
+          [
+            -95.370422,
+            29.758033
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 86960,
+        "starmap_id": 10135222,
+        "name": "SMITH ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 339.626308596313,
+        "length_m": 103.52,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.368377,
+            29.759061
+          ],
+          [
+            -95.368911,
+            29.758371
+          ],
+          [
+            -95.368972,
+            29.758285
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 148142,
+        "starmap_id": 10135173,
+        "name": "RIESNER ST",
+        "road_class": "LOCAL",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 146.0421947046297,
+        "length_m": 44.51,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.371181,
+            29.764368
+          ],
+          [
+            -95.371181,
+            29.764244
+          ],
+          [
+            -95.371128,
+            29.764124
+          ],
+          [
+            -95.371034,
+            29.764
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 101616,
+        "starmap_id": 10135829,
+        "name": "TRAVIS ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 334.3569032173495,
+        "length_m": 101.91,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366981,
+            29.756004
+          ],
+          [
+            -95.367591,
+            29.755254
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 81785,
+        "starmap_id": 10135948,
+        "name": "DALLAS ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 340.57894113368184,
+        "length_m": 103.81,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366981,
+            29.756004
+          ],
+          [
+            -95.366104,
+            29.755464
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 27252,
+        "starmap_id": 10135586,
+        "name": "IH 45 BAGBY RAMP",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 1405.6744307111512,
+        "length_m": 428.45,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374976,
+            29.759632
+          ],
+          [
+            -95.374992,
+            29.759414
+          ],
+          [
+            -95.375007,
+            29.757968
+          ],
+          [
+            -95.374999,
+            29.757781
+          ],
+          [
+            -95.374999,
+            29.757629
+          ],
+          [
+            -95.374964,
+            29.755767
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 116315,
+        "starmap_id": 10135504,
+        "name": "BAGBY ST",
+        "road_class": "MAJOR",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 328.47057604740195,
+        "length_m": 100.12,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.370689,
+            29.759323
+          ],
+          [
+            -95.371276,
+            29.758579
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 111627,
+        "starmap_id": 10135146,
+        "name": "LAMAR ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 1058.4107816178168,
+        "length_m": 322.6,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              -95.373312,
+              29.760069
+            ],
+            [
+              -95.372955,
+              29.759861
+            ],
+            [
+              -95.372787,
+              29.759773
+            ],
+            [
+              -95.372703,
+              29.759735
+            ],
+            [
+              -95.372611,
+              29.759691
+            ],
+            [
+              -95.372398,
+              29.759626
+            ],
+            [
+              -95.371917,
+              29.75954
+            ],
+            [
+              -95.371536,
+              29.759565
+            ],
+            [
+              -95.371253,
+              29.759553
+            ],
+            [
+              -95.370986,
+              29.759471
+            ],
+            [
+              -95.370689,
+              29.759323
+            ]
+          ],
+          [
+            [
+              -95.373771,
+              29.760242
+            ],
+            [
+              -95.37373,
+              29.760229
+            ],
+            [
+              -95.37366,
+              29.760208
+            ],
+            [
+              -95.373428,
+              29.760137
+            ],
+            [
+              -95.373378,
+              29.760108
+            ],
+            [
+              -95.373312,
+              29.760069
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 151091,
+        "starmap_id": 10135022,
+        "name": "MEMORIAL DR",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 40,
+        "length_ft": 48.56116857371894,
+        "length_m": 14.8,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372566,
+            29.763833
+          ],
+          [
+            -95.372718,
+            29.763824
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 86961,
+        "starmap_id": 10135225,
+        "name": "SMITH ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 338.3514421329421,
+        "length_m": 103.13,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.364112,
+            29.764282
+          ],
+          [
+            -95.364211,
+            29.764221
+          ],
+          [
+            -95.364295,
+            29.764139
+          ],
+          [
+            -95.364395,
+            29.764037
+          ],
+          [
+            -95.364791,
+            29.76357
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 47236,
+        "starmap_id": 10135309,
+        "name": "CAPITOL ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 326.36810602261403,
+        "length_m": 99.48,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367462,
+            29.761781
+          ],
+          [
+            -95.366607,
+            29.761281
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 57031,
+        "starmap_id": 10135521,
+        "name": "MEMORIAL DR",
+        "road_class": "MAJOR",
+        "one_way": "FT",
+        "speed_limit_mph": 40,
+        "length_ft": 1760.766515817625,
+        "length_m": 536.68,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.369819,
+            29.763763
+          ],
+          [
+            -95.369949,
+            29.763769
+          ],
+          [
+            -95.370285,
+            29.763784
+          ],
+          [
+            -95.370677,
+            29.763784
+          ],
+          [
+            -95.372123,
+            29.763726
+          ],
+          [
+            -95.372184,
+            29.763725
+          ],
+          [
+            -95.372482,
+            29.763718
+          ],
+          [
+            -95.372787,
+            29.763711
+          ],
+          [
+            -95.373542,
+            29.763694
+          ],
+          [
+            -95.374832,
+            29.763677
+          ],
+          [
+            -95.375365,
+            29.763666
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 176235,
+        "starmap_id": 10135185,
+        "name": "N MEMORIAL WAY",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 456.56653862081066,
+        "length_m": 139.16,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372489,
+            29.764011
+          ],
+          [
+            -95.372794,
+            29.764001
+          ],
+          [
+            -95.373928,
+            29.763976
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 131200,
+        "starmap_id": 10135399,
+        "name": "CAPITOL ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 250.54320554531475,
+        "length_m": 76.37,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.370842,
+            29.763886
+          ],
+          [
+            -95.370677,
+            29.763784
+          ],
+          [
+            -95.370445,
+            29.763648
+          ],
+          [
+            -95.370287,
+            29.763484
+          ],
+          [
+            -95.370285,
+            29.763481
+          ],
+          [
+            -95.370247,
+            29.763441
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 121508,
+        "starmap_id": 10135027,
+        "name": "WALKER ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 335.4237102872875,
+        "length_m": 102.24,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367797,
+            29.759795
+          ],
+          [
+            -95.366927,
+            29.759271
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 76848,
+        "starmap_id": 10135563,
+        "name": "HOUSTON IH 45 RAMP",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 913.0732087582611,
+        "length_m": 278.3,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372482,
+            29.76358
+          ],
+          [
+            -95.372497,
+            29.763347
+          ],
+          [
+            -95.372581,
+            29.763057
+          ],
+          [
+            -95.372642,
+            29.762889
+          ],
+          [
+            -95.372688,
+            29.762784
+          ],
+          [
+            -95.372704,
+            29.76275
+          ],
+          [
+            -95.372764,
+            29.762622
+          ],
+          [
+            -95.372772,
+            29.762609
+          ],
+          [
+            -95.372894,
+            29.762451
+          ],
+          [
+            -95.373031,
+            29.762329
+          ],
+          [
+            -95.373191,
+            29.762214
+          ],
+          [
+            -95.373382,
+            29.762075
+          ],
+          [
+            -95.373596,
+            29.761949
+          ],
+          [
+            -95.373794,
+            29.761846
+          ],
+          [
+            -95.374099,
+            29.761678
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 131438,
+        "starmap_id": 10135266,
+        "name": "LOUISIANA ST",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 331.81877867242144,
+        "length_m": 101.14,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.36576,
+            29.760761
+          ],
+          [
+            -95.366363,
+            29.760015
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 77037,
+        "starmap_id": 10135102,
+        "name": "MCKINNEY ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 333.8341013481759,
+        "length_m": 101.75,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366668,
+            29.758003
+          ],
+          [
+            -95.366531,
+            29.757919
+          ],
+          [
+            -95.365806,
+            29.757476
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 207708,
+        "starmap_id": 10202698,
+        "name": "S IH 45",
+        "road_class": "HIGHWAY",
+        "one_way": "FT",
+        "speed_limit_mph": 60,
+        "length_ft": 243.66752565390095,
+        "length_m": 74.27,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.370246,
+            29.763498
+          ],
+          [
+            -95.370285,
+            29.763481
+          ],
+          [
+            -95.370402,
+            29.763433
+          ],
+          [
+            -95.370555,
+            29.763361
+          ],
+          [
+            -95.370607,
+            29.763336
+          ],
+          [
+            -95.370783,
+            29.763254
+          ],
+          [
+            -95.370924,
+            29.763183
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 11252,
+        "starmap_id": 10135215,
+        "name": "HEINER ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 250.6111888908802,
+        "length_m": 76.39,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.375144,
+            29.757776
+          ],
+          [
+            -95.375135,
+            29.757733
+          ],
+          [
+            -95.375114,
+            29.757631
+          ],
+          [
+            -95.375099,
+            29.757089
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 27445,
+        "starmap_id": 10135269,
+        "name": "LOUISIANA ST",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 329.12872739766965,
+        "length_m": 100.32,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366927,
+            29.759271
+          ],
+          [
+            -95.367515,
+            29.758525
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 121322,
+        "starmap_id": 10135564,
+        "name": "ALLEN IH 45 RAMP",
+        "road_class": "RAMP",
+        "one_way": "TF",
+        "speed_limit_mph": 35,
+        "length_ft": 540.5839064869842,
+        "length_m": 164.77,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.373046,
+            29.75942
+          ],
+          [
+            -95.373054,
+            29.759241
+          ],
+          [
+            -95.373084,
+            29.759132
+          ],
+          [
+            -95.373138,
+            29.759035
+          ],
+          [
+            -95.373229,
+            29.758935
+          ],
+          [
+            -95.373351,
+            29.758861
+          ],
+          [
+            -95.373451,
+            29.758844
+          ],
+          [
+            -95.37358,
+            29.758865
+          ],
+          [
+            -95.373664,
+            29.758918
+          ],
+          [
+            -95.37371,
+            29.759008
+          ],
+          [
+            -95.373726,
+            29.759129
+          ],
+          [
+            -95.373649,
+            29.759438
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 96599,
+        "starmap_id": 10135539,
+        "name": "IH 45 HEINER RAMP",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 406.5732293398542,
+        "length_m": 123.92,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374976,
+            29.759632
+          ],
+          [
+            -95.375106,
+            29.759162
+          ],
+          [
+            -95.375237,
+            29.758723
+          ],
+          [
+            -95.375299,
+            29.75855
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 86712,
+        "starmap_id": 10135383,
+        "name": "CLAY ST",
+        "road_class": "LOCAL",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 422.78098977769514,
+        "length_m": 128.86,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372749,
+            29.75782
+          ],
+          [
+            -95.372688,
+            29.757566
+          ],
+          [
+            -95.372606,
+            29.757321
+          ],
+          [
+            -95.372497,
+            29.757122
+          ],
+          [
+            -95.372199,
+            29.756782
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 22278,
+        "starmap_id": 10135502,
+        "name": "W DALLAS ST",
+        "road_class": "MAJOR",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 285.74697811042057,
+        "length_m": 87.1,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.371848,
+            29.757837
+          ],
+          [
+            -95.372749,
+            29.75782
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 32357,
+        "starmap_id": 10135134,
+        "name": "BAGBY ST",
+        "road_class": "MAJOR",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 264.2977333645996,
+        "length_m": 80.56,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366317,
+            29.765344
+          ],
+          [
+            -95.366577,
+            29.764654
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 67081,
+        "starmap_id": 10135149,
+        "name": "MCKINNEY ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 1377.965527952989,
+        "length_m": 420.0,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.371482,
+            29.762901
+          ],
+          [
+            -95.371887,
+            29.762482
+          ],
+          [
+            -95.371966,
+            29.762392
+          ],
+          [
+            -95.372045,
+            29.762248
+          ],
+          [
+            -95.372085,
+            29.76214
+          ],
+          [
+            -95.372112,
+            29.762027
+          ],
+          [
+            -95.372094,
+            29.761837
+          ],
+          [
+            -95.372069,
+            29.761719
+          ],
+          [
+            -95.372032,
+            29.761612
+          ],
+          [
+            -95.371992,
+            29.761537
+          ],
+          [
+            -95.371938,
+            29.761437
+          ],
+          [
+            -95.371882,
+            29.76136
+          ],
+          [
+            -95.371763,
+            29.76124
+          ],
+          [
+            -95.371564,
+            29.761085
+          ],
+          [
+            -95.371398,
+            29.760951
+          ],
+          [
+            -95.370086,
+            29.76007
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 66938,
+        "starmap_id": 10135928,
+        "name": "SHAW ST",
+        "road_class": "LOCAL",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 349.41577463559463,
+        "length_m": 106.5,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372199,
+            29.756782
+          ],
+          [
+            -95.372298,
+            29.756518
+          ],
+          [
+            -95.372367,
+            29.75629
+          ],
+          [
+            -95.37239,
+            29.756072
+          ],
+          [
+            -95.37239,
+            29.755844
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 27296,
+        "starmap_id": 10135963,
+        "name": "TRAVIS ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 326.02015938185764,
+        "length_m": 99.37,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366401,
+            29.756744
+          ],
+          [
+            -95.366981,
+            29.756004
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 27250,
+        "starmap_id": 10135579,
+        "name": "PEASE IH 45 RAMP",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 1375.4711106515015,
+        "length_m": 419.24,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374412,
+            29.755792
+          ],
+          [
+            -95.374427,
+            29.756111
+          ],
+          [
+            -95.374427,
+            29.75646
+          ],
+          [
+            -95.374465,
+            29.7571
+          ],
+          [
+            -95.374447,
+            29.757511
+          ],
+          [
+            -95.374416,
+            29.757724
+          ],
+          [
+            -95.374399,
+            29.757784
+          ],
+          [
+            -95.374391,
+            29.757809
+          ],
+          [
+            -95.374344,
+            29.758024
+          ],
+          [
+            -95.37427,
+            29.758222
+          ],
+          [
+            -95.374195,
+            29.758406
+          ],
+          [
+            -95.374107,
+            29.758546
+          ],
+          [
+            -95.373969,
+            29.758848
+          ],
+          [
+            -95.373649,
+            29.759438
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 10579,
+        "starmap_id": 10135867,
+        "name": "CLAY ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 535.0329246494068,
+        "length_m": 163.08,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372199,
+            29.756782
+          ],
+          [
+            -95.371627,
+            29.756456
+          ],
+          [
+            -95.371246,
+            29.756313
+          ],
+          [
+            -95.370986,
+            29.756177
+          ],
+          [
+            -95.37075,
+            29.756038
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 62135,
+        "starmap_id": 10135250,
+        "name": "DALLAS ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 288.9008513325226,
+        "length_m": 88.06,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372001,
+            29.759059
+          ],
+          [
+            -95.371276,
+            29.758579
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 101574,
+        "starmap_id": 10135315,
+        "name": "RUSK ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 329.2125706259174,
+        "length_m": 100.34,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.366363,
+            29.760015
+          ],
+          [
+            -95.365501,
+            29.759511
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 126211,
+        "starmap_id": 10135685,
+        "name": "POLK ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 333.55813394933944,
+        "length_m": 101.67,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.369285,
+            29.756298
+          ],
+          [
+            -95.368995,
+            29.756109
+          ],
+          [
+            -95.36843,
+            29.755763
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 22464,
+        "starmap_id": 10135014,
+        "name": "BAGBY ST",
+        "road_class": "MAJOR",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 398.9101746407546,
+        "length_m": 121.59,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.368751,
+            29.761687
+          ],
+          [
+            -95.369506,
+            29.76081
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 47047,
+        "starmap_id": 10135761,
+        "name": "POLK ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 355.38562271586443,
+        "length_m": 108.32,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.370361,
+            29.756517
+          ],
+          [
+            -95.37017,
+            29.756521
+          ],
+          [
+            -95.369888,
+            29.756494
+          ],
+          [
+            -95.369644,
+            29.756437
+          ],
+          [
+            -95.369285,
+            29.756298
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 145999,
+        "starmap_id": 10135576,
+        "name": "WALKER SABINE RAMP",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 536.1770299949642,
+        "length_m": 163.43,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372611,
+            29.760887
+          ],
+          [
+            -95.372726,
+            29.760837
+          ],
+          [
+            -95.372802,
+            29.760807
+          ],
+          [
+            -95.372939,
+            29.760747
+          ],
+          [
+            -95.373051,
+            29.760698
+          ],
+          [
+            -95.373092,
+            29.760681
+          ],
+          [
+            -95.373291,
+            29.760686
+          ],
+          [
+            -95.373485,
+            29.760686
+          ],
+          [
+            -95.373657,
+            29.760686
+          ],
+          [
+            -95.373771,
+            29.760709
+          ],
+          [
+            -95.373886,
+            29.760755
+          ],
+          [
+            -95.374069,
+            29.760888
+          ],
+          [
+            -95.374153,
+            29.760948
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 145993,
+        "starmap_id": 10135562,
+        "name": "HOUSTON IH 45 RAMP",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 156.8248223708045,
+        "length_m": 47.8,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372489,
+            29.764011
+          ],
+          [
+            -95.372483,
+            29.763835
+          ],
+          [
+            -95.372482,
+            29.763718
+          ],
+          [
+            -95.372482,
+            29.76358
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 42221,
+        "starmap_id": 10135130,
+        "name": "LAMAR ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 333.89980280909685,
+        "length_m": 101.77,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.369834,
+            29.758811
+          ],
+          [
+            -95.368972,
+            29.758285
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 76845,
+        "starmap_id": 10135540,
+        "name": "NB IH 45 TO MEMORIAL RAMP",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 271.7932045983895,
+        "length_m": 82.84,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374191,
+            29.758962
+          ],
+          [
+            -95.373969,
+            29.759193
+          ],
+          [
+            -95.373794,
+            29.759405
+          ],
+          [
+            -95.373682,
+            29.759562
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 220357,
+        "starmap_id": 10222957,
+        "name": "IH 45 ALLEN RAMP",
+        "road_class": "RAMP",
+        "one_way": "FT",
+        "speed_limit_mph": 35,
+        "length_ft": 162.9656343587775,
+        "length_m": 49.67,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372139,
+            29.763571
+          ],
+          [
+            -95.372123,
+            29.763726
+          ],
+          [
+            -95.372115,
+            29.763841
+          ],
+          [
+            -95.372115,
+            29.764019
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 91790,
+        "starmap_id": 10135922,
+        "name": "GULF FWY",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 217.82545646355857,
+        "length_m": 66.39,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.37432,
+            29.757081
+          ],
+          [
+            -95.374313,
+            29.756482
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 91741,
+        "starmap_id": 10135545,
+        "name": "IH 45 BAGBY RAMP",
+        "road_class": "RAMP",
+        "one_way": "TF",
+        "speed_limit_mph": 35,
+        "length_ft": 1367.2298353677284,
+        "length_m": 416.73,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374099,
+            29.761678
+          ],
+          [
+            -95.373916,
+            29.761882
+          ],
+          [
+            -95.373504,
+            29.762256
+          ],
+          [
+            -95.37326,
+            29.762432
+          ],
+          [
+            -95.373031,
+            29.762579
+          ],
+          [
+            -95.37281,
+            29.762695
+          ],
+          [
+            -95.372764,
+            29.762718
+          ],
+          [
+            -95.372704,
+            29.76275
+          ],
+          [
+            -95.37255,
+            29.762832
+          ],
+          [
+            -95.372179,
+            29.762973
+          ],
+          [
+            -95.372123,
+            29.762994
+          ],
+          [
+            -95.371513,
+            29.763175
+          ],
+          [
+            -95.37107,
+            29.763297
+          ],
+          [
+            -95.370707,
+            29.763369
+          ],
+          [
+            -95.370584,
+            29.763393
+          ],
+          [
+            -95.370407,
+            29.763431
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 116358,
+        "starmap_id": 10135929,
+        "name": "GULF FWY",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 237.1378643121672,
+        "length_m": 72.28,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374313,
+            29.756482
+          ],
+          [
+            -95.374305,
+            29.75583
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 67078,
+        "starmap_id": 10135026,
+        "name": "STATE ST",
+        "road_class": "LOCAL",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 447.8985663877631,
+        "length_m": 136.52,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.372497,
+            29.764732
+          ],
+          [
+            -95.37281,
+            29.764726
+          ],
+          [
+            -95.373908,
+            29.764707
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 106755,
+        "starmap_id": 10135031,
+        "name": "MCKINNEY ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 329.1209008932726,
+        "length_m": 100.32,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367515,
+            29.758525
+          ],
+          [
+            -95.366668,
+            29.758003
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 81946,
+        "starmap_id": 10135009,
+        "name": "DALLAS ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 333.5125924152088,
+        "length_m": 101.65,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.369575,
+            29.757553
+          ],
+          [
+            -95.368957,
+            29.757182
+          ],
+          [
+            -95.368705,
+            29.757038
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 27236,
+        "starmap_id": 10135508,
+        "name": "BAGBY ST",
+        "road_class": "MAJOR",
+        "one_way": "BI",
+        "speed_limit_mph": 30,
+        "length_ft": 213.44500409726484,
+        "length_m": 65.06,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367263,
+            29.76353
+          ],
+          [
+            -95.367652,
+            29.763052
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 42006,
+        "starmap_id": 10135358,
+        "name": "TEXAS ST",
+        "road_class": "MAJOR",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 307.7145243207099,
+        "length_m": 93.79,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.367652,
+            29.763052
+          ],
+          [
+            -95.366859,
+            29.762565
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 126208,
+        "starmap_id": 10135578,
+        "name": "WALKER SABINE RAMP",
+        "road_class": "RAMP",
+        "one_way": "TF",
+        "speed_limit_mph": 35,
+        "length_ft": 515.1079793199107,
+        "length_m": 157.0,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              -95.371207,
+              29.761541
+            ],
+            [
+              -95.371337,
+              29.761529
+            ],
+            [
+              -95.371425,
+              29.761515
+            ],
+            [
+              -95.371522,
+              29.761494
+            ],
+            [
+              -95.371619,
+              29.761458
+            ],
+            [
+              -95.371704,
+              29.761432
+            ],
+            [
+              -95.371882,
+              29.76136
+            ]
+          ],
+          [
+            [
+              -95.371882,
+              29.76136
+            ],
+            [
+              -95.371955,
+              29.761323
+            ],
+            [
+              -95.372037,
+              29.761286
+            ],
+            [
+              -95.372113,
+              29.76124
+            ],
+            [
+              -95.37223,
+              29.761163
+            ],
+            [
+              -95.372611,
+              29.760887
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 116556,
+        "starmap_id": 10135261,
+        "name": "TRAVIS ST",
+        "road_class": "LOCAL",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 326.476394595956,
+        "length_m": 99.51,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.365806,
+            29.757476
+          ],
+          [
+            -95.365882,
+            29.757381
+          ],
+          [
+            -95.366401,
+            29.756744
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 146211,
+        "starmap_id": 10135103,
+        "name": "DALLAS ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 320.54164789453256,
+        "length_m": 97.7,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.370422,
+            29.758033
+          ],
+          [
+            -95.370124,
+            29.757864
+          ],
+          [
+            -95.369575,
+            29.757553
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 121531,
+        "starmap_id": 10135304,
+        "name": "PRAIRIE ST",
+        "road_class": "MAJOR",
+        "one_way": "TF",
+        "speed_limit_mph": 30,
+        "length_ft": 334.6417424375687,
+        "length_m": 102.0,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.365379,
+            29.762847
+          ],
+          [
+            -95.364517,
+            29.762317
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 77020,
+        "starmap_id": 10135008,
+        "name": "SMITH ST",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 184.33816797796248,
+        "length_m": 56.19,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.369575,
+            29.757553
+          ],
+          [
+            -95.369888,
+            29.757125
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 141299,
+        "starmap_id": 10135082,
+        "name": "GULF FWY",
+        "road_class": "LOCAL",
+        "one_way": "FT",
+        "speed_limit_mph": 30,
+        "length_ft": 254.98083566089423,
+        "length_m": 77.72,
+        "source": "City of Houston Enterprise GIS (DIR/LandbaseandRoads_gx/MapServer/9)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -95.374297,
+            29.757781
+          ],
+          [
+            -95.37432,
+            29.75761
+          ],
+          [
+            -95.37432,
+            29.757081
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,616 @@
+{
+  "pilot_extent": {
+    "description": "Selected Downtown Houston / Buffalo Bayou Pilot Area",
+    "bbox": {
+      "west": -95.375,
+      "south": 29.756,
+      "east": -95.365,
+      "north": 29.765
+    },
+    "disclaimer": "This pilot represents a localized study sector (0.97 km\u00b2) and does NOT represent all of Houston."
+  },
+  "datasets": {
+    "gravity_mains": {
+      "name": "Storm Gravity Mains",
+      "source": "City of Houston GIS Open Data / Public Works",
+      "original_crs": "EPSG:2278 (Texas South Central ftUS)",
+      "total_records": 624,
+      "key_metrics": {},
+      "metrics": [
+        {
+          "field": "OBJECTID",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "FACILITYID",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "INSTALLDATE",
+          "pct_blank": 65.1,
+          "pct_zero": 0.0,
+          "completeness_pct": 34.9
+        },
+        {
+          "field": "MATERIAL",
+          "pct_blank": 42.9,
+          "pct_zero": 0.0,
+          "completeness_pct": 57.1
+        },
+        {
+          "field": "WIDTH",
+          "pct_blank": 1.1,
+          "pct_zero": 0.0,
+          "completeness_pct": 98.9
+        },
+        {
+          "field": "HEIGHT",
+          "pct_blank": 10.4,
+          "pct_zero": 0.0,
+          "completeness_pct": 89.6
+        },
+        {
+          "field": "MAINSHAPE",
+          "pct_blank": 1.4,
+          "pct_zero": 0.0,
+          "completeness_pct": 98.6
+        },
+        {
+          "field": "PIPETYPE",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "DOWNELEV",
+          "pct_blank": 4.3,
+          "pct_zero": 0.0,
+          "completeness_pct": 95.7
+        },
+        {
+          "field": "UPELEV",
+          "pct_blank": 6.9,
+          "pct_zero": 0.0,
+          "completeness_pct": 93.1
+        },
+        {
+          "field": "SLOPE",
+          "pct_blank": 86.2,
+          "pct_zero": 0.0,
+          "completeness_pct": 13.8
+        },
+        {
+          "field": "ACTIVEFLAG",
+          "pct_blank": 96.2,
+          "pct_zero": 0.0,
+          "completeness_pct": 3.8
+        },
+        {
+          "field": "OWNEDBY",
+          "pct_blank": 0.3,
+          "pct_zero": 0.0,
+          "completeness_pct": 99.7
+        },
+        {
+          "field": "MAINTBY",
+          "pct_blank": 0.3,
+          "pct_zero": 0.0,
+          "completeness_pct": 99.7
+        },
+        {
+          "field": "COUNCILDISTRICT",
+          "pct_blank": 31.2,
+          "pct_zero": 0.0,
+          "completeness_pct": 68.8
+        },
+        {
+          "field": "DATASOURCETYPE",
+          "pct_blank": 29.3,
+          "pct_zero": 0.0,
+          "completeness_pct": 70.7
+        },
+        {
+          "field": "FUNDINGNUMBER",
+          "pct_blank": 95.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 5.0
+        },
+        {
+          "field": "FUNDINGTYPE",
+          "pct_blank": 96.6,
+          "pct_zero": 0.0,
+          "completeness_pct": 3.4
+        },
+        {
+          "field": "DRAINAGEAREA",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "LENGTH",
+          "pct_blank": 90.4,
+          "pct_zero": 0.0,
+          "completeness_pct": 9.6
+        },
+        {
+          "field": "PLANNUMBER",
+          "pct_blank": 14.1,
+          "pct_zero": 0.0,
+          "completeness_pct": 85.9
+        },
+        {
+          "field": "UPSTMNODE",
+          "pct_blank": 16.5,
+          "pct_zero": 0.0,
+          "completeness_pct": 83.5
+        },
+        {
+          "field": "DOWNSTMNODE",
+          "pct_blank": 10.4,
+          "pct_zero": 0.0,
+          "completeness_pct": 89.6
+        },
+        {
+          "field": "UPDEPTH",
+          "pct_blank": 97.1,
+          "pct_zero": 0.0,
+          "completeness_pct": 2.9
+        },
+        {
+          "field": "DOWNDEPTH",
+          "pct_blank": 97.1,
+          "pct_zero": 0.0,
+          "completeness_pct": 2.9
+        },
+        {
+          "field": "UFID",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "Enabled",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "DigitizedBy",
+          "pct_blank": 0.3,
+          "pct_zero": 0.0,
+          "completeness_pct": 99.7
+        },
+        {
+          "field": "created_user",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "last_edited_user",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "GlobalID",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "Address",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "DrainageAreaID",
+          "pct_blank": 0.3,
+          "pct_zero": 0.0,
+          "completeness_pct": 99.7
+        },
+        {
+          "field": "LegacyID",
+          "pct_blank": 99.7,
+          "pct_zero": 0.0,
+          "completeness_pct": 0.3
+        },
+        {
+          "field": "SHAPE.STLength()",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        }
+      ]
+    },
+    "inlets": {
+      "name": "Storm Inlets",
+      "source": "City of Houston GIS Open Data / Public Works",
+      "original_crs": "EPSG:2278 (Texas South Central ftUS)",
+      "total_records": 265,
+      "key_metrics": {},
+      "metrics": [
+        {
+          "field": "OBJECTID",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "FACILITYID",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "INSTALLDATE",
+          "pct_blank": 92.1,
+          "pct_zero": 0.0,
+          "completeness_pct": 7.9
+        },
+        {
+          "field": "RIMELEV",
+          "pct_blank": 1.5,
+          "pct_zero": 0.0,
+          "completeness_pct": 98.5
+        },
+        {
+          "field": "INVERTELEV",
+          "pct_blank": 12.1,
+          "pct_zero": 0.0,
+          "completeness_pct": 87.9
+        },
+        {
+          "field": "INLETMAT",
+          "pct_blank": 78.1,
+          "pct_zero": 0.0,
+          "completeness_pct": 21.9
+        },
+        {
+          "field": "OWNEDBY",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "MAINTBY",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "COUNCILDISTRICT",
+          "pct_blank": 3.4,
+          "pct_zero": 0.0,
+          "completeness_pct": 96.6
+        },
+        {
+          "field": "DATASOURCETYPE",
+          "pct_blank": 55.1,
+          "pct_zero": 0.0,
+          "completeness_pct": 44.9
+        },
+        {
+          "field": "FUNDINGNUMBER",
+          "pct_blank": 92.5,
+          "pct_zero": 0.0,
+          "completeness_pct": 7.5
+        },
+        {
+          "field": "FUNDINGTYPE",
+          "pct_blank": 95.8,
+          "pct_zero": 0.0,
+          "completeness_pct": 4.2
+        },
+        {
+          "field": "PLANNUMBER",
+          "pct_blank": 90.6,
+          "pct_zero": 0.0,
+          "completeness_pct": 9.4
+        },
+        {
+          "field": "DEPTH",
+          "pct_blank": 47.2,
+          "pct_zero": 0.0,
+          "completeness_pct": 52.8
+        },
+        {
+          "field": "INLETTYPE",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "UFID",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "ADDRESS",
+          "pct_blank": 90.9,
+          "pct_zero": 0.0,
+          "completeness_pct": 9.1
+        },
+        {
+          "field": "DigitizedBy",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "LegacyID",
+          "pct_blank": 99.6,
+          "pct_zero": 0.0,
+          "completeness_pct": 0.4
+        }
+      ]
+    },
+    "manholes": {
+      "name": "Storm Manholes",
+      "source": "City of Houston GIS Open Data / Public Works",
+      "original_crs": "EPSG:2278 (Texas South Central ftUS)",
+      "total_records": 283,
+      "key_metrics": {},
+      "metrics": [
+        {
+          "field": "OBJECTID",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "FACILITYID",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "INSTALLDATE",
+          "pct_blank": 56.5,
+          "pct_zero": 0.0,
+          "completeness_pct": 43.5
+        },
+        {
+          "field": "INVERTELEV",
+          "pct_blank": 4.6,
+          "pct_zero": 0.0,
+          "completeness_pct": 95.4
+        },
+        {
+          "field": "DEPTH",
+          "pct_blank": 9.9,
+          "pct_zero": 0.0,
+          "completeness_pct": 90.1
+        },
+        {
+          "field": "RIMELEV",
+          "pct_blank": 1.8,
+          "pct_zero": 0.0,
+          "completeness_pct": 98.2
+        },
+        {
+          "field": "WALLMAT",
+          "pct_blank": 77.4,
+          "pct_zero": 0.0,
+          "completeness_pct": 22.6
+        },
+        {
+          "field": "MHTYPE",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "OWNEDBY",
+          "pct_blank": 0.7,
+          "pct_zero": 0.0,
+          "completeness_pct": 99.3
+        },
+        {
+          "field": "MAINTBY",
+          "pct_blank": 0.7,
+          "pct_zero": 0.0,
+          "completeness_pct": 99.3
+        },
+        {
+          "field": "COUNCILDISTRICT",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "DATASOURCETYPE",
+          "pct_blank": 51.2,
+          "pct_zero": 0.0,
+          "completeness_pct": 48.8
+        },
+        {
+          "field": "FUNDINGNUMBER",
+          "pct_blank": 94.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 6.0
+        },
+        {
+          "field": "FUNDINGTYPE",
+          "pct_blank": 94.7,
+          "pct_zero": 0.0,
+          "completeness_pct": 5.3
+        },
+        {
+          "field": "PLANNUMBER",
+          "pct_blank": 53.4,
+          "pct_zero": 0.4,
+          "completeness_pct": 46.6
+        },
+        {
+          "field": "UFID",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "ADDRESS",
+          "pct_blank": 94.3,
+          "pct_zero": 0.0,
+          "completeness_pct": 5.7
+        },
+        {
+          "field": "DigitizedBy",
+          "pct_blank": 0.7,
+          "pct_zero": 0.0,
+          "completeness_pct": 99.3
+        },
+        {
+          "field": "LegacyID",
+          "pct_blank": 100.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 0.0
+        }
+      ]
+    },
+    "discharge": {
+      "name": "Discharge / Outfalls",
+      "source": "City of Houston GIS Open Data / Public Works",
+      "original_crs": "EPSG:2278 (Texas South Central ftUS)",
+      "total_records": 4,
+      "key_metrics": {},
+      "metrics": [
+        {
+          "field": "OBJECTID",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "FACILITYID",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "DISCHRGTYP",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "FLOWELEV",
+          "pct_blank": 100.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 0.0
+        },
+        {
+          "field": "INSTALLDATE",
+          "pct_blank": 100.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 0.0
+        },
+        {
+          "field": "WIDTH",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "HEIGHT",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "OWNEDBY",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "MAINTBY",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "COUNCILDISTRICT",
+          "pct_blank": 100.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 0.0
+        },
+        {
+          "field": "DATASOURCETYPE",
+          "pct_blank": 100.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 0.0
+        },
+        {
+          "field": "FUNDINGNUMBER",
+          "pct_blank": 100.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 0.0
+        },
+        {
+          "field": "FUNDINGTYPE",
+          "pct_blank": 100.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 0.0
+        },
+        {
+          "field": "PLANNUMBER",
+          "pct_blank": 100.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 0.0
+        },
+        {
+          "field": "MATERIAL",
+          "pct_blank": 50.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 50.0
+        },
+        {
+          "field": "ADDRESS",
+          "pct_blank": 100.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 0.0
+        },
+        {
+          "field": "DigitizedBy",
+          "pct_blank": 0.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 100.0
+        },
+        {
+          "field": "LegacyID",
+          "pct_blank": 100.0,
+          "pct_zero": 0.0,
+          "completeness_pct": 0.0
+        }
+      ]
+    },
+    "dem": {
+      "name": "NOAA Coastal Texas DEM (StratMap18)",
+      "source": "NOAA Mission 8899 / Texas Natural Resources Information System (TNRIS)",
+      "resolution": "1 metre",
+      "horizontal_crs": "EPSG:6344 (Reprojected to EPSG:4326 for web map)",
+      "coverage": "100% complete over pilot bounds (0 missing pixels)",
+      "vertical_datum": "Unverified - raw elevation values must not be used as survey-grade datum"
+    },
+    "rainfall": {
+      "name": "Precipitation Records",
+      "source": "Raw gauge export files in C:\\AquaPredict_tests\\rainfall",
+      "status": "UNVERIFIED EXPLORATORY DATA",
+      "disclaimer": "Treat rainfall data as unverified. It is strictly excluded from predictive waterlogging routing."
+    }
+  },
+  "scientific_guardrails": [
+    "Pilot Boundary Restriction: Visualizations and metrics apply strictly to the 0.97 km\u00b2 Downtown Houston pilot area.",
+    "No Synthetic Connectivity: Drainage network features are preserved in their true raw geometry; no missing links or fictitious pipe connections are invented.",
+    "No Calibrated Forecasting: This M0 prototype is an exploratory geospatial risk visualization interface, NOT a certified hydraulic model or real-time flood warning system.",
+    "Unverified Rainfall: Rainfall records are exploratory and not validated against radar or NOAA Atlas 14 standards."
+  ]
+}

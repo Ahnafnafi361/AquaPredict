@@ -1,0 +1,91 @@
+{
+  "milestone": "M4",
+  "title": "AquaPredict M4 Dynamic Rainfall–Susceptibility Synthesis",
+  "version": "1.0.0",
+  "pilot_boundary": {
+    "west": -95.3750,
+    "south": 29.7560,
+    "east": -95.3650,
+    "north": 29.7650
+  },
+  "pilot_area_km2": 0.97,
+  "data_states": {
+    "UNAVAILABLE": {
+      "definition": "Actual usable rainfall observations are absent from source directory.",
+      "behavior": "Real-data dynamic synthesis is disabled; static M1 terrain susceptibility displayed with clear status note."
+    },
+    "UNVERIFIED DEMONSTRATION": {
+      "definition": "Synthetic demonstration fixture (Station 1600 fixture, 96 intervals).",
+      "behavior": "Interactive timeline slider enabled; persistent prominent demonstration warning displayed throughout interaction."
+    },
+    "VERIFIED": {
+      "definition": "Calibrated observations meeting rigorous provenance and sensor QA requirements.",
+      "behavior": "Displays verified storm events with explicit point-to-grid spatial representativeness disclosure."
+    },
+    "INVALID": {
+      "definition": "Ingested rainfall data fails numeric sanity checks or schema validation.",
+      "behavior": "Rejects data from synthesis; falls back safely to static M1 terrain view with corruption diagnostics."
+    }
+  },
+  "m1_integrity": {
+    "weights_unaltered": true,
+    "weights": {
+      "terrain_depressions": 0.35,
+      "relative_elevation_tpi": 0.25,
+      "slope_flatness": 0.20,
+      "drainage_proximity": 0.20
+    },
+    "tiers": {
+      "Low": "< 0.30",
+      "Moderate": "0.30 - 0.499",
+      "Elevated": "0.50 - 0.699",
+      "High": ">= 0.70"
+    }
+  },
+  "rainfall_provisional_categories": {
+    "formula": "calculated_intensity_in_hr = interval_rain_in / (interval_minutes / 60.0)",
+    "interval_minutes": 15,
+    "thresholds": [
+      {
+        "category": "Zero / Trace",
+        "interval_rain_max_in": 0.00,
+        "rate_in_hr_max": 0.00,
+        "description": "No measurable precipitation in the 15-minute interval"
+      },
+      {
+        "category": "Low Intensity",
+        "interval_rain_min_in": 0.001,
+        "interval_rain_max_in": 0.099,
+        "rate_in_hr_min": 0.004,
+        "rate_in_hr_max": 0.399,
+        "description": "Light surface wetting; rates below 0.40 in/hr"
+      },
+      {
+        "category": "Moderate Intensity",
+        "interval_rain_min_in": 0.10,
+        "interval_rain_max_in": 0.249,
+        "rate_in_hr_min": 0.40,
+        "rate_in_hr_max": 0.999,
+        "description": "Steady precipitation; rates between 0.40 and 1.00 in/hr"
+      },
+      {
+        "category": "Heavy Intensity",
+        "interval_rain_min_in": 0.25,
+        "rate_in_hr_min": 1.00,
+        "description": "Intense downpour; rates at or exceeding 1.00 in/hr"
+      }
+    ],
+    "provisional_disclaimer": "Rainfall intensity thresholds are provisional display categories for exploratory visualization only; they do not represent verified municipal drainage failure thresholds or certified engineering design return intervals."
+  },
+  "spatial_uniformity_assumption": {
+    "gauge_station": "HCFWS Station 1600 (Buffalo Bayou @ Milam St, 29.7642° N, -95.3653° W)",
+    "assumption": "Gauge observations from Station 1600 are applied uniformly across the entire 0.97 km² pilot sector.",
+    "limitation": "A single point gauge does not establish spatially uniform rainfall. Convective cloudbursts in Houston frequently exhibit significant spatial gradients within 1 km."
+  },
+  "scientific_guardrails": [
+    "No Calibrated Predictions: This synthesis couples static susceptibility with temporal rainfall metrics for screening exploration; it does NOT calculate flood depths, flood volumes, inundation extents, or calibrated flood probabilities.",
+    "No Hydraulic Simulation: Subsurface storm pipe network routing, conduit backwater, inlet grate clogging, and bayou stage interactions are not simulated.",
+    "Separation of Dimensions: Static terrain susceptibility (EWSI) and dynamic rainfall intensity are maintained as distinct physical dimensions in the data model and UI.",
+    "Validation Status: M3 independent validation remains UNAVAILABLE. Dynamic synthesis is an exploratory visualization tool, not a validated flood prediction system."
+  ]
+}

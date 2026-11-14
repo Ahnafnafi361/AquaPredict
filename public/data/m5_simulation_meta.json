@@ -1,0 +1,179 @@
+{
+  "title": "AquaPredict Milestone 5 Simulation Engine Metadata",
+  "milestone": "M5",
+  "disclaimer": "MODELLED EXPLORATORY ESTIMATES \u2014 NOT VALIDATED FLOOD PREDICTIONS",
+  "scientific_classification": "UNVALIDATED PHYSICAL SCREENING SIMULATION",
+  "domain": {
+    "pilot_boundary": {
+      "west": -95.375,
+      "south": 29.756,
+      "east": -95.365,
+      "north": 29.765
+    },
+    "pilot_area_km2": 0.97,
+    "grid_dimensions": {
+      "rows": 100,
+      "cols": 100,
+      "total_cells": 10000
+    },
+    "cell_area_m2": 97.0
+  },
+  "simulation_parameters": {
+    "horizon_minutes": 180,
+    "interval_minutes": 5,
+    "num_intervals": 36,
+    "num_timesteps": 37,
+    "storm_peak_minute": 60.0,
+    "storm_distribution": "Balanced Gaussian Hyetograph (SCS Type II analogue)",
+    "presets_mm": [
+      10.0,
+      25.0,
+      50.0,
+      75.0,
+      100.0
+    ],
+    "runoff_method": "NRCS Curve Number Method",
+    "curve_number": 88.0,
+    "curve_number_status": "Assumed scenario parameter (uncalibrated urban commercial default from TR-55 Table 2-2a; not measured or calibrated)",
+    "potential_max_retention_s_mm": 34.636363636363626,
+    "initial_abstraction_ia_mm": 6.927272727272726,
+    "depression_storage_source": "M1 DEM morphological reconstruction sink-filling",
+    "total_depression_capacity_m3": 66306.29,
+    "drawdown_rate_per_step": 0.05,
+    "drawdown_status": "Illustrative aggregate drawdown assumption (5% per 5-min step linear reservoir; not calibrated from conduit hydraulics or outfall connectivity)",
+    "spatial_depth_model_status": "Simplified conceptual demonstration (uniform proportional filling alpha = V_storage / V_dep_total; disconnected depressions fill synchronously without hydrodynamic overland routing)",
+    "mass_balance_audit_note": "Algebraic double-entry ledger closure by construction (residual ~ 10^-14% confirms zero algorithmic leakage; does not validate real-world physical accuracy)",
+    "mass_balance_tolerance_pct": 1.0,
+    "max_depth_hotspot": {
+      "cell_row": 12,
+      "cell_col": 26,
+      "lat": 29.76387,
+      "lon": -95.37235,
+      "location": "I-45 / Pierce Elevated / Franklin St depressed highway trench",
+      "ground_elev_m": 5.48,
+      "depression_capacity_m": 5.35,
+      "peak_depth_100mm_m": 3.755,
+      "peak_timestep_min": 90
+    }
+  },
+  "depth_classification": {
+    "class_0_dry": {
+      "range": "d == 0.0 m",
+      "color": "rgba(0,0,0,0)",
+      "name": "Dry"
+    },
+    "class_1_shallow": {
+      "range": "0.0 < d <= 0.05 m",
+      "color": "#93c5fd",
+      "name": "Shallow Ponding"
+    },
+    "class_2_moderate": {
+      "range": "0.05 < d <= 0.20 m",
+      "color": "#3b82f6",
+      "name": "Moderate Ponding"
+    },
+    "class_3_deep": {
+      "range": "0.20 < d <= 0.50 m",
+      "color": "#1d4ed8",
+      "name": "Deep Inundation"
+    },
+    "class_4_very_deep": {
+      "range": "d > 0.50 m",
+      "color": "#1e1b4b",
+      "name": "Very Deep Inundation"
+    }
+  },
+  "flooded_area_threshold_m": 0.05,
+  "preset_summary": [
+    {
+      "preset_id": "preset_10mm",
+      "target_mm": 10.0,
+      "peak_max_depth_m": 0.015,
+      "peak_flooded_area_km2": 0.0,
+      "total_runoff_mm": 0.2504,
+      "mass_balance_rel_residual_pct": 1.8752468077792338e-14
+    },
+    {
+      "preset_id": "preset_25mm",
+      "target_mm": 25.0,
+      "peak_max_depth_m": 0.354,
+      "peak_flooded_area_km2": 0.0243,
+      "total_runoff_mm": 6.1967,
+      "mass_balance_rel_residual_pct": 3.000394892446774e-14
+    },
+    {
+      "preset_id": "preset_50mm",
+      "target_mm": 50.0,
+      "peak_max_depth_m": 1.337,
+      "peak_flooded_area_km2": 0.0603,
+      "total_runoff_mm": 23.8744,
+      "mass_balance_rel_residual_pct": 3.000394892446774e-14
+    },
+    {
+      "preset_id": "preset_75mm",
+      "target_mm": 75.0,
+      "peak_max_depth_m": 2.511,
+      "peak_flooded_area_km2": 0.0822,
+      "total_runoff_mm": 45.1167,
+      "mass_balance_rel_residual_pct": 2.0002632616311822e-14
+    },
+    {
+      "preset_id": "preset_100mm",
+      "target_mm": 100.0,
+      "peak_max_depth_m": 3.755,
+      "peak_flooded_area_km2": 0.0953,
+      "total_runoff_mm": 67.8302,
+      "mass_balance_rel_residual_pct": 3.000394892446774e-14
+    }
+  ],
+  "workflow_steps": [
+    {
+      "step": 1,
+      "name": "Rainfall",
+      "status": "COMPLETED",
+      "note": "Reproducible 36-step hyetograph for 5 presets"
+    },
+    {
+      "step": 2,
+      "name": "Terrain",
+      "status": "COMPLETED",
+      "note": "NOAA 1m Bare Earth DEM & morphological depressions"
+    },
+    {
+      "step": 3,
+      "name": "Runoff",
+      "status": "COMPLETED",
+      "note": "NRCS Curve Number CN=88 runoff generation"
+    },
+    {
+      "step": 4,
+      "name": "Routing",
+      "status": "COMPLETED",
+      "note": "Depression filling, spillover, and drawdown"
+    },
+    {
+      "step": 5,
+      "name": "Drainage",
+      "status": "UNAVAILABLE",
+      "note": "Subsurface conduit hydraulic network pending M6"
+    },
+    {
+      "step": 6,
+      "name": "Statistics",
+      "status": "COMPLETED",
+      "note": "Mass balance accounting and flooded area"
+    },
+    {
+      "step": 7,
+      "name": "Hotspots",
+      "status": "UNAVAILABLE",
+      "note": "Empirical clustering and validation pending M6"
+    }
+  ],
+  "limitations": [
+    "Lumped Urban Runoff: CN=88 is an urban screening approximation; it does not model micro-scale roof disconnection.",
+    "Subsurface Drainage Pending M6: Conduits and inlets are not hydraulically routed in M5; drainage counts are displayed as Unavailable (M6 Dependent).",
+    "Screening Depressions: LiDAR overpasses (I-45) act as artificial barriers where culverts are unburned.",
+    "Exploratory Visualization: Not a certified flood prediction or emergency evacuation tool."
+  ]
+}

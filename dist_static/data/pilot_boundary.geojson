@@ -1,0 +1,44 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Houston Pilot Area",
+        "description": "Selected pilot area in Downtown Houston / Buffalo Bayou",
+        "west": -95.375,
+        "south": 29.756,
+        "east": -95.365,
+        "north": 29.765,
+        "area_km2": 0.97
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -95.375,
+              29.756
+            ],
+            [
+              -95.365,
+              29.756
+            ],
+            [
+              -95.365,
+              29.765
+            ],
+            [
+              -95.375,
+              29.765
+            ],
+            [
+              -95.375,
+              29.756
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

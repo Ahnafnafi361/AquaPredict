@@ -1,0 +1,26 @@
+{
+  "timestamp_generated": "2026-10-24T06:22:06.307868+00:00",
+  "status": "UNVERIFIED",
+  "primary_station_id": "1600",
+  "primary_file": "fixtures_sample_1600.csv",
+  "total_files_scanned": 1,
+  "valid_files_count": 1,
+  "inventory": [
+    {
+      "filename": "fixtures_sample_1600.csv",
+      "valid": true,
+      "station_id": "1600",
+      "rows": 96,
+      "resolution": "sub-hourly (15m)",
+      "period": [
+        "2026-10-24 00:15:00",
+        "2026-10-25 00:00:00"
+      ]
+    }
+  ],
+  "guardrails": {
+    "raw_files_preserved": true,
+    "missing_data_fabricated": false,
+    "calibrated_model_input": false
+  }
+}

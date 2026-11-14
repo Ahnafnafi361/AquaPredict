@@ -1,0 +1,81 @@
+{
+  "title": "AquaPredict Milestone 6 Analysis & Governance Metadata",
+  "milestone": "M6",
+  "scientific_status": "PROVISIONAL PHYSICAL ASSET CAPACITY MODEL \u2014 NOT CALIBRATED 2D FLOOD FORECAST",
+  "data_summary": {
+    "gravity_mains_count": 624,
+    "inlet_nodes_count": 265,
+    "manhole_nodes_count": 283,
+    "bayou_outfalls_count": 4
+  },
+  "connectivity_summary": {
+    "dangling_boundary": 145,
+    "source_confirmed": 391,
+    "source_partial_snapped": 74,
+    "inferred_snapped": 14
+  },
+  "capacity_summary": {
+    "UNAVAILABLE": 360,
+    "CALCULATED_WITH_ASSUMED_N": 78,
+    "CALCULATED": 186
+  },
+  "mutually_exclusive_quality_summary": {
+    "MISSING_SLOPE_AND_INVERTS": 75,
+    "CALCULATED_ASSUMED_ROUGHNESS": 78,
+    "ADVERSE_OR_ZERO_SLOPE": 181,
+    "MISSING_OR_ZERO_DIAMETER": 104,
+    "CALCULATED_RECORDED_MATERIAL": 186
+  },
+  "equations": {
+    "mannings_full_pipe_cfs": "Q = (1.486 / n) * A * (Rh ^ (2/3)) * (S0 ^ (1/2))",
+    "unit_conversion_m3s": "Q_m3s = Q_cfs * 0.0283168"
+  },
+  "assumptions": [
+    "Full Pipe Gravity Flow: Conduits are assumed to flow full under uniform gravity conditions without pressurization.",
+    "Circular Geometry: 98.6% of conduits are round (RND); circular cross-section assumed.",
+    "Illustrative Concrete Roughness: Unrecorded materials (43%) default to Manning's n = 0.013.",
+    "Snap Tolerance: 1.0 meter (3.28 ft) snapping applied only when source attributes are unreferenced.",
+    "Zero Volume Leakage: Conduit loading does not alter M5's 5% aggregate water balance ledger.",
+    "DISCONNECTED State Definition: Indicates unresolved mapped connectivity within the 0.97 km\u00b2 pilot boundary (conduits crossing boundary streets into surrounding Houston drainage sectors without mapped downstream outfall connection in this extract). Does NOT signify physical pipe failure, structural collapse, or blockage.",
+    "Surface Runoff Injection: Runoff is captured strictly at mapped surface Inlets (265 intake nodes). Conveyance along the directed network graph does not fabricate secondary surface runoff at intermediate manholes or duplicate flows across conduits."
+  ],
+  "workflow_steps_update": [
+    {
+      "step": 1,
+      "name": "Rainfall",
+      "status": "COMPLETED"
+    },
+    {
+      "step": 2,
+      "name": "Terrain",
+      "status": "COMPLETED"
+    },
+    {
+      "step": 3,
+      "name": "Runoff",
+      "status": "COMPLETED"
+    },
+    {
+      "step": 4,
+      "name": "Routing",
+      "status": "COMPLETED"
+    },
+    {
+      "step": 5,
+      "name": "Drainage",
+      "status": "COMPLETED",
+      "note": "Subsurface conduit capacity and dynamic loading operational"
+    },
+    {
+      "step": 6,
+      "name": "Statistics",
+      "status": "COMPLETED"
+    },
+    {
+      "step": 7,
+      "name": "Hotspots",
+      "status": "COMPLETED",
+      "note": "Coupled terrain and drainage hotspots ranked"
+    }
+  ]
+}

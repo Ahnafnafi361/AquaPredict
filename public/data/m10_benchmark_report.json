@@ -1,0 +1,89 @@
+{
+  "timestamp": "2026-10-30 12:59:03 UTC",
+  "environment": {
+    "os": "win32",
+    "python_version": "3.12.10",
+    "study_area": "Downtown Houston / Buffalo Bayou [-95.3750, 29.7560, -95.3650, 29.7650]"
+  },
+  "aoi_data_loading": {
+    "cold_start_ms": 105.235,
+    "warm_mean_ms": 125.69,
+    "warm_median_ms": 121.427,
+    "warm_p95_ms": 149.568,
+    "warm_min_ms": 101.007,
+    "warm_max_ms": 199.849,
+    "iterations": 50,
+    "total_dataset_bytes": 4937833,
+    "files_benchmarked": [
+      "pilot_boundary.geojson",
+      "dem_grid.json",
+      "gravity_mains.geojson",
+      "street_network.geojson",
+      "m7_routing_graph.json",
+      "simulation_scenarios.json"
+    ]
+  },
+  "screening_simulation": {
+    "cold_start_ms": 0.039,
+    "warm_mean_ms": 0.008,
+    "warm_median_ms": 0.008,
+    "warm_p95_ms": 0.008,
+    "warm_min_ms": 0.008,
+    "warm_max_ms": 0.01,
+    "iterations": 50,
+    "preset_id": "preset_50mm",
+    "target_rainfall_mm": 50.0,
+    "duration_minutes": 180
+  },
+  "routing_query": {
+    "cold_start_ms": 336.196,
+    "warm_mean_ms": 34.826,
+    "warm_median_ms": 33.719,
+    "warm_p95_ms": 43.618,
+    "warm_min_ms": 25.663,
+    "warm_max_ms": 46.155,
+    "iterations": 50,
+    "start_coords": [
+      -95.368,
+      29.764
+    ],
+    "dest_coords": [
+      -95.367,
+      29.758
+    ],
+    "edges_in_graph": 210,
+    "nodes_in_graph": 160
+  },
+  "frontend_bundle": {
+    "assets": {
+      "index.html": {
+        "size_bytes": 142226,
+        "size_kb": 138.89
+      },
+      "css/style.css": {
+        "size_bytes": 71246,
+        "size_kb": 69.58
+      },
+      "js/app.js": {
+        "size_bytes": 151936,
+        "size_kb": 148.38
+      },
+      "js/viewer3d.js": {
+        "size_bytes": 27373,
+        "size_kb": 26.73
+      },
+      "js/vendor/three.min.js": {
+        "size_bytes": 603445,
+        "size_kb": 589.3
+      },
+      "js/vendor/OrbitControls.js": {
+        "size_bytes": 26375,
+        "size_kb": 25.76
+      }
+    },
+    "total_bundle_bytes": 1022601,
+    "total_bundle_kb": 998.63,
+    "application_code_kb": 383.58,
+    "vendored_libraries_kb": 615.06
+  }
+}
