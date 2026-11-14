@@ -3645,10 +3645,83 @@ body.demo-mode-active .hud-3d-controls {
   align-items: center;
   font-size: 0.72rem;
   color: var(--text-secondary);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   padding: 4px 6px;
   background: rgba(0, 0, 0, 0.02);
   border-radius: 4px;
+}
+
+/* Rescue Waterlogging Depth Legend & Road Corridors */
+.rescue-water-legend-bar {
+  background: rgba(0, 0, 0, 0.025);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+}
+
+.rescue-legend-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.rescue-legend-title {
+  font-size: 0.69rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.rescue-corridors-badge {
+  font-size: 0.66rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #1d4ed8;
+  background: rgba(29, 78, 216, 0.10);
+  border: 1px solid rgba(29, 78, 216, 0.25);
+  padding: 1px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.rescue-depth-chips {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.rescue-depth-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.63rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.chip-color {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.chip-color.deep-blue {
+  background: #1d4ed8;
+  box-shadow: 0 0 4px rgba(29, 78, 216, 0.6);
+}
+
+.chip-color.mod-blue {
+  background: #2563eb;
+}
+
+.chip-color.sky-blue {
+  background: #60a5fa;
 }
 
 .rescue-categories-tree {
@@ -3907,4 +3980,31 @@ body.demo-mode-active .hud-3d-controls {
   border-radius: 4px;
   font-weight: 700;
   margin-bottom: 6px;
+}
+
+/* Waterlogged road polyline interactive styling */
+.rescue-water-polyline {
+  cursor: pointer;
+  filter: drop-shadow(0 0 3px rgba(29, 78, 216, 0.5));
+  transition: all 0.2s ease;
+}
+
+.rescue-water-polyline:hover {
+  opacity: 1 !important;
+  stroke-width: 8px !important;
+}
+
+.rescue-active-road-highlight {
+  animation: pulseRoadHighlight 1.4s infinite alternate;
+}
+
+@keyframes pulseRoadHighlight {
+  0% {
+    stroke-opacity: 0.55;
+    stroke-width: 7px;
+  }
+  100% {
+    stroke-opacity: 1.0;
+    stroke-width: 11px;
+  }
 }

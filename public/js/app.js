@@ -54,6 +54,8 @@ const state = {
   rescueLocations: null,
   rescueRiskAssessments: [],
   rescueMarkersLayerGroup: null,
+  rescueWaterloggingLayerGroup: null,
+  rescueHighlightLayerGroup: null,
   rescueShowMarkers: true,
   activeRescueLocId: null,
   // Milestone 5 (M5) Scenario Simulation State
@@ -1408,6 +1410,7 @@ function setupEventListeners() {
     toggleRescue.addEventListener('change', (e) => {
       state.rescueShowMarkers = e.target.checked;
       renderRescueMapMarkers();
+      renderRescueWaterloggedRoads();
     });
   }
 
@@ -2105,6 +2108,12 @@ async function loadRescueLocations() {
  */
 function initRescuePriorityUI() {
   if (!state.map) return;
+  if (!state.rescueWaterloggingLayerGroup) {
+    state.rescueWaterloggingLayerGroup = L.layerGroup().addTo(state.map);
+  }
+  if (!state.rescueHighlightLayerGroup) {
+    state.rescueHighlightLayerGroup = L.layerGroup().addTo(state.map);
+  }
   if (!state.rescueMarkersLayerGroup) {
     state.rescueMarkersLayerGroup = L.layerGroup().addTo(state.map);
   }
@@ -2172,6 +2181,7 @@ function evaluateRescuePriorities() {
     let maxConnectingDepth = 0.0;
     let impassableEdgesCount = 0;
     const dataAvailable = (depthMap !== null);
+    const floodedEdges = [];
 
     accessEdges.forEach(e => {
       const assessment = assessEdgeWaterlogging(e, presetMm, stepIdx, 'vehicle');
@@ -2180,6 +2190,12 @@ function evaluateRescuePriorities() {
       }
       if (assessment.isImpassable || assessment.maxDepthM >= 0.30) {
         impassableEdgesCount++;
+      }
+      if (assessment.maxDepthM > 0.02) {
+        floodedEdges.push({
+          edge: e,
+          assessment: assessment
+        });
       }
     });
 
@@ -2204,6 +2220,8 @@ function evaluateRescuePriorities() {
       ...loc,
       nearestNodeId: nearestNode ? nearestNode.id : null,
       snapDistM: Math.round(bestDist),
+      accessEdges: accessEdges,
+      floodedEdges: floodedEdges,
       accessEdgesCount: accessEdges.length,
       impassableEdgesCount: impassableEdgesCount,
       maxConnectingDepthM: maxConnectingDepth,
@@ -2237,9 +2255,10 @@ function evaluateRescuePriorities() {
 
   state.rescueRiskAssessments = assessments;
 
-  // 6. Update UI List and Map Markers
+  // 6. Update UI List, Map Markers, and Flooded Access Corridors
   renderRescuePriorityList();
   renderRescueMapMarkers();
+  renderRescueWaterloggedRoads();
 
   // 7. Update Header/Sidebar Badge
   const countBadge = document.getElementById('rescueActiveAlertCountBadge');
@@ -2294,17 +2313,21 @@ function renderRescuePriorityList() {
         statusHtml = `<span class="risk-unavail-text">— Assessment Unavailable</span>`;
       } else if (loc.isCriticalRisk) {
         const riskClass = loc.riskReason === 'Community Isolation Risk' ? 'risk-tag-isolation' : 'risk-tag-road-failure';
+        const floodedCount = loc.floodedEdges ? loc.floodedEdges.length : 0;
         statusHtml = `
           <span class="rescue-danger-dot">🔴</span>
           <span class="${riskClass}">${loc.riskReason}</span>
           <span class="priority-tag-pill">Priority ${loc.priority}</span>
+          <span style="font-size:0.67rem; color:#1d4ed8; font-weight:600; margin-left:3px;">
+            (${floodedCount} flooded road${floodedCount === 1 ? '' : 's'})
+          </span>
         `;
       } else {
         statusHtml = `<span class="risk-safe-text">— No Critical Risk Detected</span>`;
       }
 
       html += `
-        <div class="rescue-loc-card ${loc.isCriticalRisk ? 'has-risk' : 'has-no-risk'} ${isActive ? 'is-active' : ''}" onclick="zoomToRescueLocation('${loc.id}')" title="Click to inspect ${loc.name} on map">
+        <div class="rescue-loc-card ${loc.isCriticalRisk ? 'has-risk' : 'has-no-risk'} ${isActive ? 'is-active' : ''}" onclick="zoomToRescueLocation('${loc.id}')" title="Click to inspect ${loc.name} and its flooded access roads on the map">
           <div class="rescue-loc-card-header">${loc.name}</div>
           <div class="rescue-loc-card-status">${statusHtml}</div>
         </div>
@@ -2357,6 +2380,16 @@ function renderRescueMapMarkers() {
 
     const marker = L.marker([loc.coords[1], loc.coords[0]], { icon: icon });
 
+    let floodedRoadsList = '';
+    if (loc.floodedEdges && loc.floodedEdges.length > 0) {
+      floodedRoadsList = loc.floodedEdges.map(item => {
+        const e = item.edge;
+        const d = item.assessment.maxDepthM;
+        const colorLabel = d >= 0.50 || d >= 0.30 ? 'Deep Blue' : d >= 0.20 ? 'Blue' : 'Sky Blue';
+        return `<li><strong>${e.name || 'Access Road'}</strong>: ${d.toFixed(2)}m (${colorLabel})</li>`;
+      }).join('');
+    }
+
     const popupHtml = `
       <div class="rescue-popup-container">
         <div class="rescue-popup-title">${loc.name}</div>
@@ -2365,10 +2398,18 @@ function renderRescueMapMarkers() {
           <span>🔴</span>
           <span>${loc.riskReason} — Priority ${loc.priority}</span>
         </div>
-        <div style="font-size:0.72rem; color:#475569; margin-top:4px;">
+        <div style="font-size:0.72rem; color:#475569; margin-top:4px; line-height:1.4;">
           <div>Modeled Access Depth: <strong>${loc.maxConnectingDepthM.toFixed(2)}m</strong></div>
           <div>Impassable Access Roads: <strong>${loc.impassableEdgesCount} of ${loc.accessEdgesCount}</strong></div>
-          <div style="margin-top:4px; font-size:0.67rem; color:#94a3b8;">Source: ${loc.source}</div>
+          ${floodedRoadsList ? `
+            <div style="margin-top:6px; padding-top:4px; border-top:1px dashed #cbd5e1;">
+              <strong style="color:#b91c1c;">Flooded Access Roads:</strong>
+              <ul style="margin:2px 0 0; padding-left:14px; color:#1e293b;">
+                ${floodedRoadsList}
+              </ul>
+            </div>
+          ` : ''}
+          <div style="margin-top:5px; font-size:0.67rem; color:#94a3b8;">Source: ${loc.source}</div>
         </div>
       </div>
     `;
@@ -2380,7 +2421,177 @@ function renderRescueMapMarkers() {
 }
 
 /**
- * Zoom to and Highlight a Rescue Location
+ * Render Modeled Waterlogging along Access Roads and Critical Corridors
+ * Color mapped strictly to M5 modeled water depth:
+ * - High-risk / deeper water (>=0.50m or >=0.30m impassable) -> Deep Blue (#1d4ed8)
+ * - Medium-risk waterlogging (0.20m to 0.50m) -> Blue (#2563eb)
+ * - Lower-depth waterlogging (0.02m to 0.20m) -> Sky Blue (#60a5fa)
+ */
+function renderRescueWaterloggedRoads() {
+  if (!state.rescueWaterloggingLayerGroup) return;
+  state.rescueWaterloggingLayerGroup.clearLayers();
+  if (state.rescueHighlightLayerGroup) state.rescueHighlightLayerGroup.clearLayers();
+
+  if (!state.rescueShowMarkers || !state.rescueRiskAssessments) return;
+
+  const presetMm = state.simActivePreset || 50;
+  const stepIdx = state.simActiveStepIdx || 0;
+  const depthMap = getTimestepDepthMap(presetMm, stepIdx);
+  if (!depthMap || !state.routingGraph || !state.routingGraph.edges) return;
+
+  // Map each edge to the rescue locations that rely on it
+  const edgeLocationMap = new Map();
+  state.rescueRiskAssessments.forEach(loc => {
+    if (loc.floodedEdges) {
+      loc.floodedEdges.forEach(item => {
+        const eid = item.edge.edge_id;
+        if (!edgeLocationMap.has(eid)) {
+          edgeLocationMap.set(eid, {
+            edge: item.edge,
+            assessment: item.assessment,
+            locations: [loc]
+          });
+        } else {
+          edgeLocationMap.get(eid).locations.push(loc);
+        }
+      });
+    }
+  });
+
+  // Also evaluate all other network edges within the pilot area to render visible waterlogging
+  state.routingGraph.edges.forEach(e => {
+    if (!edgeLocationMap.has(e.edge_id)) {
+      const assessment = assessEdgeWaterlogging(e, presetMm, stepIdx, 'vehicle');
+      if (assessment.maxDepthM > 0.02) {
+        edgeLocationMap.set(e.edge_id, {
+          edge: e,
+          assessment: assessment,
+          locations: []
+        });
+      }
+    }
+  });
+
+  let floodedCount = 0;
+
+  edgeLocationMap.forEach(({ edge, assessment, locations }) => {
+    const maxD = assessment.maxDepthM;
+    if (maxD <= 0.02) return;
+    floodedCount++;
+
+    let waterColor, casingColor, weight, casingWeight, depthCategory;
+    if (maxD >= 0.50 || assessment.isImpassable || maxD >= 0.30) {
+      waterColor = '#1d4ed8'; // Deep Blue
+      casingColor = '#1e3a8a';
+      weight = 5.5;
+      casingWeight = 9.0;
+      depthCategory = 'Deep Blue — High Risk (Impassable ≥0.30m)';
+    } else if (maxD >= 0.20) {
+      waterColor = '#2563eb'; // Blue
+      casingColor = '#3b82f6';
+      weight = 4.5;
+      casingWeight = 7.5;
+      depthCategory = 'Blue — Medium-Risk Waterlogging (0.20m–0.50m)';
+    } else {
+      waterColor = '#60a5fa'; // Sky Blue
+      casingColor = '#93c5fd';
+      weight = 3.5;
+      casingWeight = 6.0;
+      depthCategory = 'Sky Blue — Lower-Depth Waterlogging (≤0.20m)';
+    }
+
+    const latLngs = edge.coords.map(c => [c[1], c[0]]);
+
+    // Outer glow casing
+    const casing = L.polyline(latLngs, {
+      color: casingColor,
+      weight: casingWeight,
+      opacity: 0.35,
+      lineCap: 'round',
+      lineJoin: 'round',
+      interactive: false
+    });
+    state.rescueWaterloggingLayerGroup.addLayer(casing);
+
+    // Inner water core
+    const waterPolyline = L.polyline(latLngs, {
+      color: waterColor,
+      weight: weight,
+      opacity: 0.90,
+      lineCap: 'round',
+      lineJoin: 'round',
+      interactive: true,
+      className: 'rescue-water-polyline'
+    });
+
+    const isAccessCorridor = locations.length > 0;
+    const connectedHtml = isAccessCorridor
+      ? `<div style="margin-top:5px; padding-top:4px; border-top:1px dashed #cbd5e1; font-size:0.71rem; color:#1e293b;">
+           <strong>Critical Access Corridor for:</strong><br>
+           ${locations.map(l => `• <strong>${l.name}</strong> (${l.isCriticalRisk ? 'Priority ' + l.priority : 'Passable'})`).join('<br>')}
+         </div>`
+      : '';
+
+    waterPolyline.bindTooltip(`
+      <div style="font-size:0.76rem; line-height:1.4; max-width:260px;">
+        <div style="font-weight:700; color:${waterColor}; font-size:0.82rem;">
+          🌊 ${edge.name || 'Road Segment'}
+        </div>
+        <div style="font-size:0.72rem; color:#475569; margin-top:2px;">
+          Modeled Water Depth: <strong>${maxD.toFixed(2)}m</strong> (${depthCategory})
+        </div>
+        ${connectedHtml}
+      </div>
+    `, { sticky: true, className: 'custom-tooltip' });
+
+    waterPolyline.on('click', () => {
+      if (locations.length > 0) {
+        zoomToRescueLocation(locations[0].id);
+      }
+    });
+
+    state.rescueWaterloggingLayerGroup.addLayer(waterPolyline);
+  });
+
+  // Connector lines for off-road/critical facilities to their closest flooded access road
+  state.rescueRiskAssessments.filter(a => a.isCriticalRisk).forEach(loc => {
+    if (!loc.coords || !loc.floodedEdges || loc.floodedEdges.length === 0) return;
+    let closestPt = null;
+    let closestDist = Infinity;
+    loc.floodedEdges.forEach(({ edge }) => {
+      edge.coords.forEach(pt => {
+        const d = distanceMeters(loc.coords[0], loc.coords[1], pt[0], pt[1]);
+        if (d < closestDist) {
+          closestDist = d;
+          closestPt = pt;
+        }
+      });
+    });
+
+    if (closestPt && closestDist > 25) {
+      const connector = L.polyline([
+        [loc.coords[1], loc.coords[0]],
+        [closestPt[1], closestPt[0]]
+      ], {
+        color: '#ef4444',
+        weight: 2,
+        dashArray: '5, 7',
+        opacity: 0.75,
+        interactive: false
+      });
+      state.rescueWaterloggingLayerGroup.addLayer(connector);
+    }
+  });
+
+  // Update flooded corridors counter badge in sidebar
+  const countBadge = document.getElementById('rescueFloodedRoadsCountBadge');
+  if (countBadge) {
+    countBadge.textContent = `${floodedCount} Flooded Roads`;
+  }
+}
+
+/**
+ * Zoom to and Highlight a Rescue Location and its Flooded Access Roads
  */
 function zoomToRescueLocation(locId) {
   if (!state.rescueRiskAssessments) return;
@@ -2391,22 +2602,84 @@ function zoomToRescueLocation(locId) {
   renderRescuePriorityList();
 
   ensure2DMapView();
-  state.map.setView([loc.coords[1], loc.coords[0]], 17, { animate: true });
+
+  if (state.rescueHighlightLayerGroup) {
+    state.rescueHighlightLayerGroup.clearLayers();
+  }
+
+  const allPoints = [[loc.coords[1], loc.coords[0]]];
+  let floodedCorridorsList = '';
+
+  if (loc.floodedEdges && loc.floodedEdges.length > 0) {
+    floodedCorridorsList = loc.floodedEdges.map(item => {
+      const e = item.edge;
+      const d = item.assessment.maxDepthM;
+      e.coords.forEach(pt => allPoints.push([pt[1], pt[0]]));
+
+      // Golden glowing highlight casing on the active flooded access road
+      if (state.rescueHighlightLayerGroup) {
+        const highlightLine = L.polyline(e.coords.map(c => [c[1], c[0]]), {
+          color: '#f59e0b',
+          weight: 10,
+          opacity: 0.85,
+          className: 'rescue-active-road-highlight',
+          interactive: false
+        });
+        state.rescueHighlightLayerGroup.addLayer(highlightLine);
+      }
+
+      const colorName = d >= 0.50 || d >= 0.30 ? 'Deep Blue' : d >= 0.20 ? 'Blue' : 'Sky Blue';
+      return `<li style="margin-top:2px;"><strong>${e.name || 'Access Road'}</strong>: ${d.toFixed(2)}m (${colorName})</li>`;
+    }).join('');
+  }
+
+  // Frame both the location marker and its flooded access roads
+  if (allPoints.length > 1) {
+    const bounds = L.latLngBounds(allPoints);
+    state.map.fitBounds(bounds.pad(0.35), { animate: true, maxZoom: 17 });
+  } else {
+    state.map.setView([loc.coords[1], loc.coords[0]], 17, { animate: true });
+  }
+
+  const riskBadgeHtml = loc.isCriticalRisk
+    ? `<div class="rescue-popup-risk-badge">
+         <span>🔴</span>
+         <span>${loc.riskReason} — Priority ${loc.priority}</span>
+       </div>`
+    : `<div style="font-size:0.72rem; color:#059669; font-weight:600; margin-bottom:6px;">
+         🟢 No Critical Risk Detected (Passable)
+       </div>`;
+
+  const floodedInfoHtml = floodedCorridorsList
+    ? `<div style="margin-top:6px; padding-top:4px; border-top:1px dashed #cbd5e1;">
+         <strong style="color:#b91c1c;">Flooded Access Roads:</strong>
+         <ul style="margin:2px 0 0; padding-left:14px; color:#1e293b;">
+           ${floodedCorridorsList}
+         </ul>
+       </div>`
+    : '';
+
+  const popupHtml = `
+    <div class="rescue-popup-container">
+      <div class="rescue-popup-title">${loc.name}</div>
+      <div class="rescue-popup-category">${loc.category} · ${loc.address || 'Houston Pilot Area'}</div>
+      ${riskBadgeHtml}
+      <div style="font-size:0.72rem; color:#475569; line-height:1.4;">
+        <div>Max Modeled Depth: <strong>${loc.maxConnectingDepthM.toFixed(2)}m</strong></div>
+        <div>Impassable Access Corridors: <strong>${loc.impassableEdgesCount} of ${loc.accessEdgesCount}</strong></div>
+        ${floodedInfoHtml}
+        <div style="margin-top:4px; font-size:0.67rem; color:#94a3b8;">Source: ${loc.source}</div>
+      </div>
+    </div>
+  `;
 
   if (loc._marker) {
+    loc._marker.setPopupContent(popupHtml);
     loc._marker.openPopup();
   } else {
     L.popup()
       .setLatLng([loc.coords[1], loc.coords[0]])
-      .setContent(`
-        <div class="rescue-popup-container">
-          <div class="rescue-popup-title">${loc.name}</div>
-          <div class="rescue-popup-category">${loc.category}</div>
-          <div style="font-size:0.72rem; color:#059669; font-weight:600; margin-top:4px;">
-            ${loc.riskReason}
-          </div>
-        </div>
-      `)
+      .setContent(popupHtml)
       .openOn(state.map);
   }
 }
@@ -2516,6 +2789,7 @@ function setSimulationEngine(engine) {
 
   updateRainfallModeIndicator();
   updateSimUI();
+  evaluateRescuePriorities();
   if (state.simLayerEnabled) {
     renderSimDynamicOverlay();
   }

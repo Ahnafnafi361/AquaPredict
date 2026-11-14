@@ -794,7 +794,7 @@
                 <label class="switch-container">
                   <input type="checkbox" id="toggleRescueMarkers" checked>
                   <span class="switch-slider"></span>
-                  <span class="layer-name">Show Alert Markers on Map</span>
+                  <span class="layer-name">Show Alerts & Flooded Corridors</span>
                 </label>
                 <span class="layer-badge badge-rescue-alert" id="rescueActiveAlertCountBadge">0 Critical</span>
               </div>
@@ -803,6 +803,25 @@
               <div class="rescue-context-line">
                 <span>Rainfall Scenario: <strong id="rescueActivePresetText">50 mm</strong> (Step <span id="rescueActiveStepText">12 / 60m</span>)</span>
                 <span style="font-size: 0.67rem; color: #64748b;">M5/M7 Modelled</span>
+              </div>
+
+              <!-- Rescue Waterlogging Depth Legend & Corridors Status -->
+              <div class="rescue-water-legend-bar">
+                <div class="rescue-legend-header">
+                  <span class="rescue-legend-title">Access Road Water Depth</span>
+                  <span class="rescue-corridors-badge" id="rescueFloodedRoadsCountBadge">0 Flooded Roads</span>
+                </div>
+                <div class="rescue-depth-chips">
+                  <span class="rescue-depth-chip" title="Deep water: >= 0.50m or >= 0.30m vehicle impassable threshold">
+                    <span class="chip-color deep-blue"></span>Deep Blue (≥0.50m)
+                  </span>
+                  <span class="rescue-depth-chip" title="Medium-risk water: 0.20m to 0.50m">
+                    <span class="chip-color mod-blue"></span>Blue (0.20–0.50m)
+                  </span>
+                  <span class="rescue-depth-chip" title="Lower-depth water: 0.02m to 0.20m">
+                    <span class="chip-color sky-blue"></span>Sky Blue (≤0.20m)
+                  </span>
+                </div>
               </div>
 
               <!-- Categorized Location List -->
