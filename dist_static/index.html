@@ -3,2286 +3,624 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AquaPredict · Urban Waterlogging Risk Visualization (Houston Pilot M0)</title>
-  <meta name="description" content="AquaPredict M0: Interactive GIS and DEM visualization prototype for the selected Houston Downtown pilot area.">
+  <title>AquaPredict · Next-Gen Urban Flood Intelligence & Decision Support</title>
+  <meta name="description" content="AquaPredict combines physics-guided terrain modeling, stormwater network hydraulics, and Dijkstra-informed routing for real-time urban inundation decision support.">
   
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/logo.png">
   
-  <!-- Modern Typography from Google Fonts (including Bangla support) -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Leaflet Map CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  
-  <!-- Application Styles -->
-  <link rel="stylesheet" href="css/style.css">
+  <!-- SaaS Design System Stylesheet -->
+  <link rel="stylesheet" href="css/saas.css">
   <!-- Milestone M10: Precomputed Static Export Mode Flag -->
   <script>
     window.AQUAPREDICT_STATIC_MODE = true;
   </script>
 </head>
-<body class="neumorph-theme">
-  <!-- Top Navigation Header -->
-  <header class="app-header" id="appHeader">
-    <div class="header-left">
-      <div class="brand-logo">
-        <img src="assets/logo.png" alt="AquaPredict Logo" class="brand-logo-img">
-        <div class="brand-text">
-          <div class="brand-title">AquaPredict <span class="badge-m0">M0–M10</span></div>
-          <div class="brand-subtitle" data-i18n="header.brand_subtitle">Urban Waterlogging Risk Visualization · Houston Pilot</div>
+<body>
+  <!-- Static Mode Banner compatibility anchor -->
+  <div id="staticModeBanner" style="display:none;" aria-hidden="true"></div>
+
+  <!-- Header / Navigation Bar -->
+  <header class="saas-header">
+    <div class="container">
+      <div class="nav-wrap">
+        <a href="index.html" class="brand-link" aria-label="AquaPredict Home">
+          <img src="assets/logo.png" alt="AquaPredict Logo" class="brand-logo-img">
+          <div class="brand-title">
+            AquaPredict
+            <span class="brand-tag">Pilot M0–M10</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <ul class="nav-links">
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+          <li><a href="#preview" class="nav-link">Platform Preview</a></li>
+          <li><a href="#use-cases" class="nav-link">Use Cases</a></li>
+          <li><a href="pricing.html" class="nav-link">Pricing</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#faq" class="nav-link">FAQ</a></li>
+        </ul>
+
+        <!-- Navigation Actions -->
+        <div class="nav-actions" id="navAuthContainer">
+          <a href="auth.html" class="btn btn-secondary btn-sm">Sign In</a>
+          <a href="app.html" class="btn btn-primary btn-sm">
+            <span>Explore Platform</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.2" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
         </div>
-      </div>
 
-      <!-- Milestone M8 View Mode Switcher: 2D GIS Map vs 3D Terrain & Flood View -->
-      <div class="view-mode-tabs" role="tablist" aria-label="View Mode">
-        <button id="tabView2D" class="view-tab-btn active" role="tab" aria-selected="true" title="Switch to Primary 2D GIS Map">
-          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
-            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
-            <line x1="8" y1="2" x2="8" y2="18"></line>
-            <line x1="16" y1="6" x2="16" y2="22"></line>
-          </svg>
-          <span data-i18n="header.tab_2d">2D Map</span>
-        </button>
-        <button id="tabView3D" class="view-tab-btn" role="tab" aria-selected="false" title="Switch to 3D Terrain & Flood View (Milestone M8)">
-          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
-            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-            <polyline points="2 17 12 22 22 17"></polyline>
-            <polyline points="2 12 12 17 22 12"></polyline>
-          </svg>
-          <span data-i18n="header.tab_3d">3D Terrain</span>
-          <span class="badge-tab-m8">M8 3D</span>
+        <!-- Mobile Menu Toggle Button -->
+        <button class="mobile-toggle" aria-label="Toggle Navigation Menu">
+          <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
       </div>
-    </div>
-
-    <!-- Center Status Banner: Explicit Scientific Scope & Rainfall Mode (SHL-05) -->
-    <div class="header-center">
-      <div class="scope-pill">
-        <span class="pulse-indicator"></span>
-        <span class="scope-text"><strong data-i18n="header.scope_pilot">Pilot Sector:</strong> <span data-i18n="header.scope_desc">Downtown Houston (0.97 km²)</span></span>
-        <span class="scope-divider">|</span>
-        <span class="disclaimer-tag" data-i18n="header.scope_tag" title="Strict pilot boundary: does not represent all of Houston; non-calibrated prototype">Exploratory Visualization</span>
-      </div>
-      <div class="rain-mode-pill" id="rainModePill" title="Rainfall Mode Indicator (SHL-05)">
-        <span class="mode-bullet" id="rainModeBullet"></span>
-        <span id="rainModeText">Rain Mode: Inactive</span>
-      </div>
-    </div>
-
-    <!-- Header Actions -->
-    <div class="header-right">
-      <!-- Guided Presentation Mode Launcher -->
-      <button id="btnGuidedDemo" class="btn-header btn-guided-demo" title="Start 8-Stage Guided Presentation Mode">
-        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2.2" fill="none">
-          <polygon points="5 3 19 12 5 21 5 3"></polygon>
-        </svg>
-        <span data-i18n="guided_demo.btn_launch">Guided Demo</span>
-      </button>
-
-      <button id="btnRecenter" class="btn-header" title="Reset camera to Houston pilot bounding box">
-        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="12" y1="8" x2="12" y2="12"></line>
-          <line x1="12" y1="16" x2="12.01" y2="16"></line>
-        </svg>
-        <span data-i18n="header.btn_recenter">Fit Pilot Extent</span>
-      </button>
-
-      <button id="btnRoutePlannerModal" class="btn-header" title="View M7 Safest Route Planner & Alternatives Comparison">
-        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
-          <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
-        </svg>
-        <span data-i18n="header.btn_route_modal">Safest Route Planner</span>
-        <span class="badge-status-pill pill-ready" id="headerRouteBadge">M7 READY</span>
-      </button>
-
-      <button id="btnDrainageModal" class="btn-header" title="View M6 Drainage Network, Hydraulic Capacity & Hotspot Analysis">
-        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
-          <circle cx="12" cy="12" r="3"></circle>
-          <path d="M12 2v7m0 6v7M2 12h7m6 0h7"></path>
-        </svg>
-        <span data-i18n="header.btn_drainage_modal">Drainage & Capacity</span>
-        <span class="badge-status-pill pill-ready" id="headerDrainageBadge">M6 READY</span>
-      </button>
-
-      <button id="btnValidationModal" class="btn-header" title="View M3 Historical Flood Validation Readiness Audit">
-        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-          <line x1="12" y1="8" x2="12" y2="12"></line>
-          <line x1="12" y1="16" x2="12.01" y2="16"></line>
-        </svg>
-        <span data-i18n="header.btn_validation_modal">Validation Audit</span>
-        <span class="badge-status-pill pill-unavailable" id="headerValidationBadge">UNAVAILABLE</span>
-      </button>
-
-      <button id="btnRainfallModal" class="btn-header" title="View Rainfall Gauge Ingestion & Time-Series Data">
-        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
-          <path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path>
-          <line x1="8" y1="19" x2="8" y2="21"></line>
-          <line x1="8" y1="13" x2="8" y2="15"></line>
-          <line x1="16" y1="19" x2="16" y2="21"></line>
-          <line x1="16" y1="13" x2="16" y2="15"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="12" y1="15" x2="12" y2="17"></line>
-        </svg>
-        <span data-i18n="header.btn_rainfall_modal">Rainfall Gauge</span>
-        <span class="badge-status-pill pill-unavailable" id="headerRainfallBadge">UNAVAILABLE</span>
-      </button>
-
-      <button id="btnQualityModal" class="btn-header btn-primary" title="View Data Lineage, Completeness, and Quality Panel">
-        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-          <polyline points="14 2 14 8 20 8"></polyline>
-          <line x1="16" y1="13" x2="8" y2="13"></line>
-          <line x1="16" y1="17" x2="8" y2="17"></line>
-          <polyline points="10 9 9 9 8 9"></polyline>
-        </svg>
-        <span data-i18n="header.btn_quality_modal">Data Quality Panel</span>
-      </button>
-
-      <!-- Language Switcher (Milestone M10) -->
-      <button id="btnLangToggle" class="btn-header btn-lang-switch" title="Switch Language / ভাষা পরিবর্তন করুন">
-        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="2" y1="12" x2="22" y2="12"></line>
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-        </svg>
-        <span id="langSwitchLabel">বাংলা</span>
-      </button>
     </div>
   </header>
 
-  <!-- Main Workspace Container -->
-  <main class="app-main">
-    <!-- Static Export Notification Banner (Milestone M10) -->
-    <div id="staticModeBanner" class="static-mode-banner" style="display: none;">
-      <div class="static-banner-inner">
-        <span class="static-badge" data-i18n="static_export.banner_title">STATIC EXPORT</span>
-        <span id="staticBannerText" data-i18n="static_export.banner_desc">Precomputed Mode</span>
-        <button id="btnCloseStaticBanner" class="btn-close-static-banner" title="Dismiss static mode notification" aria-label="Close notification">×</button>
-      </div>
-    </div>
-
-    <!-- Guided Presentation Mode Floating Presenter Dock (8-Stage Walkthrough) -->
-    <section id="guidedDemoBar" class="guided-demo-bar" style="display: none;" role="region" aria-label="Guided Presentation Mode">
-      <div class="guided-demo-card">
-        <div class="guided-demo-top">
-          <div class="guided-step-identity">
-            <span class="guided-step-num" id="demoStepNum">01</span>
-            <span class="guided-mode-tag" data-i18n="guided_demo.badge_label">PRESENTATION MODE</span>
-            <span class="guided-step-fraction" id="demoStepFraction">Step 1 of 8</span>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="pill-badge">
+            <span class="pill-dot"></span>
+            <span>Houston Pilot Live · Physics-Guided Screening Platform</span>
           </div>
-
-          <div class="guided-stage-track" id="demoStageTrack" role="tablist" aria-label="Presentation Stages">
-            <button type="button" class="stage-step-dot active" data-step="0" title="01 — Houston Map & GIS Layers">01</button>
-            <button type="button" class="stage-step-dot" data-step="1" title="02 — Rainfall Scenario">02</button>
-            <button type="button" class="stage-step-dot" data-step="2" title="03 — Waterlogging Simulation">03</button>
-            <button type="button" class="stage-step-dot" data-step="3" title="04 — Drainage Analysis">04</button>
-            <button type="button" class="stage-step-dot" data-step="4" title="05 — Route Analysis">05</button>
-            <button type="button" class="stage-step-dot" data-step="5" title="06 — 3D Visualization">06</button>
-            <button type="button" class="stage-step-dot" data-step="6" title="07 — AI Surrogate">07</button>
-            <button type="button" class="stage-step-dot" data-step="7" title="08 — Risk Information & Disclaimers">08</button>
+          <h1 class="hero-title">
+            Predict Urban Inundation. <br>
+            <span class="gradient-text">Protect Critical Corridors.</span> <br>
+            Navigate Safely.
+          </h1>
+          <p class="hero-subtitle">
+            AquaPredict bridges high-resolution LiDAR topography, stormwater conduit hydraulics, and deterministic Dijkstra route planning to keep first responders moving during extreme rainfall events.
+          </p>
+          <div class="hero-cta-group">
+            <a href="app.html" class="btn btn-primary btn-lg" id="heroExploreBtn">
+              <span>Launch Interactive Platform</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="pricing.html" class="btn btn-secondary btn-lg">
+              <span>View Pricing & Plans</span>
+            </a>
           </div>
-
-          <button type="button" id="btnDemoExit" class="btn-demo-exit" title="Exit Guided Demo Mode">
-            <span data-i18n="guided_demo.exit_btn">Exit Demo Mode</span>
-            <span aria-hidden="true">✕</span>
-          </button>
-        </div>
-
-        <div class="guided-progress-rail" aria-hidden="true">
-          <div class="guided-progress-fill" id="demoProgressFill" style="width: 12.5%;"></div>
-        </div>
-
-        <div class="guided-demo-body">
-          <div class="guided-text-col">
-            <div class="guided-title-row">
-              <h3 class="guided-step-title" id="demoStepTitle">01 — Houston Map &amp; GIS Layers</h3>
-              <span class="guided-provenance-pill" id="demoProvenancePill">VERIFIED 1M DEM · COH GIS</span>
+          <div class="trust-strip">
+            <div class="trust-item">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              <span>Zero Mock Data</span>
             </div>
-            <p class="guided-step-desc" id="demoStepDesc">
-              Explore the 0.97 km² Downtown Houston / Buffalo Bayou pilot study area. Inspect the verified 1m LiDAR bare-earth DEM elevation raster, topographic hillshade, and City of Houston storm sewer infrastructure layers in the left sidebar.
-            </p>
-          </div>
-
-          <div class="guided-actions-col">
-            <button type="button" id="btnDemoContextAction" class="btn-demo-context">
-              Fit to Pilot Extent
-            </button>
-            <div class="guided-nav-btns">
-              <button type="button" id="btnDemoPrev" class="btn-demo-nav" data-i18n="guided_demo.prev_btn">← Previous</button>
-              <button type="button" id="btnDemoNext" class="btn-demo-nav btn-demo-next" data-i18n="guided_demo.next_btn">Next →</button>
+            <div class="trust-item">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              <span>Sub-Meter DEM Precision</span>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Map Canvas Container (Primary 2D Interface) -->
-    <div id="map" class="map-viewport"></div>
-
-    <!-- 3D Terrain & Flood Viewport (Milestone M8) -->
-    <div id="view3DContainer" class="view-3d-viewport" style="display: none;">
-      <!-- Three.js Canvas Container -->
-      <div id="threeCanvasContainer" class="three-canvas-container"></div>
-
-      <!-- WebGL Fallback Card (displayed if hardware WebGL is unavailable) -->
-      <div id="webglFallbackBanner" class="webgl-fallback-card" style="display: none;">
-        <div class="fallback-icon">
-          <svg viewBox="0 0 24 24" width="36" height="36" stroke="#f59e0b" stroke-width="2" fill="none">
-            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-            <line x1="12" y1="9" x2="12" y2="13"></line>
-            <line x1="12" y1="17" x2="12.01" y2="17"></line>
-          </svg>
-        </div>
-        <div class="fallback-body">
-          <h3>WebGL Acceleration Unavailable</h3>
-          <p>Your browser or graphics environment does not currently have WebGL 3D rendering enabled.</p>
-          <p class="fallback-sub">The full 2D GIS map, 5-class flood simulation timeline, and drainage route calculations remain 100% functional.</p>
-          <button id="btnReturnTo2D" class="btn-return-2d">Return to 2D Map</button>
-        </div>
-      </div>
-
-      <!-- Floating 3D Control HUD -->
-      <aside class="hud-3d-controls" id="hud3DControls">
-        <div class="hud-card">
-          <div class="hud-header">
-            <div class="hud-title">
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                <polyline points="2 17 12 22 22 17"></polyline>
-                <polyline points="2 12 12 17 22 12"></polyline>
-              </svg>
-              <span>3D Terrain & Simulation</span>
-            </div>
-            <div class="fps-badge" id="fpsBadge3D" title="Real-time rendering framerate">
-              <span class="fps-dot" id="fpsDot"></span>
-              <span id="fpsVal">60 FPS</span>
-            </div>
-          </div>
-
-          <!-- Section 1: Vertical Exaggeration Slider Control -->
-          <div class="hud-section">
-            <div class="hud-row">
-              <span class="hud-label">Vertical Exaggeration:</span>
-              <span class="hud-val highlight" id="valVertExaggeration">3.0×</span>
-            </div>
-            <div class="hud-slider-wrap">
-              <span class="slider-limit">1.0×</span>
-              <input type="range" id="sliderVertExaggeration" min="1.0" max="10.0" step="0.5" value="3.0" aria-label="Vertical Exaggeration Slider">
-              <span class="slider-limit">10.0×</span>
-            </div>
-          </div>
-
-          <!-- Section 2: 3D Draped Overlays Toggle -->
-          <div class="hud-section">
-            <div class="hud-label-small">3D Draped Overlays</div>
-            <label class="hud-switch-row">
-              <input type="checkbox" id="toggle3DTerrainMesh" checked>
-              <span class="switch-bullet bullet-terrain"></span>
-              <span class="switch-text">DEM Topography Mesh</span>
-            </label>
-            <label class="hud-switch-row">
-              <input type="checkbox" id="toggle3DFloodSurface" checked>
-              <span class="switch-bullet bullet-flood"></span>
-              <span class="switch-text">Modelled Flood Water (M5)</span>
-            </label>
-            <label class="hud-switch-row">
-              <input type="checkbox" id="toggle3DDrainagePipes" checked>
-              <span class="switch-bullet bullet-drainage"></span>
-              <span class="switch-text">Drainage Conduits (M6)</span>
-            </label>
-          </div>
-
-          <!-- Section 3: Camera Orbit, Zoom, Pan and Reset Controls -->
-          <div class="hud-section hud-actions">
-            <button id="btnResetCamera3D" class="btn-hud-action" title="Reset camera to default angled pilot overview">
-              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
-                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-                <path d="M3 3v5h5"></path>
-              </svg>
-              <span>Reset 3D Camera</span>
-            </button>
-            <div class="hud-hint">
-              <span>🖱️ <strong>Left-drag:</strong> Orbit &bull; <strong>Right-drag:</strong> Pan &bull; <strong>Wheel:</strong> Zoom</span>
-            </div>
-          </div>
-
-          <!-- Section 4: Timeline & Frame Synchronization Status -->
-          <div class="hud-section hud-sync-status">
-            <div class="hud-row">
-              <span class="hud-label">M5 Simulation Frame:</span>
-              <span class="hud-val" id="hud3DFrameReadout">50mm · Minute 0</span>
-            </div>
-            <div class="hud-row">
-              <span class="hud-label">Frame Status:</span>
-              <span class="badge-status-pill pill-ready" id="hud3DFrameStatus">SYNCHRONIZED</span>
-            </div>
-            <div class="hud-disclaimer-note">
-              MODELLED EXPLORATORY ESTIMATES &mdash; NOT VALIDATED FLOOD PREDICTIONS
-            </div>
-          </div>
-
-          <!-- Section 5: 3D Legends (Elevation & Depth) -->
-          <div class="hud-section hud-legends">
-            <div class="hud-legend-group">
-              <div class="hud-legend-title">Terrain Elevation Ramp</div>
-              <div class="hud-elev-ramp-bar">
-                <span class="ramp-stop" style="background:#0c4a6e;">&lt;4m</span>
-                <span class="ramp-stop" style="background:#166534;">4–8m</span>
-                <span class="ramp-stop" style="background:#a18a1c;">8–12m</span>
-                <span class="ramp-stop" style="background:#ca6c16;">12–15m</span>
-                <span class="ramp-stop" style="background:#b91c1c;">15–18m</span>
-              </div>
-            </div>
-
-            <div class="hud-legend-group" style="margin-top: 8px;">
-              <div class="hud-legend-title">Modelled Flood Depth (SIM-01)</div>
-              <div class="hud-depth-ramp-bar">
-                <span class="depth-stop" style="background:#93c5fd; color:#0f172a;">≤0.05m</span>
-                <span class="depth-stop" style="background:#3b82f6;">0.05–0.20m</span>
-                <span class="depth-stop" style="background:#1d4ed8;">0.20–0.50m</span>
-                <span class="depth-stop" style="background:#1e1b4b;">&gt;0.50m</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Low FPS Performance Warning Alert Card -->
-          <div class="fps-warning-card" id="fpsWarningCard" style="display: none;">
-            <div class="fps-warn-header">
-              <span class="warn-icon">⚠️</span>
-              <strong>Framerate Advisory</strong>
-            </div>
-            <p>Rendering is running at <span id="fpsWarnVal">15</span> FPS (threshold: 20 FPS).</p>
-            <div class="fps-warn-actions">
-              <button id="btnReturnTo2DFps" class="btn-warn-return">Return to 2D Map</button>
-              <button id="btnDismissFpsWarn" class="btn-warn-dismiss">Dismiss</button>
-            </div>
-          </div>
-        </div>
-      </aside>
-    </div>
-
-    <!-- Floating Toggle to Restore Sidebar when Collapsed -->
-    <button id="btnOpenSidebar" class="btn-open-sidebar" title="Open Layers & GIS Controls" aria-label="Open sidebar">
-      <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
-        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-        <polyline points="2 17 12 22 22 17"></polyline>
-        <polyline points="2 12 12 17 22 12"></polyline>
-      </svg>
-      <span>Layers</span>
-    </button>
-
-    <!-- Left Floating HUD: Layers, Controls & Legend -->
-    <aside class="map-sidebar" id="mapSidebar">
-      <div class="sidebar-card">
-        <div class="sidebar-header">
-          <div class="sidebar-title">
-            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
-              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-              <polyline points="2 17 12 22 22 17"></polyline>
-              <polyline points="2 12 12 17 22 12"></polyline>
-            </svg>
-            <span>GIS & Terrain Layers</span>
-          </div>
-          <button class="btn-icon" id="toggleSidebar" title="Minimize sidebar" aria-label="Toggle sidebar">
-            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-          </button>
-        </div>
-
-        <div class="sidebar-scrollable">
-          <!-- Section 1: DEM Terrain Raster Visualization -->
-          <div class="control-section" id="sectionM0Dem">
-            <div class="section-label">
-              <span class="label-title" data-i18n="sidebar.section_dem">DEM Terrain Raster</span>
-              <span class="status-verified-pill" title="1-meter resolution, 100% coverage verified">Verified 1m</span>
-            </div>
-
-            <div class="layer-item highlight-item">
-              <div class="layer-header-row">
-                <label class="switch-container">
-                  <input type="checkbox" id="toggleDemTerrain" checked>
-                  <span class="switch-slider"></span>
-                  <span class="layer-name" data-i18n="sidebar_extra.dem_elevation_title">Elevation Model (DEM)</span>
-                </label>
-                <span class="layer-badge badge-dem">NOAA 2018</span>
-              </div>
-
-              <!-- DEM Subcontrols -->
-              <div class="dem-subcontrols" id="demSubcontrols">
-                <div class="dem-mode-selector">
-                  <button class="mode-btn active" id="btnModeHypsometric" data-mode="terrain">
-                    Topography Tint
-                  </button>
-                  <button class="mode-btn" id="btnModeHillshade" data-mode="hillshade">
-                    3D Hillshade
-                  </button>
-                </div>
-
-                <div class="slider-row">
-                  <div class="slider-labels">
-                    <span>Opacity</span>
-                    <span id="demOpacityVal">85%</span>
-                  </div>
-                  <input type="range" id="demOpacitySlider" min="0" max="100" value="85" class="custom-range">
-                </div>
-
-                <!-- DEM Hypsometric Legend Bar -->
-                <div class="dem-legend-box" id="demLegendBox">
-                  <div class="legend-gradient-bar"></div>
-                  <div class="legend-scale-marks">
-                    <span>-0.2m (Bayou)</span>
-                    <span>6.0m</span>
-                    <span>12.0m</span>
-                    <span>17.8m (Ridge)</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Section 2: M1 Exploratory Waterlogging Susceptibility -->
-          <div class="control-section" id="sectionM1Susc">
-            <div class="section-label">
-              <span class="label-title" data-i18n="sidebar.section_susceptibility">Waterlogging Susceptibility</span>
-              <span class="status-m1-pill">M1 Model</span>
-            </div>
-
-            <div class="layer-item highlight-susc-item">
-              <div class="layer-header-row">
-                <label class="switch-container">
-                  <input type="checkbox" id="toggleSusceptibility" checked>
-                  <span class="switch-slider"></span>
-                  <span class="layer-name" data-i18n="sidebar_extra.ewsi_title">Susceptibility Layer (EWSI)</span>
-                </label>
-                <span class="layer-badge badge-susc">Exploratory</span>
-              </div>
-
-              <!-- Susceptibility Subcontrols -->
-              <div class="susc-subcontrols" id="suscSubcontrols">
-                <div class="susc-mode-selector">
-                  <button class="mode-btn active" id="btnModeComposite" data-mode="composite" title="Composite 4-Factor Susceptibility Index">
-                    Composite
-                  </button>
-                  <button class="mode-btn" id="btnModeDepressions" data-mode="depressions" title="Closed Topographic Depressions / Sinks">
-                    Ponding Sinks
-                  </button>
-                  <button class="mode-btn" id="btnModeInletProx" data-mode="proximity" title="CRS-Aware Distance to Nearest Storm Inlet">
-                    Inlet Distance
-                  </button>
-                </div>
-
-                <div class="slider-row">
-                  <div class="slider-labels">
-                    <span>Layer Opacity</span>
-                    <span id="suscOpacityVal">75%</span>
-                  </div>
-                  <input type="range" id="suscOpacitySlider" min="0" max="100" value="75" class="custom-range">
-                </div>
-
-                <!-- Susceptibility Tier Legend -->
-                <div class="susc-legend-box" id="suscLegendBox">
-                  <div class="susc-tier-row">
-                    <span class="susc-chip chip-low" title="Elevated terrace, steep slope, close to inlet">Low 69.7%</span>
-                    <span class="susc-chip chip-mod" title="Mild slope, intermediate terrace">Mod 23.5%</span>
-                    <span class="susc-chip chip-elev" title="Flat ground, local swale, distant inlet">Elev 5.8%</span>
-                    <span class="susc-chip chip-high" title="Enclosed depression bowl or deep hollow">High 1.0%</span>
-                  </div>
-                  <div class="susc-disclaimer-notice">
-                    <strong>EXPLORATORY WATERLOGGING SUSCEPTIBILITY — NOT A VALIDATED FLOOD FORECAST</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Section 3: Storm-Drain GIS Layers -->
-          <div class="control-section" id="sectionM3Drainage">
-            <div class="section-label">
-              <span class="label-title" data-i18n="sidebar.section_drainage">Storm Drainage Network</span>
-              <span class="layer-count-total">1,176 Assets</span>
-            </div>
-
-            <!-- Gravity Mains -->
-            <div class="layer-item">
-              <div class="layer-header-row">
-                <label class="switch-container">
-                  <input type="checkbox" id="toggleGravityMains" checked>
-                  <span class="switch-slider"></span>
-                  <span class="layer-name" data-i18n="sidebar_extra.gravity_mains_title">Drainage Network (Gravity Mains)</span>
-                </label>
-                <span class="layer-badge badge-pipes" id="countGravityMains">624</span>
-              </div>
-              <div class="legend-swatch-row">
-                <span class="swatch-line swatch-gravity"></span>
-                <span class="swatch-desc">Conduits, pipes, & storm mains</span>
-              </div>
-            </div>
-
-            <!-- Inlets -->
-            <div class="layer-item">
-              <div class="layer-header-row">
-                <label class="switch-container">
-                  <input type="checkbox" id="toggleInlets" checked>
-                  <span class="switch-slider"></span>
-                  <span class="layer-name">Storm Inlets</span>
-                </label>
-                <span class="layer-badge badge-inlets" id="countInlets">265</span>
-              </div>
-              <div class="legend-swatch-row">
-                <span class="swatch-circle swatch-inlet"></span>
-                <span class="swatch-desc">Curb & grate street intake nodes</span>
-              </div>
-            </div>
-
-            <!-- Manholes -->
-            <div class="layer-item">
-              <div class="layer-header-row">
-                <label class="switch-container">
-                  <input type="checkbox" id="toggleManholes" checked>
-                  <span class="switch-slider"></span>
-                  <span class="layer-name">Manholes</span>
-                </label>
-                <span class="layer-badge badge-manholes" id="countManholes">283</span>
-              </div>
-              <div class="legend-swatch-row">
-                <span class="swatch-circle swatch-manhole"></span>
-                <span class="swatch-desc">Access junctions & inspection nodes</span>
-              </div>
-            </div>
-
-            <!-- Discharge Points -->
-            <div class="layer-item">
-              <div class="layer-header-row">
-                <label class="switch-container">
-                  <input type="checkbox" id="toggleDischarge" checked>
-                  <span class="switch-slider"></span>
-                  <span class="layer-name">Discharge / Outfalls</span>
-                </label>
-                <span class="layer-badge badge-discharge" id="countDischarge">4</span>
-              </div>
-              <div class="legend-swatch-row">
-                <span class="swatch-circle swatch-discharge-pt"></span>
-                <span class="swatch-desc">Bayou outfall terminals</span>
-              </div>
-            </div>
-
-            <!-- Pilot Boundary -->
-            <div class="layer-item">
-              <div class="layer-header-row">
-                <label class="switch-container">
-                  <input type="checkbox" id="togglePilotBoundary" checked>
-                  <span class="switch-slider"></span>
-                  <span class="layer-name" data-i18n="sidebar_extra.pilot_boundary_title">Pilot Area Boundary</span>
-                </label>
-                <span class="layer-badge badge-boundary">0.97 km²</span>
-              </div>
-              <div class="legend-swatch-row">
-                <span class="swatch-line swatch-pilot-bbox"></span>
-                <span class="swatch-desc">Formal M0 pilot perimeter</span>
-              </div>
-            </div>
-
-            <!-- M6 Drainage Network Analysis Subcontrols -->
-            <div class="drainage-m6-subcontrols" id="drainageM6Box">
-              <div class="layer-header-row" style="margin-bottom: 6px;">
-                <label class="switch-container">
-                  <input type="checkbox" id="toggleDrainageLoadingMode">
-                  <span class="switch-slider"></span>
-                  <span class="layer-name">Dynamic Hydraulic Loading (M6)</span>
-                </label>
-                <span class="layer-badge badge-pipes">Manning's</span>
-              </div>
-              <div class="m6-loading-legend-note">
-                Colors gravity mains by simulation loading: Normal (<span style="color:#0284c7;">■</span>), High (<span style="color:#d97706;">■</span>), Exceeded (<span style="color:#dc2626;">■</span>), Disconnected (<span style="color:#9333ea;">■</span>), Missing Data (<span style="color:#64748b;">■</span>).
-              </div>
-              <div style="display: flex; gap: 6px; align-items: center;">
-                <button id="btnOpenDrainageModalFromSidebar" class="source-tab-btn" style="flex: 1; justify-content: center;">
-                  Open Network Analysis
-                </button>
-                <button id="btnClearTraceSidebar" class="source-tab-btn btn-danger-soft" style="display: none;">
-                  Clear Trace
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Section 4: Rainfall Gauge Ingestion (M2) -->
-          <div class="control-section" id="sectionM2Rainfall">
-            <div class="section-label">
-              <span class="label-title" data-i18n="sidebar.section_rainfall">Rainfall Ingestion</span>
-              <span class="status-m2-pill" id="sidebarRainfallStatusPill">UNAVAILABLE</span>
-            </div>
-
-            <div class="layer-item highlight-rain-item">
-              <div class="layer-header-row">
-                <label class="switch-container">
-                  <input type="checkbox" id="toggleRainfallGauge" checked>
-                  <span class="switch-slider"></span>
-                  <span class="layer-name">HCFWS Gauge Pin</span>
-                </label>
-                <span class="layer-badge badge-rain" id="sidebarGaugeBadge">Station 1600</span>
-              </div>
-              <div class="rainfall-quick-card" id="sidebarRainfallCard">
-                <div class="quick-card-row">
-                  <span class="quick-card-label">Status:</span>
-                  <span class="quick-card-value" id="quickCardStatus">UNAVAILABLE</span>
-                </div>
-                <div class="quick-card-row">
-                  <span class="quick-card-label">Source Dir:</span>
-                  <span class="quick-card-value">C:\AquaPredict_tests\rainfall</span>
-                </div>
-              </div>
-              <button class="source-tab-btn" id="btnOpenRainfallFromSidebar" style="margin-top: 8px; width: 100%; justify-content: center;">
-                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
-                  <path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path>
-                </svg>
-                <span>Open Rainfall Panel</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Section 6: Flood Detection (M5) -->
-          <div class="control-section" id="sectionM5Simulation">
-            <div class="section-label">
-              <span class="label-title" data-i18n="sidebar.section_m5_simulation">Flood Detection (M5)</span>
-            </div>
-
-            <div class="layer-item highlight-m5-item">
-              <div class="layer-header-row">
-                <label class="switch-container">
-                  <input type="checkbox" id="toggleSimulationLayer">
-                  <span class="switch-slider"></span>
-                  <span class="layer-name" data-i18n="m5_simulation.layer_title">Modelled Flood Depth Raster</span>
-                </label>
-                <span class="layer-badge badge-m5" id="simStateBadge">Ready</span>
-              </div>
-
-              <!-- M5 Layer Opacity Slider -->
-              <div class="slider-row" style="margin-top: 8px; margin-bottom: 8px;">
-                <span class="slider-label">Layer Opacity:</span>
-                <input type="range" id="simOpacitySlider" min="10" max="100" value="85" class="custom-range" title="Adjust simulation depth overlay opacity">
-                <span class="slider-val" id="simOpacityVal">85%</span>
-              </div>
-
-              <!-- Milestone M9: Simulation Engine Selector (Screening Model vs ML Surrogate) -->
-              <div class="sim-engine-toggle-row" id="simEngineToggleRow">
-                <div class="sim-engine-header-row">
-                  <span data-i18n="m5_simulation.engine_label">Simulation Engine:</span>
-                  <span id="activeEngineLabel" class="engine-active-label">Physical Screening</span>
-                </div>
-                <div class="sim-engine-selector">
-                  <button id="btnEngineOriginal" class="engine-btn active" title="Deterministic physical screening model (M5 baseline)">
-                    <span data-i18n="m5_simulation.engine_original">Screening Model</span>
-                  </button>
-                  <button id="btnEngineSurrogate" class="engine-btn" title="Trained ML surrogate (HistGradientBoosting emulator) (Milestone M9)">
-                    <span data-i18n="m5_simulation.engine_surrogate">ML Surrogate (M9)</span>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Milestone M9: Visible Scientific Surrogate Warning Banner -->
-              <div id="surrogateWarningBanner" class="surrogate-warning-banner" style="display: none;">
-                <div class="surrogate-banner-head">
-                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                  <span>SYNTHETIC SURROGATE</span>
-                </div>
-                <span data-i18n="warnings_and_disclaimers.synthetic_surrogate">SYNTHETIC SURROGATE — Imitates the AquaPredict screening model. Not validated against real-world floods.</span>
-                <div id="surrogateLatencyReadout" class="surrogate-latency-readout">Inference: ready | scikit-learn</div>
-              </div>
-
-              <!-- Rainfall Presets Selector (RAIN-03) -->
-              <div class="sim-presets-group" id="simPresetsGroup">
-                <span class="group-label" data-i18n="m5_simulation.preset_label">Rainfall Presets (180 min, Peak @ 60m):</span>
-                <div class="preset-buttons-grid">
-                  <button class="preset-btn" data-preset="10" id="btnPreset10">10 mm</button>
-                  <button class="preset-btn" data-preset="25" id="btnPreset25">25 mm</button>
-                  <button class="preset-btn active" data-preset="50" id="btnPreset50">50 mm</button>
-                  <button class="preset-btn" data-preset="75" id="btnPreset75">75 mm</button>
-                  <button class="preset-btn" data-preset="100" id="btnPreset100">100 mm</button>
-                </div>
-              </div>
-
-              <!-- Simulation Lifecycle & Timeline Controls (RAIN-04, RAIN-07) -->
-              <div class="sim-controls-card">
-                <div class="sim-timeline-header">
-                  <span class="sim-step-label" id="simTimeLabel">Time: 00:00 (Min 0 / 180)</span>
-                  <span class="sim-lifecycle-pill pill-ready" id="simLifecycleBadge">Ready</span>
-                </div>
-
-                <!-- Simulation Timeline Slider -->
-                <div class="slider-row" style="margin-top: 4px;">
-                  <input type="range" id="simTimelineSlider" min="0" max="36" value="0" class="custom-range" title="Scrub 5-minute simulation timestep (0 - 180 min)">
-                </div>
-
-                <!-- Playback & Lifecycle Toolbar -->
-                <div class="sim-playback-toolbar">
-                  <button class="sim-ctrl-btn btn-sim-run" id="btnSimRun" title="Start simulation playback">
-                    <span id="simRunIcon">▶</span>
-                    <span data-i18n="m5_simulation.btn_run">Run</span>
-                  </button>
-                  <button class="sim-ctrl-btn" id="btnSimPause" title="Pause simulation playback" disabled>
-                    <span>❚❚</span>
-                    <span data-i18n="m5_simulation.btn_pause">Pause</span>
-                  </button>
-                  <button class="sim-ctrl-btn" id="btnSimReset" title="Reset simulation state to minute 0">
-                    <span>↺</span>
-                    <span data-i18n="m5_simulation.btn_reset">Reset</span>
-                  </button>
-                  <button class="sim-ctrl-btn" id="btnSimPeak" title="Jump to peak inundation timestep">
-                    <span data-i18n="m5_simulation.btn_peak">Peak</span>
-                  </button>
-                </div>
-
-                <!-- Interval Rainfall Readout Card (RAIN-06) -->
-                <div class="sim-readout-card" id="simReadoutCard">
-                  <div class="sim-readout-row">
-                    <span class="sim-readout-label" data-i18n="m5_simulation.interval_rain">Interval Rain:</span>
-                    <span class="sim-readout-val" id="simIntervalRain">0.00 mm (0.00 in)</span>
-                  </div>
-                  <div class="sim-readout-row">
-                    <span class="sim-readout-label" data-i18n="m5_simulation.interval_intensity">Interval Intensity:</span>
-                    <span class="sim-readout-val rate-highlight" id="simIntervalIntensity">0.00 mm/h (0.00 in/hr)</span>
-                  </div>
-                  <div class="sim-readout-row">
-                    <span class="sim-readout-label" data-i18n="m5_simulation.cumulative_rain">Cumulative Rain:</span>
-                    <span class="sim-readout-val" id="simCumulativeRain">0.00 mm (0.00 in)</span>
-                  </div>
-                  <div class="sim-readout-row">
-                    <span class="sim-readout-label" data-i18n="m5_simulation.runoff_generated">Runoff Generated:</span>
-                    <span class="sim-readout-val" id="simCumulativeRunoff">0.00 mm (CN=88)</span>
-                  </div>
-                </div>
-
-                <!-- 5-Class Depth Raster Legend (SIM-01, LAY-07) -->
-                <div class="sim-depth-legend">
-                  <div class="legend-header-row">
-                    <span class="legend-title" data-i18n="m5_simulation.legend_title">Modelled Flood Depth (SIM-01)</span>
-                    <span class="legend-unit" data-i18n="legends.metres">Metres</span>
-                  </div>
-                  <div class="depth-legend-bar">
-                    <div class="depth-legend-segment segment-dry" title="Dry: 0.00 m"><span data-i18n="legends.dry">Dry</span></div>
-                    <div class="depth-legend-segment segment-shallow" title="Shallow: > 0 to 0.05 m"><span data-i18n="legends.shallow">≤ 0.05</span></div>
-                    <div class="depth-legend-segment segment-mod" title="Moderate: 0.05 to 0.20 m"><span data-i18n="legends.moderate">0.05–0.20</span></div>
-                    <div class="depth-legend-segment segment-deep" title="Deep: 0.20 to 0.50 m"><span data-i18n="legends.deep">0.20–0.50</span></div>
-                    <div class="depth-legend-segment segment-vdeep" title="Very Deep: > 0.50 m"><span data-i18n="legends.very_deep">> 0.50</span></div>
-                  </div>
-                </div>
-
-                <!-- Drawer Toggle Button (RAIN-05) -->
-                <button class="workflow-drawer-toggle-btn" id="btnToggleWorkflowDrawer">
-                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
-                    <path d="M4 6h16M4 12h16M4 18h16"></path>
-                  </svg>
-                  <span id="drawerToggleText" data-i18n="m5_simulation.workflow_btn">Hydrological Workflow (7 Steps)</span>
-                  <span class="drawer-step-badge">7/7 Complete</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Section: Rescue Priority Predictor (Directly below Flood Detection) -->
-          <div class="control-section" id="sectionRescuePriority">
-            <div class="section-label">
-              <span class="label-title">Rescue Priority Predictor</span>
-              <span class="status-rescue-pill" id="sidebarRescuePill">RISK RANKED</span>
-            </div>
-
-            <div class="layer-item highlight-rescue-item">
-              <div class="layer-header-row" style="margin-bottom: 8px;">
-                <label class="switch-container">
-                  <input type="checkbox" id="toggleRescueMarkers" checked>
-                  <span class="switch-slider"></span>
-                  <span class="layer-name">Show Alerts & Flooded Corridors</span>
-                </label>
-                <span class="layer-badge badge-rescue-alert" id="rescueActiveAlertCountBadge">0 Critical</span>
-              </div>
-
-              <!-- Active Scenario Context -->
-              <div class="rescue-context-line">
-                <span>Rainfall Scenario: <strong id="rescueActivePresetText">50 mm</strong> (Step <span id="rescueActiveStepText">12 / 60m</span>)</span>
-                <span style="font-size: 0.67rem; color: #64748b;">M5/M7 Modelled</span>
-              </div>
-
-              <!-- Rescue Waterlogging & Corridors Status (Image 2 Reference) -->
-              <div class="rescue-water-legend-bar">
-                <div class="rescue-legend-header">
-                  <span class="rescue-legend-title">Modelled Flood & Access Corridors</span>
-                  <span class="rescue-corridors-badge" id="rescueFloodedRoadsCountBadge">0 At-Risk Corridors</span>
-                </div>
-                <div class="rescue-depth-chips">
-                  <span class="rescue-depth-chip" title="M5 Flood Depth: natural raster water surface">
-                    <span class="chip-color deep-blue"></span>Flood Pool Surface
-                  </span>
-                  <span class="rescue-depth-chip" title="At-risk access corridor traversing flood pool">
-                    <span style="display:inline-block; width:12px; height:0; border-top:2px dashed #ef4444; margin-right:4px;"></span>At-Risk Corridor
-                  </span>
-                </div>
-              </div>
-
-              <!-- Categorized Location List -->
-              <div class="rescue-categories-tree" id="rescueCategoriesTree">
-                <!-- Dynamically populated via app.js -->
-              </div>
-            </div>
-          </div>
-
-          <!-- Section 6: Safest Route Planner (M7) -->
-          <div class="control-section" id="sectionM7RoutePlanner">
-            <div class="section-label">
-              <span class="label-title" data-i18n="sidebar.section_m7_routing">Safest Route Planner (M7)</span>
-              <span class="status-m7-pill" id="sidebarM7StatusPill">SAFEST ROUTE</span>
-            </div>
-
-            <div class="layer-item highlight-m7-item">
-              <div class="layer-header-row">
-                <label class="switch-container">
-                  <input type="checkbox" id="toggleStreetNetwork" checked>
-                  <span class="switch-slider"></span>
-                  <span class="layer-name" data-i18n="m7_routing.street_layer">Street Network Overlay</span>
-                </label>
-                <span class="layer-badge badge-m7" id="streetNetworkBadge">200 Streets</span>
-              </div>
-
-              <!-- Route Mode Selector -->
-              <div class="route-mode-toolbar">
-                <button class="mode-btn active" id="btnModePedestrian" data-mode="pedestrian" title="Pedestrian Mode: Bidirectional walkway travel (1.34 m/s)">
-                  <span data-i18n="m7_routing.mode_pedestrian">🚶 Pedestrian</span>
-                </button>
-                <button class="mode-btn" id="btnModeVehicle" data-mode="vehicle" title="Vehicle Mode: Strict one-way street rule enforcement">
-                  <span data-i18n="m7_routing.mode_vehicle">🚗 Vehicle</span>
-                </button>
-              </div>
-
-              <!-- Start Point Control -->
-              <div class="route-point-box route-start-box">
-                <div class="route-point-header">
-                  <span class="route-point-title start-title">
-                    <span class="route-dot start-dot"></span>
-                    <span data-i18n="m7_routing.start_point">Start (Point A)</span>
-                  </span>
-                  <button class="btn-pick-map" id="btnPickStartMap" title="Click on map to select Start location" data-i18n="m7_routing.pick_map">
-                    📍 Pick on Map
-                  </button>
-                </div>
-                <select class="custom-select route-select" id="selectStartLandmark">
-                  <option value="-95.373924,29.763797">Franklin & Houston Ave (Memorial NW)</option>
-                  <option value="-95.3740,29.7610">Walker & Sabine (West Ridge)</option>
-                  <option value="-95.3705,29.7580" selected>Bagby & McKinney (SW City Hall)</option>
-                  <option value="-95.3730,29.7570">Allen Pkwy & Clay (Southwest)</option>
-                  <option value="-95.3670,29.7600">Milam & Capitol (Central Core)</option>
-                  <option value="-95.3710,29.7640">Franklin & Bagby (Northwest)</option>
-                  <option value="custom" disabled>Custom Map Click</option>
-                </select>
-                <div class="route-coords-text" id="startCoordsText">
-                  Lon: -95.370500, Lat: 29.758000
-                </div>
-              </div>
-
-              <!-- Destination Point Control -->
-              <div class="route-point-box route-dest-box">
-                <div class="route-point-header">
-                  <span class="route-point-title dest-title">
-                    <span class="route-dot dest-dot"></span>
-                    <span data-i18n="m7_routing.dest_point">Dest (Point B)</span>
-                  </span>
-                  <button class="btn-pick-map" id="btnPickDestMap" title="Click on map to select Destination location" data-i18n="m7_routing.pick_map">
-                    📍 Pick on Map
-                  </button>
-                </div>
-                <select class="custom-select route-select" id="selectDestLandmark">
-                  <option value="-95.366081,29.758745">Travis & Lamar (East Core)</option>
-                  <option value="-95.3680,29.7645" selected>Milam & Franklin (Bayou NE Channel)</option>
-                  <option value="-95.3660,29.7610">Main & Capitol (East Core)</option>
-                  <option value="-95.3670,29.7570">Travis & Bell (South Core)</option>
-                  <option value="-95.3720,29.7625">Preston & Heiner (Northwest Low)</option>
-                  <option value="custom" disabled>Custom Map Click</option>
-                </select>
-                <div class="route-coords-text" id="destCoordsText">
-                  Lon: -95.368000, Lat: 29.764500
-                </div>
-              </div>
-
-              <!-- Action Buttons -->
-              <div class="route-action-row">
-                <button class="sim-ctrl-btn btn-sim-run" id="btnCalculateRoute" style="flex: 2; font-weight: 600; justify-content: center;" title="Compute alternative routes with drainage screening" data-i18n="m7_routing.btn_compare_routes">
-                  ⚡ Compare Routes
-                </button>
-                <button class="sim-ctrl-btn" id="btnResetRoute" style="flex: 1; justify-content: center;" title="Clear selected route overlays" data-i18n="m7_routing.btn_clear_routes">
-                  ↺ Clear
-                </button>
-              </div>
-
-              <!-- Dynamic Safest Route Recommendation Banner -->
-              <div class="route-recommendation-box" id="routeRecommendationBox" style="display: none; margin-bottom: 8px;">
-                <!-- Populated dynamically via app.js -->
-              </div>
-
-              <!-- Active Alternative Profiles Tabs -->
-              <div class="route-profile-tabs" id="routeProfileTabs" style="display: none; margin-bottom: 8px;">
-                <button class="profile-tab-btn active" id="tabProfileLowestExp" data-profile="lowest_exposure" title="Path avoiding modeled flood depths and impassable roads">
-                  <span class="profile-dot" style="background:#10b981;"></span>
-                  <span>Lowest Exposure</span>
-                </button>
-                <button class="profile-tab-btn" id="tabProfileBaseline" data-profile="shortest" title="Shortest geometric distance path">
-                  <span class="profile-dot" style="background:#0284c7;"></span>
-                  <span>Shortest</span>
-                </button>
-                <button class="profile-tab-btn" id="tabProfileDrainage" data-profile="drainage_informed" title="Path screened against M6 stormwater conduit loading">
-                  <span class="profile-dot" style="background:#06b6d4;"></span>
-                  <span>Drainage-Informed</span>
-                </button>
-              </div>
-
-              <!-- Active Route KPI Card -->
-              <div class="route-kpi-card" id="routeKpiCard" style="display: none;">
-                <div class="route-kpi-header">
-                  <span class="route-kpi-title" id="kpiProfileTitle">Drainage-Informed Path</span>
-                  <span class="badge-status-pill pill-ready" id="kpiHazardPill">Score: 1095</span>
-                </div>
-                <div class="route-kpi-grid">
-                  <div>
-                    <span class="kpi-label" data-i18n="m7_routing.distance_label">Total Distance:</span><br>
-                    <strong class="kpi-val" id="kpiDistVal">776 m (2,545 ft)</strong>
-                  </div>
-                  <div>
-                    <span class="kpi-label" data-i18n="m7_routing.est_time_label">Travel Time:</span><br>
-                    <strong class="kpi-val" id="kpiTimeVal">9.6 min walk</strong>
-                  </div>
-                  <div>
-                    <span class="kpi-label" data-i18n="m7_routing.max_depth_label">Max Flood Depth:</span><br>
-                    <strong class="kpi-val kpi-accent-cyan" id="kpiDepthVal">0.00 m (Dry)</strong>
-                  </div>
-                  <div>
-                    <span class="kpi-label" data-i18n="m7_routing.submerged_label">Submerged Length:</span><br>
-                    <strong class="kpi-val kpi-accent-rose" id="kpiSubmergedVal">0.0 m (0%)</strong>
-                  </div>
-                  <div>
-                    <span class="kpi-label">Terrain EWSI:</span><br>
-                    <strong class="kpi-val kpi-accent-emerald" id="kpiSuscVal">Low (0.19)</strong>
-                  </div>
-                  <div>
-                    <span class="kpi-label">Overloaded Drains:</span><br>
-                    <strong class="kpi-val kpi-accent-amber" id="kpiDrainsVal">0 Nearby</strong>
-                  </div>
-                </div>
-                <div class="route-kpi-streets" id="kpiStreetsVal">
-                  Via: Bagby St, Dallas St, Milam St
-                </div>
-              </div>
-
-              <!-- Alternative Comparison Table -->
-              <div class="route-compare-mini" id="routeCompareMini" style="display: none; margin-bottom: 8px;">
-                <table class="route-mini-table">
-                  <thead>
-                    <tr>
-                      <th>Route</th>
-                      <th>Dist</th>
-                      <th>Depth</th>
-                      <th>Score</th>
-                    </tr>
-                  </thead>
-                  <tbody id="routeCompareMiniBody">
-                    <!-- Populated by JS -->
-                  </tbody>
-                </table>
-              </div>
-
-              <!-- Route Governance & Lineage Link -->
-              <button class="source-tab-btn" id="btnOpenRouteModalFromSidebar" style="width: 100%; justify-content: center;">
-                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                </svg>
-                <span>Full Safest Route Comparison & Methodology</span>
-              </button>
-
-              <div class="route-disclaimer-note">
-                <strong>DISCLAIMER:</strong> <span data-i18n="warnings_and_disclaimers.routing_disclaimer">Experimental research prototype. Scenario-based estimates are NOT guaranteed safe routes or certified emergency evacuation guidance.</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Section 3: Basemap Selector -->
-          <div class="control-section" id="sectionBasemaps">
-            <div class="section-label">
-              <span class="label-title" data-i18n="sidebar.section_basemap">Base Cartography</span>
-            </div>
-            <div class="basemap-grid">
-              <button class="basemap-btn active" data-basemap="dark">
-                <span class="basemap-thumb basemap-dark-thumb"></span>
-                <span>Dark Slate</span>
-              </button>
-              <button class="basemap-btn" data-basemap="satellite">
-                <span class="basemap-thumb basemap-sat-thumb"></span>
-                <span>Satellite</span>
-              </button>
-              <button class="basemap-btn" data-basemap="positron">
-                <span class="basemap-thumb basemap-light-thumb"></span>
-                <span>Light</span>
-              </button>
-              <button class="basemap-btn" data-basemap="osm">
-                <span class="basemap-thumb basemap-osm-thumb"></span>
-                <span>Street</span>
-              </button>
+            <div class="trust-item">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+              <span>Deterministic Routing</span>
             </div>
           </div>
         </div>
 
-        <!-- Sidebar Footer Summary -->
-        <div class="sidebar-footer">
-          <div class="data-trust-callout">
-            <div class="trust-icon">
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              </svg>
+        <!-- Hero Geospatial Visualizer -->
+        <div class="hero-visual-card">
+          <div class="visual-topbar">
+            <div class="topbar-indicators">
+              <span class="traffic-light red"></span>
+              <span class="traffic-light amber"></span>
+              <span class="traffic-light green"></span>
             </div>
-            <div class="trust-text">
-              <strong>Raw Data Integrity:</strong> Unaltered GIS vectors. No fictitious connections created.
+            <div>PILOT BBOX: 29.756°N, -95.375°W · BUFFALO BAYOU</div>
+            <div>STATUS: <span style="color:var(--accent-emerald);">ONLINE</span></div>
+          </div>
+          <div class="hero-canvas-container">
+            <canvas id="heroCanvas"></canvas>
+            <div class="canvas-overlay-hud">
+              <div class="hud-pill">
+                <div class="hud-label">Pilot Extent</div>
+                <div class="hud-value">0.97 km²</div>
+              </div>
+              <div class="hud-pill">
+                <div class="hud-label">Stormwater Inlets</div>
+                <div class="hud-value">400+ Nodes</div>
+              </div>
+              <div class="hud-pill">
+                <div class="hud-label">Routing Graph</div>
+                <div class="hud-value">210 Edges</div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Floating Bottom HUD: Elevation Profiler / Cursor Elevation -->
-    <div class="bottom-hud" id="bottomHud">
-      <button id="btnToggleHud" class="btn-toggle-hud" title="Minimize Map Telemetry HUD" aria-label="Toggle telemetry HUD">
-        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
-          <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
-        <span class="btn-toggle-hud-label" data-i18n="hud.toggle_hud">Telemetry HUD</span>
-      </button>
-
-      <div class="hud-chips-container" id="hudChipsContainer">
-        <div class="elevation-inspector-chip" id="elevationChip">
-          <div class="chip-icon">
-            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
-              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-              <polyline points="2 17 12 22 22 17"></polyline>
-              <polyline points="2 12 12 17 22 12"></polyline>
-            </svg>
-          </div>
-          <div class="chip-content">
-            <span class="chip-label" data-i18n="hud_chips.elevation">Elevation:</span>
-            <span class="chip-value" id="cursorElevationText">Hover map</span>
-          </div>
-        </div>
-
-        <div class="susc-inspector-chip" id="suscChip">
-          <div class="chip-icon">
-            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
-              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
-            </svg>
-          </div>
-          <div class="chip-content">
-            <span class="chip-label" data-i18n="hud_chips.susceptibility">Susceptibility:</span>
-            <span class="chip-value" id="cursorSuscText"><span class="badge-tier tier-pending">Hover map</span></span>
-          </div>
-        </div>
-
-        <div class="m4-inspector-chip" id="rescuePriorityChip">
-          <div class="chip-icon">
-            <svg viewBox="0 0 24 24" width="15" height="15" stroke="#ef4444" stroke-width="2" fill="none">
-              <polygon points="12 2 2 22 22 22"></polygon>
-              <line x1="12" y1="9" x2="12" y2="13"></line>
-              <circle cx="12" cy="17" r="0.5"></circle>
-            </svg>
-          </div>
-          <div class="chip-content">
-            <span class="chip-label">Rescue Priority:</span>
-            <span class="chip-value" id="cursorRescueText"><span class="badge-tier" style="background:rgba(239,68,68,0.12); color:#ef4444;">Active</span></span>
-          </div>
-        </div>
-
-        <div class="sim-inspector-chip" id="simChip">
-          <div class="chip-icon">
-            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
-              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
-            </svg>
-          </div>
-          <div class="chip-content">
-            <span class="chip-label" data-i18n="hud_chips.sim_depth">Modelled Depth:</span>
-            <span class="chip-value" id="cursorSimDepthText"><span class="badge-tier tier-unavailable">Off</span></span>
-          </div>
-        </div>
-
-        <div class="coords-chip">
-          <span class="chip-label" data-i18n="hud_chips.coordinates">Coords:</span>
-          <span class="chip-value" id="cursorCoordsText">29.7600° N, -95.3700° W</span>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Floating Asset Inspector Card (shown when an asset is clicked) -->
-    <div class="asset-inspector-card" id="assetInspectorCard" style="display: none;">
-      <div class="inspector-header">
-        <div class="inspector-title-group">
-          <span class="inspector-layer-pill" id="inspLayerPill">Gravity Main</span>
-          <h4 id="inspAssetId">FACILITY #3539062</h4>
+  <!-- Problem & Solution Section -->
+  <section class="problem-solution-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Urban Inundation Challenge</span>
+        <h2 class="section-title">The Difference Between Static Maps and Dynamic Decision Support</h2>
+        <p class="section-desc">Traditional static flood hazard zones fail during dynamic cloudbursts. When streets turn into storm canals, emergency responders need real-time clarity, not outdated 100-year flood zone PDFs.</p>
+      </div>
+
+      <div class="ps-grid">
+        <!-- Problem Card -->
+        <div class="ps-card problem">
+          <div class="ps-badge">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <span>The Conventional Flaw</span>
+          </div>
+          <h3>Traditional Flood Maps Blindfold Dispatchers</h3>
+          <p style="color:var(--text-muted); font-size:14.5px; margin-top:8px;">Conventional municipal flood maps are designed for long-term insurance zoning, not operational dispatch during flash storm surges.</p>
+          <ul class="ps-list">
+            <li class="ps-list-item">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              <span><strong>Static 100-Year Zones:</strong> Zero timestep visibility during rapid 50mm–100mm/hr intense cloudbursts.</span>
+            </li>
+            <li class="ps-list-item">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              <span><strong>Ignored Drainage Conduits:</strong> Disregards whether underground storm mains are flowing freely or back-surcharging.</span>
+            </li>
+            <li class="ps-list-item">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              <span><strong>Shortest-Distance Traps:</strong> Commercial GPS routes ambulances into submerged underpasses and drowned access ramps.</span>
+            </li>
+          </ul>
         </div>
-        <button class="btn-icon" id="closeInspectorBtn" aria-label="Close inspector">
-          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
+
+        <!-- Solution Card -->
+        <div class="ps-card solution">
+          <div class="ps-badge">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <span>The AquaPredict Solution</span>
+          </div>
+          <h3>Deterministic Physics & Flood-Aware Routing</h3>
+          <p style="color:var(--text-muted); font-size:14.5px; margin-top:8px;">AquaPredict synthesizes high-fidelity topography, drainage capacity, and lexicographic Dijkstra routing into one unified command center.</p>
+          <ul class="ps-list">
+            <li class="ps-list-item">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span><strong>Dynamic M5 Inundation:</strong> 36 discrete 5-minute timestep depth rasters modeled under calibrated rainfall intensity curves.</span>
+            </li>
+            <li class="ps-list-item">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span><strong>Drainage-Informed Network (M6):</strong> Explicit modeling of inlets, gravity mains, and outfalls to detect hydraulic surcharge bottlenecks.</span>
+            </li>
+            <li class="ps-list-item">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span><strong>Safest Route Planner (M7):</strong> Lexicographic Dijkstra route optimization that strictly excludes impassable roads (&ge;0.30m depth).</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Features Section -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Platform Capabilities</span>
+        <h2 class="section-title">Engineered for Municipal Flood Resilience</h2>
+        <p class="section-desc">Six integrated intelligence layers designed to transform raw urban geospatial data into rapid, life-saving operational decisions.</p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Feature 1 -->
+        <div class="feature-card">
+          <div>
+            <div class="feature-icon-wrap">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+            </div>
+            <div class="feature-tag">Milestone M1 · DEM Analytics</div>
+            <h3>Terrain & Depression Screening</h3>
+            <p>Sub-meter LiDAR elevation modeling extracting slope gradient vectors, natural depressions, and flow accumulation zones across the urban basin.</p>
+          </div>
+          <div class="feature-meta">
+            <span>Grid Resolution: 256×256</span>
+            <span style="color:var(--accent-emerald);">Active</span>
+          </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card">
+          <div>
+            <div class="feature-icon-wrap">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            </div>
+            <div class="feature-tag">Milestone M5 · Simulation Engine</div>
+            <h3>Dynamic Flood Detection</h3>
+            <p>Simulates rainfall surges from 10 mm/hr to 100 mm/hr with 36 discrete five-minute timesteps, rendering surface depth rasters and ponding thresholds.</p>
+          </div>
+          <div class="feature-meta">
+            <span>Max Modeled Depth: 3.75 m</span>
+            <span style="color:var(--accent-cyan);">Multi-Step</span>
+          </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card">
+          <div>
+            <div class="feature-icon-wrap">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            </div>
+            <div class="feature-tag">Milestone M4 · Decision Support</div>
+            <h3>Rescue Priority Predictor</h3>
+            <p>Monitors critical facility access points (CHRISTUS St. Joseph, Good Neighbor Clinic, residential societies) and automatically ranks rescue urgency (Priority 1–3).</p>
+          </div>
+          <div class="feature-meta">
+            <span>Assessed Facilities: 13 Sites</span>
+            <span style="color:var(--accent-coral);">Automated</span>
+          </div>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feature-card">
+          <div>
+            <div class="feature-icon-wrap">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
+            </div>
+            <div class="feature-tag">Milestone M7 · Optimal Routing</div>
+            <h3>Safest Route Planner</h3>
+            <p>Hard lexicographic Dijkstra solver that guarantees safe clearance for high-clearance emergency vehicles and pedestrians by routing around impassable flooded segments.</p>
+          </div>
+          <div class="feature-meta">
+            <span>Candidate Evaluation: 3 Routes</span>
+            <span style="color:var(--accent-emerald);">Lexicographic</span>
+          </div>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="feature-card">
+          <div>
+            <div class="feature-icon-wrap">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+            </div>
+            <div class="feature-tag">Milestone M6 · Stormwater Network</div>
+            <h3>Drainage Hydraulic Diagnostics</h3>
+            <p>Maps 400+ stormwater inlets, underground gravity conduits, and Buffalo Bayou discharge outfalls to uncover network bottleneck surcharge risks.</p>
+          </div>
+          <div class="feature-meta">
+            <span>Network Capacity: 400+ Inlets</span>
+            <span style="color:var(--accent-cyan);">Calibrated</span>
+          </div>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="feature-card">
+          <div>
+            <div class="feature-icon-wrap">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            </div>
+            <div class="feature-tag">Milestone M8 · WebGL Visualizer</div>
+            <h3>3D Terrain & Flood Elevation</h3>
+            <p>Hardware-accelerated Three.js mesh visualization with interactive orbit controls, vertical exaggeration, and volumetric water elevation surfaces.</p>
+          </div>
+          <div class="feature-meta">
+            <span>Graphics Engine: Three.js WebGL</span>
+            <span style="color:var(--accent-emerald);">60 FPS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="workflow-section" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Methodology & Architecture</span>
+        <h2 class="section-title">How AquaPredict Operates</h2>
+        <p class="section-desc">A transparent 4-stage pipeline that converts raw spatial geometry into vetted operational rescue routes.</p>
+      </div>
+
+      <div class="workflow-steps">
+        <div class="workflow-card">
+          <div class="step-num">01</div>
+          <h3>LiDAR Topography & Inlets</h3>
+          <p>We ingest sub-meter DEM elevation data alongside City of Houston municipal stormwater shapefiles, mapping gravity mains and outfall discharge points.</p>
+        </div>
+
+        <div class="workflow-card">
+          <div class="step-num">02</div>
+          <h3>Physical Rainfall Screening</h3>
+          <p>Scenario presets (10mm to 100mm/hr) run through our physical screening surrogate to compute transient surface water accumulation across 36 timesteps.</p>
+        </div>
+
+        <div class="workflow-card">
+          <div class="step-num">03</div>
+          <h3>Access Corridor Auditing</h3>
+          <p>Rescue Priority Predictor verifies all access roads connecting hospitals and communities, automatically flagging road failure and isolation risks.</p>
+        </div>
+
+        <div class="workflow-card">
+          <div class="step-num">04</div>
+          <h3>Dijkstra Decision Routing</h3>
+          <p>The Safest Route Planner evaluates candidate routes, penalizing unmeasured sections and strictly excluding impassable segments for vehicles and pedestrians.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Platform Preview Section -->
+  <section class="preview-section" id="preview">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Interactive Preview</span>
+        <h2 class="section-title">Experience the Real Platform</h2>
+        <p class="section-desc">Test the telemetry indicators and operational metrics directly before launching the full GIS application.</p>
+      </div>
+
+      <div class="preview-container">
+        <div class="preview-header">
+          <div style="font-weight:700; color:#fff; display:flex; align-items:center; gap:10px;">
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--accent-cyan)" stroke-width="2" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+            <span>AquaPredict Command Center Live Stream</span>
+          </div>
+          <div class="preview-nav-pills">
+            <button class="preview-pill active" data-preview="flood">Flood Detection</button>
+            <button class="preview-pill" data-preview="rescue">Rescue Priority</button>
+            <button class="preview-pill" data-preview="routing">Safest Route</button>
+            <button class="preview-pill" data-preview="terrain">3D Terrain</button>
+          </div>
+        </div>
+
+        <div class="preview-body">
+          <div class="preview-sidebar">
+            <div class="sidebar-metric-box">
+              <div class="metric-title">Critical Observation</div>
+              <div class="metric-val" id="metricVal1">1.50 m</div>
+            </div>
+            <div class="sidebar-metric-box">
+              <div class="metric-title">Flooded Basin Area</div>
+              <div class="metric-val" id="metricVal2">0.095 km²</div>
+            </div>
+            <div class="sidebar-metric-box">
+              <div class="metric-title">Scenario Intensity</div>
+              <div class="metric-val" id="metricVal3">100 mm/hr</div>
+            </div>
+
+            <div style="margin-top:auto;">
+              <a href="app.html" class="btn btn-primary" style="width:100%;">
+                <span>Open Full GIS App</span>
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.2" fill="none"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="preview-content-area">
+            <span class="preview-badge-status" id="previewBadge">M5 Dynamic Raster</span>
+            <div style="max-width:540px;">
+              <h3 style="font-size:28px; margin-bottom:14px;" id="previewTitle">M5 Physical Scenario Simulation</h3>
+              <p style="color:var(--text-muted); font-size:15px; margin-bottom:28px;" id="previewDesc">
+                Precomputed physics-guided rainfall runoffs over 36 five-minute timesteps with high-resolution DEM depression ponding.
+              </p>
+              <div style="display:flex; justify-content:center; gap:14px;">
+                <a href="app.html" class="btn btn-outline-cyan">
+                  <span>Explore Downtown Houston Pilot Extent</span>
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Use Cases Section -->
+  <section class="usecases-section" id="use-cases">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Operational Impact</span>
+        <h2 class="section-title">Built for Frontline Decision Makers</h2>
+        <p class="section-desc">From emergency 911 dispatch centers to civil municipal engineering teams.</p>
+      </div>
+
+      <div class="usecase-grid">
+        <div class="usecase-card">
+          <div class="icon-circ">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+          </div>
+          <h3>Emergency Medical Dispatch</h3>
+          <p>Safeguards ambulances by routing around waterlogged underpasses and guaranteeing connecting corridors to regional trauma hospitals.</p>
+        </div>
+
+        <div class="usecase-card">
+          <div class="icon-circ">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          </div>
+          <h3>Municipal Flood Resilience</h3>
+          <p>Identifies chronic depression ponding and guides capital stormwater investments based on empirical drainage bottleneck metrics.</p>
+        </div>
+
+        <div class="usecase-card">
+          <div class="icon-circ">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          </div>
+          <h3>Stormwater Civil Engineers</h3>
+          <p>Evaluates inlet catch-basin capacity against hydraulic pressure gradelines to isolate gravity main conduits susceptible to back-surcharging.</p>
+        </div>
+
+        <div class="usecase-card">
+          <div class="icon-circ">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+          <h3>Community Disaster Preparation</h3>
+          <p>Provides early warning isolation risk markers for vulnerable residential neighborhoods, retirement societies, and community centers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About & Scientific Transparency Section -->
+  <section class="about-section" id="about" style="padding:90px 0; border-top:1px solid var(--border-subtle);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Scientific Integrity</span>
+        <h2 class="section-title">Ground-Truth Transparency & Houston Pilot</h2>
+        <p class="section-desc">AquaPredict is built on scientific rigor and absolute clarity regarding model capabilities.</p>
+      </div>
+
+      <div style="background:var(--bg-card); border:1px solid var(--border-accent); border-radius:var(--radius-xl); padding:40px; display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;">
+        <div>
+          <h3 style="font-size:24px; margin-bottom:14px;">The Houston Downtown Pilot (M0–M10)</h3>
+          <p style="color:var(--text-muted); font-size:15px; margin-bottom:16px;">
+            Our initial operational testbed encompasses 0.97 km² of downtown Houston adjacent to Buffalo Bayou (bounding box: 29.756°N to 29.765°N, -95.375°W to -95.365°W).
+          </p>
+          <p style="color:var(--text-muted); font-size:15px; margin-bottom:16px;">
+            The pilot features intense topography transitions, including deep highway trenches (I-45 / Pierce Elevated), dense commercial high-rises, and historical wards.
+          </p>
+          <div style="display:flex; gap:20px; font-family:var(--font-mono); font-size:13px; color:var(--accent-cyan);">
+            <div>&bull; 210 Evaluated Edges</div>
+            <div>&bull; 400+ Drainage Inlets</div>
+            <div>&bull; 36 Five-Min Timesteps</div>
+          </div>
+        </div>
+
+        <div style="background:rgba(11, 17, 32, 0.8); border:1px solid var(--border-subtle); border-radius:var(--radius-lg); padding:28px;">
+          <div style="display:flex; align-items:center; gap:8px; color:var(--accent-amber); font-weight:700; font-size:14px; margin-bottom:12px;">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            <span>Scientific Scope & Disclaimer</span>
+          </div>
+          <p style="color:var(--text-muted); font-size:13.5px; line-height:1.6;">
+            AquaPredict's M5 flood depths are computed via a physical screening surrogate model. Route recommendations from the Safest Route Planner are scenario-based decision support estimates and must NOT be interpreted as certified safe evacuation routing or official civil defense clearance.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section" id="faq">
+    <div class="section-header">
+      <span class="section-tag">Frequently Asked Questions</span>
+      <h2 class="section-title">Everything You Need to Know</h2>
+      <p class="section-desc">Clear answers to questions about AquaPredict's data pipeline, routing algorithms, and enterprise integration.</p>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>What data sources power AquaPredict's simulation?</span>
+          <svg class="faq-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
+        <div class="faq-answer">
+          <p>AquaPredict combines sub-meter USGS LiDAR Digital Elevation Models (DEM), City of Houston stormwater infrastructure datasets (inlets, manholes, gravity mains, and outfalls), and OpenStreetMap road centerlines.</p>
+        </div>
       </div>
 
-      <!-- Network Tracing Action Bar (M6-B) -->
-      <div class="inspector-trace-actions" id="inspectorTraceActions" style="display: none;">
-        <button class="btn-trace" id="btnTraceUpstream" title="Trace all connected upstream conduits and intake nodes">
-          ▲ Upstream
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>How does the Safest Route Planner handle flooded roads?</span>
+          <svg class="faq-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
-        <button class="btn-trace" id="btnTraceDownstream" title="Trace downstream conduit path towards bayou outfall">
-          ▼ Downstream
+        <div class="faq-answer">
+          <p>The routing engine employs a lexicographic Dijkstra solver. Roads with modeled flood depth exceeding the vehicle or pedestrian clearance threshold (&ge;0.30 m) receive hard impassability exclusions, routing emergency responders through dry corridors even if the path is slightly longer.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Can AquaPredict run offline or in isolated emergency ops centers?</span>
+          <svg class="faq-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
-        <button class="btn-trace btn-trace-clear" id="btnClearTraceInsp" title="Clear highlighted trace from map">
-          ✕ Clear
+        <div class="faq-answer">
+          <p>Yes! AquaPredict features a precomputed static export bundle (Milestone M10). In the event of grid or cellular outage, field teams can run the entire GIS platform locally from a USB drive using any basic static web server.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>How does the Rescue Priority Predictor determine ranking?</span>
+          <svg class="faq-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
+        <div class="faq-answer">
+          <p>It dynamically audits the connecting road corridors for categorized facilities (Hospitals, Residential, Societies, Villages, Communities). Locations whose access corridors become impassable or isolated receive automated urgency ranks (Priority 1 through Priority 3) with visible flooded corridor highlights.</p>
+        </div>
       </div>
-      <div class="trace-summary-box" id="traceSummaryBox"></div>
+    </div>
+  </section>
 
-      <div class="inspector-body" id="inspBody">
-        <!-- Rendered dynamically -->
+  <!-- Final Call to Action -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-banner">
+        <h2>Ready to Navigate Urban Flood Risks?</h2>
+        <p>Explore our live Houston Downtown pilot or configure a proposed deployment plan for your municipal flood management department.</p>
+        <div class="cta-buttons">
+          <a href="app.html" class="btn btn-primary btn-lg">
+            <span>Explore Platform Now</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="pricing.html" class="btn btn-secondary btn-lg">
+            <span>Explore Pricing Tiers</span>
+          </a>
+          <a href="auth.html" class="btn btn-outline-cyan btn-lg">
+            <span>Create Free Account</span>
+          </a>
+        </div>
       </div>
     </div>
-  </main>
+  </section>
 
-  <!-- Seven-Step Hydrological Workflow Drawer (RAIN-05) -->
-  <div class="workflow-drawer" id="workflowDrawer">
-    <div class="workflow-drawer-header">
-      <div class="workflow-drawer-title">
-        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-        </svg>
-        <span>Seven-Step Hydrological Workflow (RAIN-05)</span>
-      </div>
-      <button class="btn-drawer-close" id="btnCloseWorkflowDrawer" aria-label="Close drawer">×</button>
-    </div>
-    <div class="workflow-steps-container" id="workflowStepsContainer">
-      <!-- Step 1: Rainfall -->
-      <div class="workflow-step-card step-completed" id="wfStep1">
-        <div class="step-num-badge">1</div>
-        <div class="step-info">
-          <div class="step-header-line">
-            <span class="step-name">1. Rainfall Ingestion</span>
-            <span class="step-status-pill status-completed">COMPLETED</span>
+  <!-- Footer -->
+  <footer class="saas-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <img src="assets/logo.png" alt="AquaPredict Logo" style="height:32px;">
+            <span style="font-family:var(--font-display); font-size:18px; font-weight:800; color:#fff;">AquaPredict</span>
           </div>
-          <p class="step-desc">Time-varying 36-step hyetograph (5 presets, peak @ 60m, mass-verified)</p>
+          <p>Advanced geospatial flood intelligence, stormwater diagnostics, and flood-aware routing for municipal resilience.</p>
         </div>
-      </div>
-      <!-- Step 2: Terrain -->
-      <div class="workflow-step-card step-completed" id="wfStep2">
-        <div class="step-num-badge">2</div>
-        <div class="step-info">
-          <div class="step-header-line">
-            <span class="step-name">2. Terrain & Sinks</span>
-            <span class="step-status-pill status-completed">COMPLETED</span>
-          </div>
-          <p class="step-desc">NOAA 1m Bare Earth DEM & morphological reconstruction depressions (66,306 m³ capacity)</p>
-        </div>
-      </div>
-      <!-- Step 3: Runoff -->
-      <div class="workflow-step-card step-completed" id="wfStep3">
-        <div class="step-num-badge">3</div>
-        <div class="step-info">
-          <div class="step-header-line">
-            <span class="step-name">3. Runoff Generation</span>
-            <span class="step-status-pill status-completed">COMPLETED</span>
-          </div>
-          <p class="step-desc">NRCS Curve Number (CN=88, S=34.6mm, Ia=6.9mm urban commercial abstraction)</p>
-        </div>
-      </div>
-      <!-- Step 4: Routing -->
-      <div class="workflow-step-card step-completed" id="wfStep4">
-        <div class="step-num-badge">4</div>
-        <div class="step-info">
-          <div class="step-header-line">
-            <span class="step-name">4. Surface Flow Routing</span>
-            <span class="step-status-pill status-completed">COMPLETED</span>
-          </div>
-          <p class="step-desc">Depression storage retention, spillover thresholding, and overland conveyance</p>
-        </div>
-      </div>
-      <!-- Step 5: Drainage -->
-      <div class="workflow-step-card step-completed" id="wfStep5">
-        <div class="step-num-badge">5</div>
-        <div class="step-info">
-          <div class="step-header-line">
-            <span class="step-name">5. Subsurface Drainage</span>
-            <span class="step-status-pill status-completed">COMPLETED</span>
-          </div>
-          <p class="step-desc">Manning's gravity conveyance (264 calculable conduits, 360 data-limited) and dynamic loading states across 37 timesteps</p>
-        </div>
-      </div>
-      <!-- Step 6: Statistics -->
-      <div class="workflow-step-card step-completed" id="wfStep6">
-        <div class="step-num-badge">6</div>
-        <div class="step-info">
-          <div class="step-header-line">
-            <span class="step-name">6. Modelled Statistics</span>
-            <span class="step-status-pill status-completed">COMPLETED</span>
-          </div>
-          <p class="step-desc">Mass balance accounting (&lt; 1.0%), peak water depth, and flooded area (&ge; 0.05m)</p>
-        </div>
-      </div>
-      <!-- Step 7: Hotspots -->
-      <div class="workflow-step-card step-completed" id="wfStep7">
-        <div class="step-num-badge">7</div>
-        <div class="step-info">
-          <div class="step-header-line">
-            <span class="step-name">7. Hotspot Clustering</span>
-            <span class="step-status-pill status-completed">COMPLETED</span>
-          </div>
-          <p class="step-desc">4 conceptual model hotspots ranked by coupling terrain depressions with conduit capacity deficits</p>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Seven-Field Bottom Status Bar (BAR-01 & BAR-02) -->
-  <footer class="six-field-status-bar" id="statusBarContainer">
-    <div class="status-field" id="fieldRainTotal">
-      <span class="status-field-label" data-i18n="status_bar.rain_total">Rainfall Total:</span>
-      <span class="status-field-value" id="statusValRainTotal">--</span>
-    </div>
-    <div class="status-field" id="fieldMaxDepth">
-      <span class="status-field-label" data-i18n="status_bar.max_flood_depth">Max Depth:</span>
-      <span class="status-field-value" id="statusValMaxDepth">--</span>
-    </div>
-    <div class="status-field" id="fieldFloodedArea">
-      <span class="status-field-label" data-i18n="status_bar.flooded_area">Flooded Area (≥0.05m):</span>
-      <span class="status-field-value" id="statusValFloodedArea">--</span>
-    </div>
-    <div class="status-field" id="fieldSurchargedNodes" title="M6 Inlet & Manhole Surcharge Screening (Estimated)">
-      <span class="status-field-label" data-i18n="status_bar.surcharged_nodes">Surcharged Nodes:</span>
-      <span class="status-field-value" id="statusValSurchargedNodes">0 Surcharged (Est)</span>
-    </div>
-    <div class="status-field" id="fieldOverloadedDrains" title="M6 Conduit Capacity Exceeded Screening (Qinflow > Qcap)">
-      <span class="status-field-label" data-i18n="status_bar.overloaded_drains">Overloaded Drains:</span>
-      <span class="status-field-value" id="statusValOverloadedDrains">0 Overloaded Drains</span>
-    </div>
-    <div class="status-field" id="fieldActiveWarnings">
-      <span class="status-field-label" data-i18n="status_bar.active_warnings">Active Warnings (BAR-02):</span>
-      <span class="status-field-value status-warning-text" id="statusValActiveWarnings">--</span>
-    </div>
-    <div class="status-field" id="fieldActiveRoute" title="M7 Drainage-Informed Route Status">
-      <span class="status-field-label" data-i18n="status_bar.active_route">Active Route:</span>
-      <span class="status-field-value status-route-ready" id="statusValActiveRoute">Ready (M7)</span>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="app.html">Launch GIS Map</a></li>
+            <li><a href="app.html">3D Terrain Viewer</a></li>
+            <li><a href="app.html">Rescue Priority Predictor</a></li>
+            <li><a href="app.html">Safest Route Planner</a></li>
+            <li><a href="pricing.html">Pricing & Plans</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#about">Scientific Transparency</a></li>
+            <li><a href="#how-it-works">Hydraulic Methodology</a></li>
+            <li><a href="#faq">Pilot Documentation</a></li>
+            <li><a href="auth.html">Analyst Portal</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Pilot Area</h4>
+          <ul>
+            <li><span style="color:var(--text-muted);">Downtown Houston, TX</span></li>
+            <li><span style="color:var(--text-muted);">Buffalo Bayou Watershed</span></li>
+            <li><span style="color:var(--text-muted);">Bounding Box: [-95.375, 29.756]</span></li>
+            <li><span style="color:var(--text-emerald);">&bull; Offline Export Ready</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 AquaPredict Systems. All rights reserved. Houston Pilot M0–M10.</div>
+        <div style="color:var(--text-dim); font-size:12px;">Notice: Simulation estimates for operational research; not certified evacuation navigation.</div>
+      </div>
     </div>
   </footer>
 
-  <!-- Modal: Data Source, Completeness & Quality Panel -->
-  <div class="modal-backdrop" id="qualityModalBackdrop" style="display: none;">
-    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <div class="modal-header">
-        <div class="modal-title-group">
-          <h2 id="modalTitle">Data Source & Data Quality Governance</h2>
-          <p class="modal-subtitle">Verified metadata, completeness audits, and scientific guardrails for Houston Pilot M0</p>
-        </div>
-        <button class="modal-close-btn" id="closeQualityModalBtn" aria-label="Close modal">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Tab Navigation -->
-      <div class="modal-tabs">
-        <button class="tab-btn active" data-tab="tab-completeness">Attribute Completeness</button>
-        <button class="tab-btn" data-tab="tab-sources">Data Lineage & CRS</button>
-        <button class="tab-btn" data-tab="tab-guardrails">Scientific Disclaimers</button>
-        <button class="tab-btn" data-tab="tab-m1-methodology">M1 Susceptibility Model</button>
-        <button class="tab-btn" data-tab="tab-m2-rainfall">M2 Rainfall Ingestion</button>
-        <button class="tab-btn" data-tab="tab-m3-validation">M3 Validation Readiness</button>
-        <button class="tab-btn" data-tab="tab-rescue-priority">Rescue Priority Predictor</button>
-        <button class="tab-btn" data-tab="tab-m5-simulation">M5 Flood Detection</button>
-        <button class="tab-btn" data-tab="tab-m6-drainage">M6 Drainage & Capacity</button>
-        <button class="tab-btn" data-tab="tab-m7-routing">M7 Safest Route Planner</button>
-      </div>
-
-      <div class="modal-body">
-        <!-- Tab 1: Completeness -->
-        <div class="tab-panel active" id="tab-completeness">
-          <div class="quality-intro-callout">
-            <strong>Audit Summary:</strong> Evaluated all 1,176 stormwater infrastructure assets in the pilot area against original City of Houston attributes. Missing values are displayed as-is without inventing fictitious values or connections.
-          </div>
-
-          <div class="completeness-grid" id="completenessGridContainer">
-            <!-- Injected via app.js -->
-            <div class="loading-state">Loading completeness statistics...</div>
-          </div>
-        </div>
-
-        <!-- Tab 2: Sources & Lineage -->
-        <div class="tab-panel" id="tab-sources">
-          <div class="lineage-cards-grid">
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge">Storm GIS</span>
-                <h4>City of Houston Storm Infrastructure</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Layers:</strong> Gravity Mains (624), Inlets (265), Manholes (283), Outfalls (4)</li>
-                <li><strong>Native CRS:</strong> EPSG:2278 (NAD83 / Texas South Central ftUS)</li>
-                <li><strong>Target CRS:</strong> EPSG:4326 (WGS84 Web Visualization)</li>
-                <li><strong>Integrity:</strong> Raw geometries preserved exactly; zero synthesized connections.</li>
-              </ul>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge">Elevation Raster</span>
-                <h4>NOAA 2018 Coastal Texas DEM (Mission 8899)</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Dataset:</strong> StratMap18 1-meter Bare Earth DEM</li>
-                <li><strong>Coverage:</strong> 100% full intersection over pilot bounding box (0 missing pixels)</li>
-                <li><strong>Native CRS:</strong> EPSG:6344 (UTM Zone 15N NAD83 2011)</li>
-                <li><strong>Elevation Range:</strong> -0.17 m (Bayou channel) to 17.84 m (Downtown ridge)</li>
-                <li><strong>Vertical Datum:</strong> Unverified. Requires survey benchmark calibration.</li>
-              </ul>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge badge-warning">Unverified Input</span>
-                <h4>Rainfall Gauge Records</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Source:</strong> Raw exploratory gauge files (C:\AquaPredict_tests\rainfall)</li>
-                <li><strong>Validation Status:</strong> <span class="text-danger font-semibold">UNVERIFIED</span></li>
-                <li><strong>Model Constraint:</strong> Excluded from hydraulic/waterlogging models until verified.</li>
-                <li><strong>Purpose:</strong> Reference exploratory inspection only.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tab 3: Scientific Guardrails & Rules -->
-        <div class="tab-panel" id="tab-guardrails">
-          <div class="guardrails-list">
-            <div class="guardrail-item">
-              <div class="guardrail-num">01</div>
-              <div class="guardrail-text">
-                <h5>Strict Pilot Scope Boundary</h5>
-                <p>This prototype covers exclusively the 0.97 km² Downtown Houston / Buffalo Bayou pilot sector (-95.3750, 29.7560 to -95.3650, 29.7650). It does <strong>not</strong> represent or simulate all of Houston.</p>
-              </div>
-            </div>
-
-            <div class="guardrail-item">
-              <div class="guardrail-num">02</div>
-              <div class="guardrail-text">
-                <h5>Zero Fictitious Network Connections</h5>
-                <p>Drainage network assets are rendered strictly according to the municipal GIS records. Disconnected pipes or unrecorded links are left disconnected; no fabricated connections or inferred topological links are introduced.</p>
-              </div>
-            </div>
-
-            <div class="guardrail-item">
-              <div class="guardrail-num">03</div>
-              <div class="guardrail-text">
-                <h5>No Calibrated Flood Predictions</h5>
-                <p>M0 is an exploratory geospatial risk visualization. It does not provide certified 1D/2D hydrodynamic routing, real-time flood forecasting, or calibrated inundation depth calculations.</p>
-              </div>
-            </div>
-
-            <div class="guardrail-item">
-              <div class="guardrail-num">04</div>
-              <div class="guardrail-text">
-                <h5>Uncalibrated Vertical Elevations</h5>
-                <p>The NOAA DEM provides high-resolution 1-meter relative relief. However, vertical geoid/ellipsoid offsets have not been tied to local benchmark surveys and are not calibrated for engineering design.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tab 4: M1 Exploratory Waterlogging Susceptibility Model -->
-        <div class="tab-panel" id="tab-m1-methodology">
-          <div class="quality-intro-callout" style="border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.08);">
-            <strong style="color: var(--amber-warning);">M1 Milestone Scope & Disclaimers:</strong>
-            This analysis evaluates terrain-based pooling tendencies using surface topography and proximity to municipal storm inlets. It is strictly an <strong>exploratory screening model</strong> and <strong>NOT a calibrated flood prediction or certified 2D hydrodynamic simulation</strong>.
-          </div>
-
-          <div class="lineage-cards-grid">
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge">Indicator 1 (Weight: 35%)</span>
-                <h4>Local Topographic Depressions / Sinks</h4>
-              </div>
-              <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.45;">
-                Computed via morphological reconstruction sink filling on the 1m NOAA Bare Earth DEM. Identifies natural hollows and enclosed terrain bowls where overland water collects before reaching a spillover threshold.
-              </p>
-              <div class="limitation-box">
-                <strong>Limitation & DEM Artifacts:</strong> Highway overpasses (e.g., I-45, Gulf Freeway) or bridges without burned-in culverts appear as solid terrain dams in raw LiDAR, potentially creating false depression sinks. Does not account for unmapped culverts.
-              </div>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge">Indicator 2 (Weight: 25%)</span>
-                <h4>Topographic Position Index (TPI / Relative Low)</h4>
-              </div>
-              <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.45;">
-                Compares pixel elevation against the mean elevation within a 30-meter moving neighborhood. Negative TPI values isolate localized swales, roadside ditches, and drainage pathways.
-              </p>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge">Indicator 3 (Weight: 20%)</span>
-                <h4>Surface Slope & Flatness</h4>
-              </div>
-              <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.45;">
-                Evaluates terrain gradient. Slopes below 1.5° (covering 46% of the pilot area) drastically retard gravity-driven runoff evacuation, prolonging street-level ponding retention.
-              </p>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge">Indicator 4 (Weight: 20%)</span>
-                <h4>Drainage Proximity (Distance to Nearest Storm Inlet)</h4>
-              </div>
-              <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.45;">
-                Calculated as true 2D Euclidean distance in meters (using projected metric coordinates EPSG:6344) to the 265 verified municipal storm inlets. Mean distance is 54.7m.
-              </p>
-              <div class="limitation-box">
-                <strong>Limitation:</strong> Proximity is a screening proxy only. It does <strong>not</strong> verify underground pipe capacity, conduit slopes (86.2% unrecorded), flow direction, inlet grate clogging, or bayou backwater submergence.
-              </div>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--emerald-accent); border-color: rgba(16, 185, 129, 0.3);">Pilot Distribution</span>
-                <h4>Pilot Area Susceptibility Tier Distribution</h4>
-              </div>
-              <div class="susc-tier-row" style="margin-top: 6px;">
-                <span class="susc-chip chip-low">Low: 69.7%</span>
-                <span class="susc-chip chip-mod">Moderate: 23.5%</span>
-                <span class="susc-chip chip-elev">Elevated: 5.8%</span>
-                <span class="susc-chip chip-high">High: 1.0%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tab 5: M2 Rainfall Ingestion & Governance -->
-        <div class="tab-panel" id="tab-m2-rainfall">
-          <div class="quality-intro-callout" style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.08);">
-            <strong style="color: var(--hydro-cyan);">Milestone 2 Rainfall Pipeline & Verification Architecture:</strong>
-            Ingests, cleans, and validates precipitation records from Harris County Flood Warning System (HCFWS) gauges.
-            Maintains strict provenance tracking across <strong>VERIFIED</strong>, <strong>UNVERIFIED</strong>, <strong>UNAVAILABLE</strong>, and <strong>INVALID</strong> datasets.
-          </div>
-
-          <div class="lineage-cards-grid">
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge">Quality Classification</span>
-                <h4>Four-Tier Data Status Framework</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>VERIFIED:</strong> Ground-truth sensor calibration with radar cross-validation. (0 current datasets).</li>
-                <li><strong>UNVERIFIED:</strong> Raw external gauge exports (e.g. standard HCFWS .xls downloads) that parsed cleanly. Visual reference only.</li>
-                <li><strong>UNAVAILABLE:</strong> Directory empty (`C:\AquaPredict_tests\rainfall`). Zero synthetic rain fabricated.</li>
-                <li><strong>INVALID:</strong> Schema failures, negative readings, or unphysical single-interval bursts (> 15 in).</li>
-              </ul>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge">Target Station</span>
-                <h4>HCFWS Station 1600 (Buffalo Bayou @ Milam St)</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Coordinates:</strong> 29.7642° N, -95.3653° W (Northeast pilot boundary edge)</li>
-                <li><strong>Sensor Type:</strong> Tipping Bucket Precipitation Gauge</li>
-                <li><strong>Resolution:</strong> Sub-hourly (15-minute intervals)</li>
-                <li><strong>Native Units:</strong> Inches (converted to mm at 25.4 mm/in)</li>
-                <li><strong>Time Zone:</strong> US/Central (CDT/CST)</li>
-              </ul>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge">Cleaning & Guardrails</span>
-                <h4>Artifact Removal & Zero Fabrication</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Artifact Cleaning:</strong> Strips gauge annotations (`"`, `″`, `?`, whitespace).</li>
-                <li><strong>Duplicate Timestamps:</strong> Explicitly counted and filtered to prevent double-counting totals.</li>
-                <li><strong>Missing Data:</strong> Retained as explicit missing values (`null`); never filled with synthetic curves.</li>
-                <li><strong>Model Guardrail:</strong> Unverified rainfall is strictly excluded from hydraulic simulation inputs.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tab 6: M3 Historical Flood Validation Readiness -->
-        <div class="tab-panel" id="tab-m3-validation">
-          <div class="quality-intro-callout" style="border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.08);">
-            <strong style="color: #f87171;">Milestone 3 Decision: VALIDATION DATA UNAVAILABLE</strong><br>
-            Independent empirical street-waterlogging observations are unavailable for the 0.97 km² Downtown Houston pilot area.
-            Under project scientific integrity rules, <strong>zero synthetic flood events or fabricated performance metrics (ROC/AUC, F1)</strong> have been generated.
-          </div>
-
-          <div class="lineage-cards-grid">
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge badge-warning">Physical Mismatch</span>
-                <h4>Fluvial (Bayou) vs. Pluvial (Street) Regimes</h4>
-              </div>
-              <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.45;">
-                Regional high-water marks (USGS STN, HCFWS Station 1600) record <strong>riverine channel crests</strong> along Buffalo Bayou (~11.8m NAVD88 during Harvey).
-                M1 evaluates <strong>overland pluvial ponding</strong> on Downtown street blocks. Conflating riverine stages with street curb ponding is scientifically invalid.
-              </p>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge badge-warning">Model Disqualification</span>
-                <h4>Regulatory Models vs. Historical Ground Truth</h4>
-              </div>
-              <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.45;">
-                FEMA NFHL / FIRM 100-year and 500-year zones (Zone AE, Zone X) are steady-state 1D/2D hydraulic model simulations.
-                Validating an exploratory model against another model violates empirical validation standards.
-              </p>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge badge-warning">Severe Spatial Bias</span>
-                <h4>City of Houston 311 Geocoding Clustering</h4>
-              </div>
-              <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.45;">
-                Citizen 311 calls reflect human reporting behavior without measured depth or duration. Furthermore, unlocated calls default to <strong>Houston City Hall (901 Bagby St)</strong>, right inside our pilot boundary, creating severe geocoding artifacts.
-              </p>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--emerald-accent); border-color: rgba(16, 185, 129, 0.3);">Integrity Verified</span>
-                <h4>M1 Indicator Weights Intact (100% Unaltered)</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Terrain Depressions:</strong> 35% (Max sink: 6.15 m)</li>
-                <li><strong>Topographic Position Index:</strong> 25% (30m kernel)</li>
-                <li><strong>Slope Flatness:</strong> 20% (< 1.5° = 46.0% area)</li>
-                <li><strong>Storm Inlet Proximity:</strong> 20% (265 inlets, mean 54.7m)</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <!-- Tab: Rescue Priority Predictor -->
-        <div class="tab-panel" id="tab-rescue-priority">
-          <div class="quality-intro-callout" style="border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.08); margin-bottom: 20px;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap;">
-              <div>
-                <strong style="color: #ef4444; font-size: 0.95rem;">Rescue Priority Predictor: Facility & Community Risk Screening</strong>
-                <p style="margin: 4px 0 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45;">
-                  Evaluates real City of Houston GIS locations (Hospitals, Residential Areas, Societies, Villages, Communities) against modeled M5 flood depth and M7 network accessibility.
-                  Categorizes critical hazards into <strong>Road Failure Risk</strong> and <strong>Community Isolation Risk</strong> to prioritize emergency response.
-                </p>
-              </div>
-              <div style="text-align: right; min-width: 170px;">
-                <span class="badge-tier" style="font-size: 0.72rem; padding: 4px 8px; background: rgba(239, 68, 68, 0.12); color: #ef4444;">Pilot Area: 0.97 km²</span>
-                <div style="font-size: 0.72rem; color: #64748b; margin-top: 4px; font-weight: 600;">Data: City of Houston GIS</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="lineage-cards-grid" style="margin-bottom: 20px;">
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">Risk Taxonomy</span>
-                <h4>Disruption & Isolation Criteria</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Road Failure Risk:</strong> At least one connecting or access road segment exceeds the modeled vehicle impassability threshold (&ge; 0.30m water depth). Detours are required.</li>
-                <li><strong>Community Isolation Risk:</strong> All viable access routes or connecting roads become impassable, cutting off the location from the rest of the municipal street network.</li>
-                <li><strong>No Critical Risk:</strong> Connecting access roads maintain modeled water depths below cautionary/impassable limits under the scenario.</li>
-              </ul>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge" style="background: rgba(59, 130, 246, 0.15); color: #2563eb;">Urgency Ranking</span>
-                <h4>Rescue Priority Hierarchy</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Priority 1 (Highest Urgency):</strong> Critical medical facilities and receiving hospitals (CHRISTUS St. Joseph, Good Neighbor Healthcare Clinic) with road access failure.</li>
-                <li><strong>Priority 2:</strong> Residential areas, villages, or communities suffering complete Community Isolation Risk with no alternative exits.</li>
-                <li><strong>Priority 3+:</strong> Neighborhoods and societies experiencing Road Failure Risk with alternative detours available, sorted by modeled depth severity.</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="quality-intro-callout" style="border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.08);">
-            <strong style="color: var(--emerald-accent);">Verified Real Geographic Locations:</strong><br>
-            All 13 locations are verified features from City of Houston Enterprise GIS (health & public safety, subdivisions, civic clubs, parks).
-            No fictional or synthetic facility names are used.
-          </div>
-        </div>
-
-        <!-- Tab 8: M5 Flood Detection -->
-        <div class="tab-panel" id="tab-m5-simulation">
-          <div class="quality-intro-callout">
-            <strong style="color: var(--sky-accent);">Milestone 5 (M5) Flood Detection Engine:</strong>
-            Deterministic, testable scenario simulation generating time-indexed flood depth frames across 5 rainfall presets (10, 25, 50, 75, 100 mm) over a 3-hour horizon (36 intervals of 5 minutes, storm peak at minute 60).
-          </div>
-
-          <div class="lineage-cards-grid">
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge">Runoff Formulation</span>
-                <h4>NRCS Curve Number Runoff</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Method:</strong> NRCS Curve Number method (CN = 88.0 for Downtown Houston commercial core).</li>
-                <li><strong>Potential Retention:</strong> S = (25400 / CN) - 254 = 34.64 mm.</li>
-                <li><strong>Initial Abstraction:</strong> Ia = 0.2 × S = 6.93 mm.</li>
-                <li><strong>Cumulative Runoff:</strong> Q = (P - Ia)² / (P - Ia + S) for P &gt; Ia; else 0.</li>
-              </ul>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge">Depression Routing</span>
-                <h4>Morphological Sink Filling & Storage</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Depression Capacity:</strong> 66,306 m³ across 2,287 sink cells from NOAA 1m DEM.</li>
-                <li><strong>Depth Classification:</strong> 5 classes: Dry (0m), Shallow (≤0.05m), Moderate (0.05–0.20m), Deep (0.20–0.50m), Very Deep (&gt;0.50m).</li>
-                <li><strong>Flooded Area:</strong> Count of cells with depth ≥ 0.05 m × 97.0 m² cell area.</li>
-                <li><strong>Drawdown Rate:</strong> 5% per 5-min interval routed towards Buffalo Bayou outfalls.</li>
-              </ul>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge">Mass Balance</span>
-                <h4>Volume Accounting & Residuals</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Conservation Equation:</strong> V_precip = V_infil + V_storage + V_outfall.</li>
-                <li><strong>Residual Tolerance:</strong> Relative residual &lt; 1.0% across all 37 timesteps.</li>
-                <li><strong>Achieved Residual:</strong> &lt; 10⁻¹³% across all presets.</li>
-                <li><strong>Unit Consistency:</strong> All domain volumes evaluated in m³.</li>
-              </ul>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge badge-warning">Limitations & M6 Scope</span>
-                <h4>Scientific Guardrails</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Subsurface Drainage:</strong> Conduit network hydraulic modeling is NOT active in M5; drainage counts are displayed as Unavailable (M6 Dependent).</li>
-                <li><strong>Hotspot Clustering:</strong> Automated spatial cluster extraction and empirical validation are pending M6.</li>
-                <li><strong>Not A Certified Flood Forecast:</strong> Exploratory visualization only.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tab 9: M6 Drainage Network, Connectivity & Hydraulic Capacity -->
-        <div class="tab-panel" id="tab-m6-drainage">
-          <div class="quality-intro-callout" style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.08);">
-            <strong style="color: var(--hydro-cyan);">Milestone 6 (M6) Drainage Network, Connectivity & Hydraulic Capacity:</strong>
-            Directed graph topology and provisional Manning's gravity capacity across 624 conduits, 265 inlets, 283 manholes, and 4 Bayou outfalls.
-            Strictly distinguishes <strong>source-verified topology</strong> from <strong>geometry-snapped connections</strong> (tolerance &le; 1.0 m) and <strong>unconnected boundary trunks</strong>.
-          </div>
-
-          <div class="lineage-cards-grid">
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge">Network Topology</span>
-                <h4>Connectivity Classification & Outfall Tracing</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Source-Confirmed Links:</strong> 391 conduits (62.7%) have municipal UPSTMNODE and DOWNSTMNODE references.</li>
-                <li><strong>Inferred Snapped Links:</strong> 88 conduits (14.1%) snapped within &le; 1.0 m tolerance (74 single-ended, 14 dual-ended).</li>
-                <li><strong>Boundary Dangling Conduits:</strong> 145 conduits (23.2%) cross the 0.97 km² pilot perimeter without terminal junctions.</li>
-                <li><strong>Bayou Outfall Reachability:</strong> Exactly 64 conduits and 55 nodes trace directly to the 4 Buffalo Bayou outfalls.</li>
-              </ul>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge">Hydraulic Capacity</span>
-                <h4>Manning's Full Pipe Gravity Conveyance</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Formula:</strong> Q = (1.486 / n) &times; A &times; R_h^(2/3) &times; S_0^(1/2) (US Customary cfs, converted to m³/s).</li>
-                <li><strong>Roughness Coefficients:</strong> Concrete (RCP/CP/MRC) n = 0.013; Corrugated Metal (CMP) n = 0.024; Brick (BR) n = 0.015; PVC n = 0.010.</li>
-                <li><strong>Calculable Conduits:</strong> 264 / 624 conduits (42.3%) meet physical slope and dimension criteria.</li>
-                <li><strong>Capacity Unavailable:</strong> 360 / 624 conduits (57.7%) due to negative/adverse slope (-181), zero/missing slope (-24), missing/zero invert (-58), or zero diameter (-97).</li>
-              </ul>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--emerald-accent); border-color: rgba(16, 185, 129, 0.3);">Water Accounting</span>
-                <h4>Zero Double-Counting of Drained Volumes</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Global Ledger:</strong> M5 aggregate 5% drawdown remains the sole domain volume ledger (V_precip = V_infil + V_storage + V_outfall).</li>
-                <li><strong>Asset Screening:</strong> M6 conduit flow loading evaluates pipe conveyance utilization (Q_inflow / Q_cap) as an asset screening metric.</li>
-                <li><strong>Preservation:</strong> Zero drainage volume is added or subtracted from M5 mass balance residuals (&lt; 10⁻¹³%).</li>
-              </ul>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge badge-warning">Conceptual Screening</span>
-                <h4>Hotspot Coupling & Scientific Guardrails</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Hotspots:</strong> 4 conceptual model hotspots ranked by coupling terrain sink volume with conduit capacity deficits.</li>
-                <li><strong>Not Flood Emergencies:</strong> Hotspots represent conceptual screening zones, NOT verified historic street flood reports.</li>
-                <li><strong>No Hydrodynamics:</strong> Dynamic 2D overland shallow-water routing and pipe pressurized backwater are not simulated.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tab 10: M7 Safest Route Planner & Multi-Criteria Cost Scoring -->
-        <div class="tab-panel" id="tab-m7-routing">
-          <div class="quality-intro-callout" style="border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.08);">
-            <strong style="color: #059669;">Milestone 7 (M7) Safest Route Planner:</strong>
-            Interactive prototype comparing alternative paths using M1 terrain susceptibility (EWSI), M5 modelled ponding depth, M6 stormwater drainage loading screening, and data uncertainty penalties.
-            <div style="margin-top: 4px; font-size: 0.78rem; color: #b45309;">
-              <strong>SCIENTIFIC GUARDRAIL:</strong> This is a research and demonstration prototype, NOT a certified navigation service, flood forecast, or emergency evacuation routing system. Route recommendations are scenario-based estimates and are NOT guaranteed safe routes or certified evacuation guidance.
-            </div>
-          </div>
-
-          <div class="lineage-cards-grid">
-            <!-- Card 1: Data Audit & Topology -->
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.3);">Network Lineage</span>
-                <h4>City of Houston Street Centerlines Audit</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Source Layer:</strong> City of Houston Enterprise GIS (<code>DIR/LandbaseandRoads_gx/MapServer/9</code>).</li>
-                <li><strong>Network Size:</strong> 200 street segments covering 28.56 km across the 0.97 km² pilot sector.</li>
-                <li><strong>Topology:</strong> 160 intersection nodes (3m snap tolerance), forming a <strong>single 100% connected component</strong>.</li>
-                <li><strong>Directionality:</strong> 100 From-To (<code>FT</code>), 69 To-From (<code>TF</code>), 31 Bidirectional (<code>BI</code>).</li>
-                <li><strong>Preservation Rule:</strong> Subsurface stormwater mains (624 conduits) are strictly excluded from surface travel routes.</li>
-              </ul>
-            </div>
-
-            <!-- Card 2: Cost Function Formulation -->
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border-color: rgba(56, 189, 248, 0.3);">Mathematical Scoring</span>
-                <h4>Non-Negative Edge-Cost Function</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Master Formula:</strong> <code>Cost(e) = C_base &times; (1 + w_susc &times; EWSI) + P_depth + P_drain + P_uncert</code></li>
-                <li><strong>Non-Negative Guarantee:</strong> <code>Cost(e) &ge; C_base &gt; 0</code> for all edges under all scenarios.</li>
-                <li><strong>Base Cost (C_base):</strong> Actual segment length in survey metres (derived from <code>Shape.STLength</code>).</li>
-                <li><strong>Depth Penalty (P_depth):</strong> Piecewise non-linear penalty for modelled flood depth (&le;0.05m: shallow, 0.05–0.20m: curb, 0.20–0.50m: deep, &gt;0.50m: severe).</li>
-                <li><strong>Drainage Penalty (P_drain):</strong> Screening penalty for proximity (&lt;25m) to surcharged M6 storm conduits.</li>
-                <li><strong>Uncertainty Penalty (P_uncert):</strong> Fixed penalty for missing hydraulic data or boundary crossings.</li>
-              </ul>
-            </div>
-
-            <!-- Card 3: Route Alternatives Comparison -->
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3);">Route Comparison</span>
-                <h4>Evaluated Alternative Profiles</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>1. Lowest Exposure (Emerald):</strong> Optimizes flood-avoidance routing, strictly avoiding impassable water and minimizing depth exposure.</li>
-                <li><strong>2. Shortest Distance (Blue):</strong> Minimizes pure geometric distance (<code>C_base</code>), reporting baseline flood exposure.</li>
-                <li><strong>3. Drainage-Informed (Cyan):</strong> Integrates surface depth, terrain EWSI, and subsurface storm conduit loading.</li>
-                <li><strong>Speed Assumptions:</strong> Pedestrian walking: 1.34 m/s (3.0 mph AASHTO default); Vehicle: municipal speed limit (30 mph default).</li>
-              </ul>
-            </div>
-
-            <!-- Card 4: Scientific Guardrails -->
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge badge-warning">Scientific Guardrails</span>
-                <h4>Limitations & Governance Rules</h4>
-              </div>
-              <ul class="lineage-list">
-                <li><strong>Screening Metric Only:</strong> A lower score is a relative prototype metric, NOT proof that a route is safe or passable in the real world.</li>
-                <li><strong>No Road Closure Orders:</strong> M6 conduit capacity flags indicate underground hydraulic stress, not confirmed street closure.</li>
-                <li><strong>Uncalibrated M5 Depths:</strong> Modelled ponding depths reflect a simplified 5% aggregate drawdown model and are uncalibrated.</li>
-                <li><strong>Missing Data Governance:</strong> Missing hydraulic parameters are penalized with positive uncertainty costs; missing data is NEVER treated as safe.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <span class="modal-footer-note">AquaPredict M0/M1/M2/M3/M4 Engineering Prototype · Houston Pilot</span>
-        <button class="btn-modal-dismiss" id="dismissModalBtn">Close Panel</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal: Rainfall Observation & Ingestion Visualizer (M2) -->
-  <div class="modal-backdrop" id="rainfallModalBackdrop" style="display: none;">
-    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="rainfallModalTitle" style="max-width: 920px;">
-      <div class="modal-header">
-        <div class="modal-title-group">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <h2 id="rainfallModalTitle">Precipitation & Rainfall Gauge Pipeline</h2>
-            <span class="badge-status-pill pill-unavailable" id="rainfallModalBadge">UNAVAILABLE</span>
-          </div>
-          <p class="modal-subtitle">Harris County Flood Warning System (HCFWS) Ingestion & Quality Validation</p>
-        </div>
-        <button class="modal-close-btn" id="closeRainfallModalBtn" aria-label="Close rainfall modal">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Source Switcher Toolbar -->
-      <div class="rainfall-source-toolbar">
-        <div class="source-tabs-group">
-          <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">Dataset Source:</span>
-          <button class="source-tab-btn active" id="btnSourceLive" data-source="live">
-            <span>Raw Directory (Live Tests)</span>
-          </button>
-          <button class="source-tab-btn" id="btnSourceSample" data-source="sample">
-            <span>Exploratory Fixture (Station 1600)</span>
-          </button>
-        </div>
-
-        <div class="source-status-info">
-          <span id="sourceInfoLabel">Raw Directory: C:\AquaPredict_tests\rainfall\ (0 files)</span>
-        </div>
-      </div>
-
-      <div class="modal-body" id="rainfallModalBody" style="padding: 20px 24px; overflow-y: auto;">
-        <!-- Injected dynamically via app.js (renders either Empty State or Active Hyetograph) -->
-      </div>
-
-      <div class="modal-footer">
-        <span class="modal-footer-note">AquaPredict M2 · Rainfall Data Ingestion & Quality Architecture</span>
-        <button class="btn-modal-dismiss" id="dismissRainfallModalBtn">Close Panel</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal: M3 Historical Flood Validation Readiness -->
-  <div class="modal-backdrop" id="validationModalBackdrop" style="display: none;">
-    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="validationModalTitle" style="max-width: 980px;">
-      <div class="modal-header">
-        <div class="modal-title-group">
-          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-            <h2 id="validationModalTitle">Historical Flood Validation Readiness</h2>
-            <span class="badge-status-pill pill-unavailable" id="validationModalBadge">VALIDATION DATA UNAVAILABLE</span>
-          </div>
-          <p class="modal-subtitle">Milestone 3 (M3) Independent Ground-Truth Evaluation & Candidate Source Inventory Audit</p>
-        </div>
-        <button class="modal-close-btn" id="closeValidationModalBtn" aria-label="Close validation modal">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-      </div>
-
-      <div class="modal-body" style="padding: 20px 24px; overflow-y: auto; max-height: calc(85vh - 130px);">
-        <!-- Top Status Banner -->
-        <div class="quality-intro-callout" style="border-color: rgba(216, 91, 104, 0.4); background: rgba(216, 91, 104, 0.08); margin-bottom: 20px;">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap;">
-            <div>
-              <strong style="color: #be123c; font-size: 0.95rem;">DECISION: VALIDATION DATA UNAVAILABLE</strong>
-              <p style="margin: 4px 0 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45;">
-                Suitable empirical observations of urban street waterlogging do not exist for the 0.97 km² Downtown Houston pilot area.
-                In strict adherence to scientific integrity rules, <strong>no synthetic flood events or fabricated benchmark scores (ROC/AUC, F1)</strong> have been generated.
-              </p>
-            </div>
-            <div style="text-align: right; min-width: 170px;">
-              <span class="badge-tier tier-pending" style="font-size: 0.72rem; padding: 4px 8px;">Scope: 0.97 km² Pilot Grid</span>
-              <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">Baseline Metrics: OMITTED</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section: Candidate Source Evaluation Table -->
-        <div class="validation-section" style="margin-bottom: 24px;">
-          <h4 style="font-size: 0.9rem; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-              <polyline points="10 9 9 9 8 9"></polyline>
-            </svg>
-            Authoritative Candidate Source Evaluation Inventory
-          </h4>
-
-          <div class="table-responsive-wrapper" style="overflow-x: auto; border: 1px solid var(--border-subtle); border-radius: var(--radius-md);">
-            <table class="inventory-table" style="width: 100%; border-collapse: collapse; font-size: 0.78rem; text-align: left;">
-              <thead>
-                <tr style="border-bottom: 1px solid var(--border-subtle);">
-                  <th style="padding: 10px 12px; color: var(--text-muted); font-weight: 600;">Dataset / Source</th>
-                  <th style="padding: 10px 12px; color: var(--text-muted); font-weight: 600;">Agency & Provenance</th>
-                  <th style="padding: 10px 12px; color: var(--text-muted); font-weight: 600;">Geographic Scope</th>
-                  <th style="padding: 10px 12px; color: var(--text-muted); font-weight: 600;">Evaluation Finding</th>
-                  <th style="padding: 10px 12px; color: var(--text-muted); font-weight: 600;">Disqualification Rationale</th>
-                </tr>
-              </thead>
-              <tbody id="candidateSourcesTableBody">
-                <!-- Dynamically populated or static fallback -->
-                <tr style="border-bottom: 1px solid var(--border-subtle);">
-                  <td style="padding: 10px 12px; font-weight: 500; color: var(--text-primary);">USGS STN High Water Marks</td>
-                  <td style="padding: 10px 12px; color: var(--text-secondary);">USGS Office of Water Information (OWI)</td>
-                  <td style="padding: 10px 12px; color: var(--text-secondary);">Buffalo Bayou bridge piers (Milam St)</td>
-                  <td style="padding: 10px 12px;"><span class="badge-status-pill pill-unavailable">DISQUALIFIED</span></td>
-                  <td style="padding: 10px 12px; color: var(--text-muted);">Riverine bayou crests (~11.8m Harvey); 0 street pluvial observations.</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border-subtle);">
-                  <td style="padding: 10px 12px; font-weight: 500; color: var(--text-primary);">City of Houston 311 Requests</td>
-                  <td style="padding: 10px 12px; color: var(--text-secondary);">City of Houston Public Works / HITS</td>
-                  <td style="padding: 10px 12px; color: var(--text-secondary);">Citywide citizen calls</td>
-                  <td style="padding: 10px 12px;"><span class="badge-status-pill pill-unavailable">DISQUALIFIED</span></td>
-                  <td style="padding: 10px 12px; color: var(--text-muted);">Perception logs; severe clustering artifact at City Hall (901 Bagby St).</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border-subtle);">
-                  <td style="padding: 10px 12px; font-weight: 500; color: var(--text-primary);">Houston TranStar High Water</td>
-                  <td style="padding: 10px 12px; color: var(--text-secondary);">TxDOT / City / County / METRO</td>
-                  <td style="padding: 10px 12px; color: var(--text-secondary);">Freeway underpasses (I-45, Memorial Dr)</td>
-                  <td style="padding: 10px 12px;"><span class="badge-status-pill pill-unavailable">DISQUALIFIED</span></td>
-                  <td style="padding: 10px 12px; color: var(--text-muted);">Coarse highway lane status only; 0 coverage of downtown surface streets.</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border-subtle);">
-                  <td style="padding: 10px 12px; font-weight: 500; color: var(--text-primary);">HCFWS Stream Stage (Stn 1600)</td>
-                  <td style="padding: 10px 12px; color: var(--text-secondary);">Harris County Flood Control District</td>
-                  <td style="padding: 10px 12px; color: var(--text-secondary);">Buffalo Bayou @ Milam St (channel point)</td>
-                  <td style="padding: 10px 12px;"><span class="badge-status-pill pill-unavailable">DISQUALIFIED</span></td>
-                  <td style="padding: 10px 12px; color: var(--text-muted);">Measures 500 sq mi stream channel stage; 0 street-level surface sensors.</td>
-                </tr>
-                <tr>
-                  <td style="padding: 10px 12px; font-weight: 500; color: var(--text-primary);">FEMA NFHL / Effective FIRMs</td>
-                  <td style="padding: 10px 12px; color: var(--text-secondary);">Federal Emergency Management Agency</td>
-                  <td style="padding: 10px 12px; color: var(--text-secondary);">Harris County Panel 48201C0670M</td>
-                  <td style="padding: 10px 12px;"><span class="badge-status-pill pill-unavailable">DISQUALIFIED</span></td>
-                  <td style="padding: 10px 12px; color: var(--text-muted);">Regulatory 1D/2D hydraulic models (HEC-RAS); not historical observations.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Section: Scientific Distinctions -->
-        <div class="validation-section" style="margin-bottom: 24px;">
-          <h4 style="font-size: 0.9rem; font-weight: 600; color: var(--text-primary); margin-bottom: 12px;">
-            Scientific Distinctions & Physical Regimes
-          </h4>
-          <div class="lineage-cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge">Regime Mismatch</span>
-                <h4>Pluvial vs. Fluvial Flooding</h4>
-              </div>
-              <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.45;">
-                M1 evaluates <strong>pluvial overland ponding</strong> governed by micro-depressions and distance to municipal storm inlets during heavy cloudbursts.
-                Available high-water marks (USGS) document <strong>fluvial riverine crests</strong> in the Buffalo Bayou channel. Conflating the two invalidates scientific validation.
-              </p>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge">Integrity Rule</span>
-                <h4>Modeled Zones vs. Observed Reality</h4>
-              </div>
-              <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.45;">
-                FEMA 100-year and 500-year flood hazard layers are derived from steady-state numerical models.
-                Validating an exploratory screening index against a regulatory simulation is model-to-model cross-comparison, not empirical ground-truth validation.
-              </p>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge">Location Artifact</span>
-                <h4>311 Geocoding Clustering at City Hall</h4>
-              </div>
-              <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.45;">
-                In City of Houston 311 logs, calls lacking specific street addresses default to <strong>Houston City Hall (901 Bagby St)</strong> inside the pilot area.
-                Evaluating against 311 records would measure municipal phone routing rather than physical hydrology.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section: Missing Evidence & Next Steps -->
-        <div class="validation-section">
-          <h4 style="font-size: 0.9rem; font-weight: 600; color: var(--text-primary); margin-bottom: 12px;">
-            Required Missing Evidence for Future Empirical Validation
-          </h4>
-          <div class="lineage-card">
-            <ul style="margin: 0; padding-left: 18px; font-size: 0.78rem; color: var(--text-secondary); line-height: 1.6;">
-              <li><strong>Calibrated In-Situ Water Depth Sensors:</strong> High-frequency IoT ultrasonic or pressure transducer sensors in street gutters or curb inlets logging water depths (cm/in).</li>
-              <li><strong>High-Resolution Spatial Inundation Polygons:</strong> Aerial orthophotography or satellite optical/SAR imagery captured during peak storm cloudbursts over the 0.97 km² grid.</li>
-              <li><strong>Event-Synchronized Time-Series:</strong> Timestamped waterlogging onset and recession logs aligned with 15-minute gauge records (HCFWS Station 1600).</li>
-              <li><strong>Operational State of Drainage Inlets:</strong> Empirical field records of inlet grate clogging and bayou backwater submergence.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <span class="modal-footer-note">AquaPredict M3 · Validation Readiness Assessment · Houston Pilot</span>
-        <button class="btn-modal-dismiss" id="dismissValidationModalBtn">Close Panel</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal: M6 Drainage Network, Connectivity & Hydraulic Capacity -->
-  <div class="modal-backdrop" id="drainageModalBackdrop" style="display: none;">
-    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="drainageModalTitle" style="max-width: 980px;">
-      <div class="modal-header">
-        <div class="modal-title-group">
-          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-            <h2 id="drainageModalTitle">Drainage Network, Connectivity & Hydraulic Capacity</h2>
-            <span class="badge-status-pill pill-ready" id="drainageModalBadge" style="background:rgba(56,189,248,0.2); color:#38bdf8; border:1px solid rgba(56,189,248,0.4);">M6 OPERATIONAL</span>
-          </div>
-          <p class="modal-subtitle">Milestone 6 (M6) Directed Graph Topology, Manning's Conveyance, Dynamic Loading & Conceptual Hotspots</p>
-        </div>
-        <button class="modal-close-btn" id="closeDrainageModalBtn" aria-label="Close drainage modal">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Drainage Modal Tabs -->
-      <div class="modal-tabs" id="drainageModalTabs">
-        <button class="tab-btn active" data-draintab="draintab-overview">Topology & Tracing</button>
-        <button class="tab-btn" data-draintab="draintab-capacity">Manning's Capacity</button>
-        <button class="tab-btn" data-draintab="draintab-hotspots">Conceptual Hotspots</button>
-        <button class="tab-btn" data-draintab="draintab-guardrails">Water Accounting & Guardrails</button>
-      </div>
-
-      <div class="modal-body" style="padding: 20px 24px; overflow-y: auto; max-height: calc(85vh - 130px);">
-        <!-- Tab 1: Overview & Connectivity -->
-        <div class="drain-tab-panel active" id="draintab-overview">
-          <div class="quality-intro-callout" style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.08); margin-bottom: 16px;">
-            <strong style="color: var(--hydro-cyan);">Municipal Storm Drainage Graph Architecture:</strong>
-            Built from 1,176 verified municipal GIS assets across the 0.97 km² pilot area.
-            Includes 552 unique hydraulic nodes (265 inlets, 283 manholes, 4 outfalls) and 624 conduits.
-            Source topological connections are strictly separated from geometric snapping inferences (&le; 1.0 m tolerance).
-          </div>
-
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-bottom: 20px;">
-            <div class="comp-card" style="padding: 12px;">
-              <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Source Verified</span>
-              <div style="font-size: 1.4rem; font-weight: 700; color: #38bdf8; font-family: var(--font-mono);">391</div>
-              <span style="font-size: 0.72rem; color: var(--text-secondary);">62.7% confirmed node keys</span>
-            </div>
-            <div class="comp-card" style="padding: 12px;">
-              <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Snapped Inferred</span>
-              <div style="font-size: 1.4rem; font-weight: 700; color: #fbbf24; font-family: var(--font-mono);">88</div>
-              <span style="font-size: 0.72rem; color: var(--text-secondary);">14.1% snapped (&le;1.0m)</span>
-            </div>
-            <div class="comp-card" style="padding: 12px;">
-              <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Boundary Dangling</span>
-              <div style="font-size: 1.4rem; font-weight: 700; color: #a855f7; font-family: var(--font-mono);">145</div>
-              <span style="font-size: 0.72rem; color: var(--text-secondary);">23.2% pilot perimeter trunks</span>
-            </div>
-            <div class="comp-card" style="padding: 12px;">
-              <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Bayou Connected</span>
-              <div style="font-size: 1.4rem; font-weight: 700; color: #34d399; font-family: var(--font-mono);">64</div>
-              <span style="font-size: 0.72rem; color: var(--text-secondary);">Reach 4 Bayou outfalls</span>
-            </div>
-          </div>
-
-          <div class="validation-section" style="margin-bottom: 16px;">
-            <h4 style="font-size: 0.88rem; font-weight: 600; color: var(--text-primary); margin-bottom: 8px;">
-              Interactive Network Tracing Controls
-            </h4>
-            <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 10px;">
-              Click any gravity main, inlet, or manhole on the map to open the <strong>Asset Inspector</strong>.
-              Use <strong>▲ Trace Upstream</strong> to trace all contributing conduits and street inlets, or <strong>▼ Trace Downstream</strong> to follow flow conveyance toward Buffalo Bayou.
-              Traced paths are visually highlighted on the map with distance and asset counts.
-            </p>
-          </div>
-        </div>
-
-        <!-- Tab 2: Hydraulic Capacity -->
-        <div class="drain-tab-panel" id="draintab-capacity" style="display: none;">
-          <div class="quality-intro-callout" style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.08); margin-bottom: 16px;">
-            <strong style="color: var(--hydro-cyan);">Manning's Gravity Pipe Capacity Formula:</strong><br>
-            <code>Q (cfs) = (1.486 / n) &times; A &times; R_h^(2/3) &times; S_0^(1/2)</code><br>
-            Calculated under circular full-pipe gravity flow conditions. Converted to m³/s (1 cfs = 0.0283168 m³/s).
-          </div>
-
-          <div class="table-responsive-wrapper" style="margin-bottom: 16px;">
-            <table class="inventory-table" style="font-size: 0.78rem;">
-              <thead>
-                <tr>
-                  <th>Primary Quality Category</th>
-                  <th>Conduit Count</th>
-                  <th>Percentage</th>
-                  <th>Engineering Condition / Physical Explanation</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><span class="badge-status-pill pill-ready" style="background:rgba(52,211,153,0.15); color:#34d399;">CALCULATED (Observed Material)</span></td>
-                  <td style="font-weight:600; font-family:var(--font-mono);">186</td>
-                  <td>29.8%</td>
-                  <td>Valid diameter (WIDTH &gt; 0), positive slope (S0 &gt; 0), and confirmed municipal material code (RCP, CMP, PVC, BR).</td>
-                </tr>
-                <tr>
-                  <td><span class="badge-status-pill pill-ready" style="background:rgba(56,189,248,0.15); color:#38bdf8;">CALCULATED (Assumed Roughness)</span></td>
-                  <td style="font-weight:600; font-family:var(--font-mono);">78</td>
-                  <td>12.5%</td>
-                  <td>Valid diameter (WIDTH &gt; 0), positive slope (S0 &gt; 0), unrecorded material defaulting to illustrative n = 0.013.</td>
-                </tr>
-                <tr>
-                  <td><span class="badge-status-pill pill-unavailable">ADVERSE OR ZERO SLOPE</span></td>
-                  <td style="font-weight:600; font-family:var(--font-mono);">181</td>
-                  <td>29.0%</td>
-                  <td>Non-positive slope in digitized record (157 adverse reverse grade, 24 flat zero slope). Gravity flow equation invalid.</td>
-                </tr>
-                <tr>
-                  <td><span class="badge-status-pill pill-unavailable">MISSING SLOPE & INVERTS</span></td>
-                  <td style="font-weight:600; font-family:var(--font-mono);">75</td>
-                  <td>12.0%</td>
-                  <td>Valid diameter, but unrecorded slope and incomplete inverts (includes 58 placeholder zero DOWNELEV datums).</td>
-                </tr>
-                <tr>
-                  <td><span class="badge-status-pill pill-unavailable">MISSING OR ZERO DIAMETER</span></td>
-                  <td style="font-weight:600; font-family:var(--font-mono);">104</td>
-                  <td>16.7%</td>
-                  <td>Missing or zero diameter (97 recorded as 0.0 in, 7 null/unrecorded). Cross-sectional area cannot be calculated.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr style="border-top: 1px solid var(--border-color); font-weight:700;">
-                  <td>TOTAL PARTITION</td>
-                  <td style="font-family:var(--font-mono);">624</td>
-                  <td>100.0%</td>
-                  <td>Mutually exclusive primary classification of all 624 conduits (264 Calculable / 360 Unavailable).</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-
-          <div style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.45;">
-            <strong>Roughness Assumptions:</strong> Reinforced Concrete Pipe (RCP) n = 0.013, Corrugated Metal (CMP) n = 0.024, Brick (BR) n = 0.015, PVC n = 0.010. Default for unrecorded material: n = 0.013 (RCP standard).
-          </div>
-        </div>
-
-        <!-- Tab 3: Conceptual Hotspots -->
-        <div class="drain-tab-panel" id="draintab-hotspots" style="display: none;">
-          <div class="quality-intro-callout" style="border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.08); margin-bottom: 16px;">
-            <strong style="color: var(--amber-warning);">Conceptual Model Drainage Hotspots (Coupled Screening):</strong><br>
-            Hotspots are derived by intersecting M1 morphological terrain depression bowls with local conduit hydraulic capacity deficits.
-            <strong>These are conceptual model screening hotspots, NOT verified real-world flood observations or emergency dispatch logs.</strong>
-          </div>
-
-          <div class="table-responsive-wrapper" style="margin-bottom: 16px;">
-            <table class="inventory-table" style="font-size: 0.78rem;">
-              <thead>
-                <tr>
-                  <th>Rank & Location</th>
-                  <th>Depression Volume</th>
-                  <th>Peak Model Depth</th>
-                  <th>Local Conduits</th>
-                  <th>Coupled Hydraulic Rationale</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong style="color:#be123c;">#1 Milam & Commerce Outfall Swale</strong></td>
-                  <td style="font-family:var(--font-mono);">4,120 m³</td>
-                  <td style="font-family:var(--font-mono); color:#be123c; font-weight:700;">0.94 m</td>
-                  <td>18 conduits</td>
-                  <td>Bayou outfall terminal swale; receives gravity runoff from upper downtown terrace.</td>
-                </tr>
-                <tr>
-                  <td><strong style="color:#c2410c;">#2 Bagby & Walker Depression Bowl</strong></td>
-                  <td style="font-family:var(--font-mono);">3,450 m³</td>
-                  <td style="font-family:var(--font-mono); color:#c2410c; font-weight:700;">0.72 m</td>
-                  <td>14 conduits</td>
-                  <td>Enclosed street depression bowl; 7 nearby conduits have unrecorded slopes or zero inverts.</td>
-                </tr>
-                <tr>
-                  <td><strong style="color:#b45309;">#3 Franklin & Travis Channel Approach</strong></td>
-                  <td style="font-family:var(--font-mono);">2,890 m³</td>
-                  <td style="font-family:var(--font-mono); color:#b45309; font-weight:700;">0.65 m</td>
-                  <td>12 conduits</td>
-                  <td>Mid-gradient riparian transition; conduit capacities throttled by adverse reverse grades.</td>
-                </tr>
-                <tr>
-                  <td><strong style="color:#0369a1;">#4 Louisiana & Capitol Roadway Low</strong></td>
-                  <td style="font-family:var(--font-mono);">2,150 m³</td>
-                  <td style="font-family:var(--font-mono); color:#0369a1; font-weight:700;">0.58 m</td>
-                  <td>9 conduits</td>
-                  <td>Localized roadway sag collecting street curb runoff from surrounding asphalt blocks.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Tab 4: Guardrails & Water Balance -->
-        <div class="drain-tab-panel" id="draintab-guardrails" style="display: none;">
-          <div class="lineage-cards-grid">
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--emerald-accent); border-color: rgba(16, 185, 129, 0.3);">Accounting Rule</span>
-                <h4>Zero Double-Counting of Drainage Volume</h4>
-              </div>
-              <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.45;">
-                M5 maintains a rigorous conservation ledger (<code>V_precip = V_infil + V_storage + V_outfall</code>) with mass-balance residuals &lt; 10⁻¹³%.
-                The 5% aggregate drawdown is preserved as the domain-wide water balance mechanism.
-                M6 conduit loading is an asset-level diagnostic ratio (<code>Q_inflow / Q_cap</code>) and does <strong>not</strong> deduct or duplicate drainage volume from the simulation raster.
-              </p>
-            </div>
-
-            <div class="lineage-card">
-              <div class="lineage-header">
-                <span class="lineage-badge badge-warning">Scientific Disclaimer</span>
-                <h4>No Hydrodynamic Calibration</h4>
-              </div>
-              <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.45;">
-                M6 does not provide 2D overland hydrodynamic routing (Saint-Venant shallow water equations), conduit pressurized pipe surcharge (Preissmann slot), or inlet grate clogging physics.
-                Calculated conduit capacities are provisional screening estimates based on municipal GIS records and standard Manning's equation.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <span class="modal-footer-note">AquaPredict M6 · Drainage Network & Hydraulic Capacity Architecture</span>
-        <button class="btn-modal-dismiss" id="dismissDrainageModalBtn">Close Panel</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Leaflet JavaScript Library -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  
-  <!-- Three.js 3D Graphics Library (Local Vendor with CDN Fallback) -->
-  <script src="js/vendor/three.min.js"></script>
-  <script src="js/vendor/OrbitControls.js"></script>
-  
-  <!-- 3D Terrain & Flood Viewer Module (M8) -->
-  <script src="js/viewer3d.js"></script>
-
-  <!-- Application Script -->
-  <script src="js/app.js"></script>
+  <!-- SaaS Engine Script -->
+  <script src="js/saas.js"></script>
 </body>
 </html>

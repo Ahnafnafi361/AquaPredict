@@ -170,23 +170,25 @@ def export_static(output_dir=DIST_STATIC_DIR):
         json.dump(manifest, f, indent=2)
     print(f"Written manifest to: data/static_export_manifest.json")
 
-    # 5. Process and copy index.html with static mode flag injected
-    src_index = os.path.join(PUBLIC_DIR, "index.html")
-    dst_index = os.path.join(output_dir, "index.html")
-    with open(src_index, "r", encoding="utf-8") as f:
-        html_content = f.read()
-
-    # Inject window.AQUAPREDICT_STATIC_MODE = true into <head>
+    # 5. Process and copy HTML files (index.html, app.html, pricing.html, auth.html) with static mode flag injected
     flag_script = """  <!-- Milestone M10: Precomputed Static Export Mode Flag -->
   <script>
     window.AQUAPREDICT_STATIC_MODE = true;
   </script>
 </head>"""
-    html_content = html_content.replace("</head>", flag_script, 1)
 
-    with open(dst_index, "w", encoding="utf-8") as f:
-        f.write(html_content)
-    print(f"Written modified index.html with static mode flag injected.")
+    for html_file in ["index.html", "app.html", "pricing.html", "auth.html"]:
+        src_path = os.path.join(PUBLIC_DIR, html_file)
+        dst_path = os.path.join(output_dir, html_file)
+        if os.path.exists(src_path):
+            with open(src_path, "r", encoding="utf-8") as f:
+                content = f.read()
+            if "</head>" in content and "window.AQUAPREDICT_STATIC_MODE" not in content:
+                content = content.replace("</head>", flag_script, 1)
+            with open(dst_path, "w", encoding="utf-8") as f:
+                f.write(content)
+            print(f"Copied {html_file} to static output.")
+
 
     # 6. Summary
     total_size = 0

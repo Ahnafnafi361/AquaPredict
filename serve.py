@@ -46,6 +46,17 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
 
     def do_GET(self):
         parsed = urllib.parse.urlparse(self.path)
+
+        # Clean routing for SaaS marketing site and existing GIS application
+        if parsed.path in ['/app', '/platform']:
+            self.path = '/app.html'
+        elif parsed.path in ['/pricing']:
+            self.path = '/pricing.html'
+        elif parsed.path in ['/auth', '/login', '/signup', '/signin']:
+            self.path = '/auth.html'
+        elif parsed.path in ['/home']:
+            self.path = '/index.html'
+
         # Health check endpoint
         if parsed.path == '/api/health':
             return self._send_json(200, {

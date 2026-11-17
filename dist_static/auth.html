@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In / Register · AquaPredict Flood Intelligence</title>
+  <meta name="description" content="Secure authentication portal for AquaPredict GIS and decision support platform.">
+  
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/saas.css">
+  <!-- Milestone M10: Precomputed Static Export Mode Flag -->
+  <script>
+    window.AQUAPREDICT_STATIC_MODE = true;
+  </script>
+</head>
+<body class="auth-page">
+
+  <div class="auth-card">
+    <!-- Brand Header -->
+    <div class="auth-header">
+      <a href="index.html">
+        <img src="assets/logo.png" alt="AquaPredict Logo" class="auth-brand-logo">
+      </a>
+      <h2 style="font-size:22px; margin-bottom:6px;" id="authCardTitle">Sign In to AquaPredict</h2>
+      <p style="font-size:13px; color:var(--text-muted);">Access Houston Pilot Decision Support & GIS Tools</p>
+    </div>
+
+    <!-- Auth Tabs -->
+    <div class="auth-tabs">
+      <button class="auth-tab-btn active" id="tabSignIn">Sign In</button>
+      <button class="auth-tab-btn" id="tabSignUp">Sign Up</button>
+      <button class="auth-tab-btn" id="tabForgot">Forgot</button>
+    </div>
+
+    <!-- Alert Banner -->
+    <div class="auth-alert" id="authAlert"></div>
+
+    <!-- 1. SIGN IN FORM -->
+    <form id="signInForm">
+      <div class="form-group">
+        <label class="form-label" for="signInEmail">Work / Academic Email</label>
+        <input type="email" id="signInEmail" class="form-input" placeholder="analyst@aquapredict.io" required autocomplete="email">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="signInPassword">Password</label>
+        <input type="password" id="signInPassword" class="form-input" placeholder="••••••••••••" required autocomplete="current-password">
+      </div>
+
+      <div class="form-row-between">
+        <label class="form-checkbox">
+          <input type="checkbox" id="rememberMe" checked>
+          <span>Remember session</span>
+        </label>
+        <a href="#" id="linkForgotPassword" style="color:var(--accent-cyan);">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%; margin-bottom:14px;">
+        <span>Sign In to Platform</span>
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.2" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </form>
+
+    <!-- 2. SIGN UP FORM -->
+    <form id="signUpForm" style="display:none;">
+      <div class="form-group">
+        <label class="form-label" for="signUpName">Full Name & Title</label>
+        <input type="text" id="signUpName" class="form-input" placeholder="Dr. Jane Doe, PE" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="signUpEmail">Official Email</label>
+        <input type="email" id="signUpEmail" class="form-input" placeholder="jane.doe@harriscountytx.gov" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="signUpPassword">Password (Min. 8 chars)</label>
+        <input type="password" id="signUpPassword" class="form-input" placeholder="••••••••••••" minlength="8" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="signUpConfirm">Confirm Password</label>
+        <input type="password" id="signUpConfirm" class="form-input" placeholder="••••••••••••" minlength="8" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%; margin-bottom:14px;">
+        <span>Create Pro Analyst Account</span>
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.2" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </form>
+
+    <!-- 3. FORGOT PASSWORD FORM -->
+    <form id="forgotForm" style="display:none;">
+      <div class="form-group">
+        <label class="form-label" for="forgotEmail">Registered Email</label>
+        <input type="email" id="forgotEmail" class="form-input" placeholder="analyst@aquapredict.io" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="forgotNewPassword">New Password</label>
+        <input type="password" id="forgotNewPassword" class="form-input" placeholder="••••••••••••" minlength="8" required>
+      </div>
+
+      <button type="submit" class="btn btn-outline-cyan" style="width:100%; margin-bottom:14px;">
+        <span>Update Password Credentials</span>
+      </button>
+    </form>
+
+    <!-- Quick Access Guest Option -->
+    <div style="border-top:1px solid var(--border-subtle); padding-top:16px; text-align:center; margin-top:8px;">
+      <a href="app.html" style="font-size:13px; color:var(--text-muted); display:inline-flex; align-items:center; gap:6px;" onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#94a3b8'">
+        <span>Skip authentication and continue as Guest</span>
+        <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- Pre-seeded Testing Credentials Box -->
+    <div style="background:rgba(11, 17, 32, 0.7); border:1px solid var(--border-subtle); border-radius:var(--radius-sm); padding:12px; margin-top:16px; font-size:12px; font-family:var(--font-mono); color:var(--text-dim);">
+      <div style="color:var(--accent-cyan); font-weight:700; margin-bottom:4px;">Demo Credentials:</div>
+      <div>Email: <span style="color:#fff;">analyst@aquapredict.io</span></div>
+      <div>Pass : <span style="color:#fff;">AquaPredict2026!</span></div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px; font-size:13px; color:var(--text-dim);">
+    <a href="index.html" style="color:var(--text-muted);">&larr; Return to AquaPredict Homepage</a>
+  </div>
+
+  <script src="js/saas.js"></script>
+  <script>
+    // Local Controller for Auth View Switching & Submission
+    (function() {
+      const tabSignIn = document.getElementById('tabSignIn');
+      const tabSignUp = document.getElementById('tabSignUp');
+      const tabForgot = document.getElementById('tabForgot');
+      const signInForm = document.getElementById('signInForm');
+      const signUpForm = document.getElementById('signUpForm');
+      const forgotForm = document.getElementById('forgotForm');
+      const authCardTitle = document.getElementById('authCardTitle');
+      const authAlert = document.getElementById('authAlert');
+      const linkForgotPassword = document.getElementById('linkForgotPassword');
+
+      function showAlert(msg, isSuccess = false) {
+        authAlert.textContent = msg;
+        authAlert.className = isSuccess ? 'auth-alert success' : 'auth-alert error';
+      }
+
+      function hideAlert() {
+        authAlert.className = 'auth-alert';
+        authAlert.textContent = '';
+      }
+
+      function setView(view) {
+        hideAlert();
+        tabSignIn.classList.toggle('active', view === 'signin');
+        tabSignUp.classList.toggle('active', view === 'signup');
+        tabForgot.classList.toggle('active', view === 'forgot');
+
+        signInForm.style.display = view === 'signin' ? 'block' : 'none';
+        signUpForm.style.display = view === 'signup' ? 'block' : 'none';
+        forgotForm.style.display = view === 'forgot' ? 'block' : 'none';
+
+        if (view === 'signin') authCardTitle.textContent = "Sign In to AquaPredict";
+        if (view === 'signup') authCardTitle.textContent = "Create an Account";
+        if (view === 'forgot') authCardTitle.textContent = "Reset Your Password";
+      }
+
+      tabSignIn.addEventListener('click', () => setView('signin'));
+      tabSignUp.addEventListener('click', () => setView('signup'));
+      tabForgot.addEventListener('click', () => setView('forgot'));
+      if (linkForgotPassword) {
+        linkForgotPassword.addEventListener('click', (e) => {
+          e.preventDefault();
+          setView('forgot');
+        });
+      }
+
+      // Check URL query param e.g. auth.html?plan=pro
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('plan')) {
+        setView('signup');
+      }
+
+      // Sign In Submit
+      signInForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        hideAlert();
+        const email = document.getElementById('signInEmail').value;
+        const pass = document.getElementById('signInPassword').value;
+
+        try {
+          await window.AquaPredictAuth.signIn(email, pass);
+          showAlert("Authentication successful! Redirecting to GIS platform...", true);
+          setTimeout(() => {
+            window.location.href = 'app.html';
+          }, 600);
+        } catch (err) {
+          showAlert(err.message);
+        }
+      });
+
+      // Sign Up Submit
+      signUpForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        hideAlert();
+        const name = document.getElementById('signUpName').value;
+        const email = document.getElementById('signUpEmail').value;
+        const pass = document.getElementById('signUpPassword').value;
+        const confirm = document.getElementById('signUpConfirm').value;
+
+        if (pass !== confirm) {
+          showAlert("Passwords do not match.");
+          return;
+        }
+
+        try {
+          await window.AquaPredictAuth.signUp(name, email, pass);
+          showAlert("Account created successfully! Launching platform...", true);
+          setTimeout(() => {
+            window.location.href = 'app.html';
+          }, 700);
+        } catch (err) {
+          showAlert(err.message);
+        }
+      });
+
+      // Forgot Password Submit
+      forgotForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        hideAlert();
+        const email = document.getElementById('forgotEmail').value;
+        const newPass = document.getElementById('forgotNewPassword').value;
+
+        try {
+          await window.AquaPredictAuth.resetPassword(email, newPass);
+          showAlert("Password updated successfully! You can now sign in.", true);
+          setTimeout(() => {
+            setView('signin');
+            document.getElementById('signInEmail').value = email;
+          }, 1000);
+        } catch (err) {
+          showAlert(err.message);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

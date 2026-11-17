@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing & Plans · AquaPredict Municipal Flood Intelligence</title>
+  <meta name="description" content="Transparent, scalable plans for civil engineers, emergency dispatch centers, and municipal flood resilience authorities.">
+  
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/saas.css">
+</head>
+<body>
+  <!-- Header / Navigation Bar -->
+  <header class="saas-header">
+    <div class="container">
+      <div class="nav-wrap">
+        <a href="index.html" class="brand-link" aria-label="AquaPredict Home">
+          <img src="assets/logo.png" alt="AquaPredict Logo" class="brand-logo-img">
+          <div class="brand-title">
+            AquaPredict
+            <span class="brand-tag">Pilot M0–M10</span>
+          </div>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="index.html#features" class="nav-link">Features</a></li>
+          <li><a href="index.html#how-it-works" class="nav-link">How It Works</a></li>
+          <li><a href="index.html#preview" class="nav-link">Platform Preview</a></li>
+          <li><a href="pricing.html" class="nav-link active">Pricing</a></li>
+          <li><a href="index.html#faq" class="nav-link">FAQ</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a href="auth.html" class="btn btn-secondary btn-sm">Sign In</a>
+          <a href="app.html" class="btn btn-primary btn-sm">
+            <span>Explore Platform</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.2" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Pricing Header -->
+  <div class="pricing-page-header">
+    <div class="container">
+      <span class="section-tag">Flexible Deployment Tiers</span>
+      <h1 class="section-title">Scalable Plans for Any Urban Jurisdiction</h1>
+      <p class="section-desc">From student researchers to metropolitan emergency dispatch networks. Transparent, proposed tiers tailored to your operational scope.</p>
+
+      <!-- Monthly / Annual Toggle Switch -->
+      <div class="billing-switch-wrap">
+        <span class="billing-label active" id="labelMonthly">Monthly Billing</span>
+        <div class="switch-toggle" id="billingSwitch" role="button" aria-label="Toggle annual billing discount">
+          <div class="switch-knob"></div>
+        </div>
+        <span class="billing-label" id="labelAnnual">Annual Billing</span>
+        <span class="discount-badge">Save 20%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pricing Cards Section -->
+  <div class="container">
+    <div class="pricing-grid">
+      <!-- Tier 1: Explorer (Free) -->
+      <div class="pricing-card">
+        <div class="plan-name">Explorer</div>
+        <div class="plan-desc">Essential interactive access for students, researchers, and public interest advocates.</div>
+        <div class="plan-price-wrap">
+          <span class="plan-price">$0</span>
+          <span class="plan-period">/ forever</span>
+        </div>
+        <ul class="plan-features">
+          <li class="plan-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Houston Pilot Area Access (0.97 km²)</span>
+          </li>
+          <li class="plan-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Standard 2D GIS Layer Inspection</span>
+          </li>
+          <li class="plan-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Rainfall Scenarios: 10 & 25 mm/hr</span>
+          </li>
+          <li class="plan-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Safest Route Planner (Pedestrian Mode)</span>
+          </li>
+          <li class="plan-feature-item disabled">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <span>Extreme 100mm/hr Rainfall Scenarios</span>
+          </li>
+          <li class="plan-feature-item disabled">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <span>Three.js 3D Terrain & Water Mesh</span>
+          </li>
+          <li class="plan-feature-item disabled">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <span>Offline USB Static Export Bundle</span>
+          </li>
+        </ul>
+        <a href="app.html" class="btn btn-secondary" style="width:100%;">
+          <span>Launch Free Explorer</span>
+        </a>
+      </div>
+
+      <!-- Tier 2: Analyst (Pro) -->
+      <div class="pricing-card popular">
+        <div class="popular-ribbon">Most Popular</div>
+        <div class="plan-name">Pro Analyst</div>
+        <div class="plan-desc">Full suite of simulation, 3D visualization, and rescue priority ranking tools for GIS professionals.</div>
+        <div class="plan-price-wrap">
+          <span class="plan-price" id="proPrice">$149</span>
+          <span class="plan-period">/ month</span>
+        </div>
+        <ul class="plan-features">
+          <li class="plan-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>All Explorer Features Included</span>
+          </li>
+          <li class="plan-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>All Rainfall Presets (10 to 100 mm/hr)</span>
+          </li>
+          <li class="plan-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Full 3D WebGL Mesh & Orbit Controls</span>
+          </li>
+          <li class="plan-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Rescue Priority Predictor (All 13 Facilities)</span>
+          </li>
+          <li class="plan-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Multi-Vehicle Routing & Impassability Solver</span>
+          </li>
+          <li class="plan-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Stormwater Drainage Surcharge Analytics</span>
+          </li>
+          <li class="plan-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Offline Precomputed Static Export</span>
+          </li>
+        </ul>
+        <a href="auth.html?plan=pro" class="btn btn-primary" style="width:100%;">
+          <span>Get Started with Pro</span>
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.2" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Tier 3: Professional (Team) -->
+      <div class="pricing-card">
+        <div class="plan-name">Team Professional</div>
+        <div class="plan-desc">Tailored for municipal flood agencies, emergency operations centers, and civil engineering departments.</div>
+        <div class="plan-price-wrap">
+          <span class="plan-price" id="teamPrice">$499</span>
+          <span class="plan-period">/ month</span>
+        </div>
+        <ul class="plan-features">
+          <li class="plan-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Everything in Pro Analyst Included</span>
+          </li>
+          <li class="plan-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Multi-Seat Team Collaboration (10 Seats)</span>
+          </li>
+          <li class="plan-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Custom Watershed DEM Ingestion (Planned)</span>
+          </li>
+          <li class="plan-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Real-Time Weather Radar API Hook (Planned)</span>
+          </li>
+          <li class="plan-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Dedicated Deployment Hydrology Engineer</span>
+          </li>
+          <li class="plan-feature-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>99.9% Uptime SLA for Emergency Dispatch</span>
+          </li>
+        </ul>
+        <a href="auth.html?plan=team" class="btn btn-outline-cyan" style="width:100%;">
+          <span>Contact Team Sales</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Proposed Tiers Disclaimer Banner -->
+    <div style="background:rgba(15, 23, 42, 0.7); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:16px 20px; font-size:13px; color:var(--text-dim); text-align:center; margin-bottom:60px;">
+      <strong style="color:var(--accent-amber);">Pilot Demonstration Notice:</strong> The subscription plans displayed above represent proposed operational tiers for municipal production rollout. No actual monetary payments are processed in this pilot environment. All existing GIS platform features are fully accessible to evaluate.
+    </div>
+
+    <!-- Detailed Feature Comparison Matrix -->
+    <div class="pricing-table-section">
+      <div class="section-header">
+        <span class="section-tag">Detailed Comparison</span>
+        <h2 class="section-title">Feature Breakdown by Subscription Tier</h2>
+      </div>
+
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th style="width:40%;">Capability / Module</th>
+            <th style="width:20%;">Free Explorer</th>
+            <th style="width:20%;">Pro Analyst</th>
+            <th style="width:20%;">Team Professional</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Core GIS Section -->
+          <tr>
+            <td colspan="4" class="matrix-section-title">1. Core GIS & Topography</td>
+          </tr>
+          <tr>
+            <td>Downtown Houston Pilot DEM (0.97 km²)</td>
+            <td>&check; Included</td>
+            <td>&check; Included</td>
+            <td>&check; Included</td>
+          </tr>
+          <tr>
+            <td>Interactive 2D Leaflet Layer Switching</td>
+            <td>&check; Included</td>
+            <td>&check; Included</td>
+            <td>&check; Included</td>
+          </tr>
+          <tr>
+            <td>LiDAR Slope Gradient & Inundation Depressions</td>
+            <td>&check; Included</td>
+            <td>&check; Included</td>
+            <td>&check; Included</td>
+          </tr>
+          <tr>
+            <td>Hardware-Accelerated 3D WebGL Mesh (Three.js)</td>
+            <td style="color:var(--text-dim);">&mdash;</td>
+            <td>&check; Included</td>
+            <td>&check; Included</td>
+          </tr>
+
+          <!-- Simulation & Routing Section -->
+          <tr>
+            <td colspan="4" class="matrix-section-title">2. Simulation & Decision Support</td>
+          </tr>
+          <tr>
+            <td>Rainfall Presets Supported</td>
+            <td>10 mm, 25 mm</td>
+            <td>10, 25, 50, 75, 100 mm</td>
+            <td>10 to 100 mm + Custom</td>
+          </tr>
+          <tr>
+            <td>Dynamic 5-Minute Timesteps (36 Steps)</td>
+            <td style="color:var(--text-dim);">&mdash;</td>
+            <td>&check; Included</td>
+            <td>&check; Included</td>
+          </tr>
+          <tr>
+            <td>Rescue Priority Predictor (Facilities at Risk)</td>
+            <td>Basic (Hospitals)</td>
+            <td>&check; All 13 Sites</td>
+            <td>&check; All Sites + Alerts</td>
+          </tr>
+          <tr>
+            <td>Safest Route Planner (Lexicographic Dijkstra)</td>
+            <td>Pedestrian Only</td>
+            <td>High-Clearance & Pedestrian</td>
+            <td>Full Multi-Vehicle Suite</td>
+          </tr>
+
+          <!-- Stormwater Infrastructure Section -->
+          <tr>
+            <td colspan="4" class="matrix-section-title">3. Stormwater & Infrastructure</td>
+          </tr>
+          <tr>
+            <td>Stormwater Inlets & Catch Basins</td>
+            <td>Inspection Only</td>
+            <td>&check; Hydraulic Analysis</td>
+            <td>&check; Hydraulic Analysis</td>
+          </tr>
+          <tr>
+            <td>Underground Gravity Mains & Outfalls</td>
+            <td>View Only</td>
+            <td>&check; Surcharge Diagnostics</td>
+            <td>&check; Surcharge Diagnostics</td>
+          </tr>
+          <tr>
+            <td>Offline USB Precomputed Static Export (M10)</td>
+            <td style="color:var(--text-dim);">&mdash;</td>
+            <td>&check; Included</td>
+            <td>&check; Enterprise Pack</td>
+          </tr>
+
+          <!-- Enterprise & Support -->
+          <tr>
+            <td colspan="4" class="matrix-section-title">4. Support & Administration</td>
+          </tr>
+          <tr>
+            <td>Support SLA</td>
+            <td>Community Forums</td>
+            <td>Priority Email (24h)</td>
+            <td>Dedicated Hotline & SLA</td>
+          </tr>
+          <tr>
+            <td>Custom Watershed Ingestion</td>
+            <td style="color:var(--text-dim);">&mdash;</td>
+            <td style="color:var(--text-dim);">&mdash;</td>
+            <td>&check; Dedicated Engineer</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="saas-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>&copy; 2026 AquaPredict Systems. All rights reserved. Houston Pilot M0–M10.</div>
+        <div style="color:var(--text-dim); font-size:12px;">Proposed subscription pricing for demonstration purposes.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/saas.js"></script>
+</body>
+</html>
